@@ -39,3 +39,13 @@ or in psql:
 next run the migrate command from prisma:
 <br>
 `npx prisma migrate dev --name init`
+
+## Routes
+
+- /client
+- /clientChoice
+- /color
+- /item
+- /pattern
+- /user
+- /userCred
