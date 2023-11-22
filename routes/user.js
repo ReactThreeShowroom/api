@@ -3,10 +3,20 @@ import prisma from '../prismaClient.js'
 const user = express.Router()
 
 /**
- * id:    text
- * name:  text
- * email: text
- * phone: text
+ * User
+ * id:         text
+ * name:       text
+ * email:      text
+ * phone:      text
+ * userCredId: text?
+ *
+ * UserCred
+ * id:        text
+ * username:  text
+ * password:  text
+ * googleSub: text?
+ * userId:    text
+ *
  */
 
 user.post('/', async (req, res, next) => {})
