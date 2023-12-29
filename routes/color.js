@@ -1,10 +1,10 @@
 import express from 'express'
 import prisma from '../prismaClient.js'
-const color = express.Router()
+const colorRouter = express.Router()
 
-color.post('/', async (req, res, next) => {})
-color.get('/', async (req, res, next) => {})
-color.put('/:colorId', async (req, res, next) => {})
-color.delete('/:colorId', async (req, res, next) => {})
+colorRouter.post('/', async (req, res, next) => {})
+colorRouter.get('/', async (req, res, next) => {})
+colorRouter.put('/:colorId', async (req, res, next) => {})
+colorRouter.delete('/:colorId', async (req, res, next) => {})
 
-export default color
+export default colorRouter

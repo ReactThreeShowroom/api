@@ -15,8 +15,7 @@ model User {
   id         String    @id @default(uuid())
   name       String
   email      String
-  phone      String
-  adminId    Admin?
+  phone      String?
   subs       Sub[]
   userCred   UserCred?
   userCredId String?
@@ -29,6 +28,7 @@ model UserCred {
   username  String
   password  String
   googleSub String?
+  admin     Boolean @default(false)
   user      User    @relation(fields: [userId], references: [id])
   userId    String  @unique
 }
@@ -83,10 +83,4 @@ model ClientChoice {
   itemId    String
   colorId   String
   patternId String?
-}
-
-model Admin {
-  id     String @id @default(uuid())
-  user   User   @relation(fields: [userId], references: [id])
-  userId String @unique
 }

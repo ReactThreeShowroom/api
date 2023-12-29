@@ -1,17 +1,36 @@
 import express from 'express'
 import prisma from '../prismaClient.js'
-const user = express.Router()
+const userRouter = express.Router()
 
 /**
- * id:    text
- * name:  text
- * email: text
- * phone: text
+ * User
+ * id:         text
+ * name:       text
+ * email:      text
+ * phone:      text
+ * userCredId: text?
+ *
+ * UserCred
+ * id:        text
+ * username:  text
+ * password:  text
+ * googleSub: text?
+ * userId:    text
+ *
  */
 
-user.post('/', async (req, res, next) => {})
-user.get('/', async (req, res, next) => {})
-user.put('/:userId', async (req, res, next) => {})
-user.delete('/:userId', async (req, res, next) => {})
+userRouter.post('/', async (req, res, next) => {})
+userRouter.get('/', async (req, res, next) => {
+  if (!req.user) res.status(401).send({ name: 'noUser', message: 'No User Given' })
+  try {
+    if (!req.admin) res.status(401).send({ name: 'notAdmin', message: 'User Not Admin' })
+    // get all users if user is admin
+  } catch (err) {
+    next(err)
+  }
+})
+userRouter.get('/:userId', async (req, res, next) => {})
+userRouter.put('/:userId', async (req, res, next) => {})
+userRouter.delete('/:userId', async (req, res, next) => {})
 
-export default user
+export default userRouter
