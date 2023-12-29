@@ -1,10 +1,10 @@
 import express from 'express'
 import prisma from '../prismaClient.js'
-const item = express.Router()
+const itemRouter = express.Router()
 
-item.post('/', async (req, res, next) => {})
-item.get('/', async (req, res, next) => {})
-item.put('/:itemId', async (req, res, next) => {})
-item.delete('/:itemId', async (req, res, next) => {})
+itemRouter.post('/', async (req, res, next) => {})
+itemRouter.get('/', async (req, res, next) => {})
+itemRouter.put('/:itemId', async (req, res, next) => {})
+itemRouter.delete('/:itemId', async (req, res, next) => {})
 
-export default item
+export default itemRouter

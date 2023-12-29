@@ -1,9 +1,17 @@
-import client from './client.js'
-import clientChoice from './clientChoice.js'
-import color from './color.js'
-import item from './item.js'
-import pattern from './pattern.js'
-import user from './user.js'
-import userCred from './userCred.js'
+import clientRouter from './client.js'
+import clientChoiceRouter from './clientChoice.js'
+import colorRouter from './color.js'
+import itemRouter from './item.js'
+import patternRouter from './pattern.js'
+import userRouter from './user.js'
+import userCredRouter from './userCred.js'
 
-export { client, clientChoice, color, item, pattern, user, userCred }
+export {
+  clientRouter,
+  clientChoiceRouter,
+  colorRouter,
+  itemRouter,
+  patternRouter,
+  userRouter,
+  userCredRouter
+}
