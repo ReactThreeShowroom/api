@@ -1,5 +1,5 @@
 import jwt from '../jwt'
-import { getAdminById, getUserById } from '../db/user'
+import { getUserById } from '../db/user'
 
 export const userCheck = async (req, res, next) => {
   const prefix = 'Bearer '
@@ -16,7 +16,6 @@ export const userCheck = async (req, res, next) => {
 
       if (id) {
         req.user = await getUserById(id)
-        if (req.user.adminId) req.admin = await getAdminById(req.user.adminId)
         next()
       } else {
         next({

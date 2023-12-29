@@ -1,31 +1,43 @@
 import express from 'express'
 import prisma from '../prismaClient.js'
 const userCredRouter = express.Router()
-import { getIdFromToken } from '../jwt.js'
-import { getUserByCred } from '../db/user.js'
+import { getCredIdFromToken, getTokenFromCredId } from '../jwt.js'
+import { getUserByCred, createUser, getUserById, getCredByUserId } from '../db/user.js'
 
 userCredRouter.post('/', async (req, res, next) => {
   const { type, userId } = req.query
   if (type === undefined)
     res.status(400).send({ name: 'noType', message: 'No Type Given for Check' })
+  if (type === 'token') {
+    try {
+      const credId = await getCredIdFromToken(req.headers.authorization)
+      const user = await getUserByCred(credId)
+      res.status(200).send(user)
+    } catch (err) {
+      console.error(err)
+      next(err)
+    }
+  }
+  // login
   if (type === 'login') {
-    // login
-    const credentialId = getIdFromToken(req.headers.authorization)
-    const user = getUserByCred(credentialId)
   }
   if (type === 'register') {
-    if (!userId) res.status(400).send({ name: 'NoUser', message: 'No User ID Given' })
+    const { password, username, email } = req.body
+    try {
+      const hPass = await bcrypt.hash(password, 10)
+      const hName = await bcrypt.hash(username, 10)
 
-    const { password, username } = req.body
-    const hPass = await bcrypt.hash(password, 10)
-    const hName = await bcrypt.hash(username, 10)
-    const token = await createUserCred(hPass, hName, userId)
-    if (token) res.status(201).send({ token })
-    // register
-    // hash password
-    // hash username
-    // create cred, receive token
-    // if token, send on
+      const createdUser = await createUser({ password: hPass, username: hName, email })
+
+      const cred = await getCredByUserId(createdUser.id)
+      const user = await getUserById(createdUser.id)
+
+      const token = getTokenFromCredId(cred.id)
+      if (token) res.status(201).send({ token, message: 'Thank You For Registering!', user })
+    } catch (err) {
+      console.error(err)
+      next(err)
+    }
   }
 })
 userCredRouter.get('/', async (req, res, next) => {})
