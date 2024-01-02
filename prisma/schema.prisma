@@ -10,27 +10,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// encrypt user's personal data
+// encrypt user's personal data: email, phone, name, password
 model User {
-  id         String    @id @default(uuid())
-  name       String
-  email      String
-  phone      String?
-  subs       Sub[]
-  userCred   UserCred?
-  userCredId String?
-}
-
-// encrypt sensitive info, user and pass are secondary login sources
-// google sub is preferred method of checking auth
-model UserCred {
   id        String  @id @default(uuid())
+  name      String
+  email     String
+  phone     String?
+  subs      Sub[]
   username  String
   password  String
   googleSub String?
+  active    Boolean @default(true)
   admin     Boolean @default(false)
-  user      User    @relation(fields: [userId], references: [id])
-  userId    String  @unique
 }
 
 model Item {
@@ -64,7 +55,7 @@ model Sub {
   userId    String
 }
 
-//encrypt personal info
+// encrypt sensitive info, name, email, phone, pass
 model Client {
   id           String         @id @default(uuid())
   name         String

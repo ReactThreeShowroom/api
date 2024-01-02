@@ -4,7 +4,7 @@ import colorRouter from './color.js'
 import itemRouter from './item.js'
 import patternRouter from './pattern.js'
 import userRouter from './user.js'
-import userCredRouter from './userCred.js'
+import authRouter from './auth.js'
 
 export {
   clientRouter,
@@ -13,5 +13,5 @@ export {
   itemRouter,
   patternRouter,
   userRouter,
-  userCredRouter
+  authRouter
 }

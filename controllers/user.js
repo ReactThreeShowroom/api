@@ -1,35 +1,19 @@
-import jwt from '../jwt'
-import { getUserById } from '../db/user'
+import jwt, { getIdFromToken } from '../jwt'
+import { getCredByUserId, getUserById } from '../db/user'
+import prisma from '../prismaClient'
 
 export const userCheck = async (req, res, next) => {
-  const prefix = 'Bearer '
   const auth = req.header('Authorization')
 
-  if (!auth) {
-    // nothing to see here
+  if (!auth) next()
+  try {
+    const id = getIdFromToken(auth)
+    const user = await prisma.user.findUnique({ where: { id }, include: { subs: true } })
+    if (!user)
+      throw { name: 'cannotFindUser', message: 'Cannot validate User Token or Id', status: 400 }
+    req.user = user
     next()
-  } else if (auth.startsWith(prefix)) {
-    const token = auth.slice(prefix.length)
-
-    try {
-      const { id } = jwt.verify(token, JWT_SECRET)
-
-      if (id) {
-        req.user = await getUserById(id)
-        next()
-      } else {
-        next({
-          name: 'AuthorizationHeaderError',
-          message: 'Authorization token malformed'
-        })
-      }
-    } catch ({ name, message }) {
-      next({ name, message })
-    }
-  } else {
-    next({
-      name: 'AuthorizationHeaderError',
-      message: `Authorization token must start with '${prefix}'`
-    })
+  } catch ({ name, message, status }) {
+    next({ name, message, status })
   }
 }

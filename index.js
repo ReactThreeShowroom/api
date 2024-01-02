@@ -10,7 +10,7 @@ import {
   itemRouter,
   patternRouter,
   userRouter,
-  userCredRouter
+  authRouter
 } from './routes/index.js'
 import { userCheck } from './controllers/user.js'
 
@@ -43,7 +43,7 @@ app.use('/color', colorRouter)
 app.use('/item', itemRouter)
 app.use('/pattern', patternRouter)
 app.use('/user', userRouter)
-app.use('/userCred', userCredRouter)
+app.use('/auth', authRouter)
 app.use('/', (req, res) => {
   res.send(welcomeMessage)
 })
@@ -51,8 +51,9 @@ app.use('*', (req, res) => {
   res.redirect('/')
 })
 app.use((err, req, res, next) => {
+  const { status } = err
   console.error(err)
-  res.status(500).send({ name: 'serverError', message: 'Unknown Server Error' })
+  res.status(status).send(err)
 })
 
 app.listen(PORT, () => {
