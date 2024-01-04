@@ -1,19 +1,23 @@
-import prisma from '../prismaClient'
-import { hashPass, verifyPass, getCipherFromText, getTextFromCipher } from '../jwt'
+import prisma from '../prismaClient.js'
+import { hashPass, verifyPass, getCipherFromText, getTextFromCipher } from '../jwt.js'
+import {
+  noUserFoundId,
+  noUserFoundUsername,
+  noUserId,
+  noUsername,
+  missingCredentials,
+  wrongCredentials
+} from '../errorCodes.js'
 
 export const createUser = async (userObj) => {
-  const { password, email, username } = userObj
-
-  if (!password || !username || !email) {
-    throw {
-      name: 'missingCredentials',
-      message: 'Missing required credentials, please try again.',
-      status: 400
-    }
-  }
-  const name = getCipherFromText(userObj.name ? userObj.name : email.slice(0, email.indexOf('@')))
-  const phone = getCipherFromText(userObj.phone ? userObj.phone : 'nothing')
   try {
+    const { password, email, username } = userObj
+
+    if (!password || !username || !email) throw missingCredentials
+
+    const name = getCipherFromText(userObj.name ? userObj.name : email.slice(0, email.indexOf('@')))
+    const phone = getCipherFromText(userObj.phone ? userObj.phone : 'nothing')
+
     const { id } = await prisma.user.create({
       data: {
         name,
@@ -30,8 +34,9 @@ export const createUser = async (userObj) => {
 }
 
 export const getUserById = async (id) => {
-  if (!id) throw { name: 'noUserId', message: 'No User ID Given', status: 400 }
   try {
+    if (!id) throw noUserId
+
     const user = await prisma.user.findUnique({
       where: { id },
       select: {
@@ -43,7 +48,26 @@ export const getUserById = async (id) => {
         subs: true
       }
     })
-    if (!user) throw { name: 'noUserFound', message: 'No User Found With Given ID', status: 400 }
+
+    if (!user) throw noUserFoundId
+
+    user.name = getTextFromCipher(user.name)
+    user.email = getTextFromCipher(user.email)
+    user.phone = getTextFromCipher(user.phone)
+    return user
+  } catch (err) {
+    throw err
+  }
+}
+
+export const getUserByIdAuth = async (id) => {
+  try {
+    if (!id) throw noUserId
+
+    const user = await prisma.user.findUnique({ where: { id }, include: { subs: true } })
+
+    if (!user) throw noUserFoundId
+
     user.name = getTextFromCipher(user.name)
     user.email = getTextFromCipher(user.email)
     user.phone = getTextFromCipher(user.phone)
@@ -54,11 +78,13 @@ export const getUserById = async (id) => {
 }
 
 export const getUserByUsername = async (username) => {
-  if (!username) throw { name: 'noUsername', message: 'No Username Given', status: 400 }
   try {
+    if (!username) throw noUsername
+
     const user = await prisma.user.findUnique({ where: { username } })
-    if (!user)
-      throw { name: 'noUserFound', message: 'No User Found With Given Username', status: 400 }
+
+    if (!user) throw noUserFoundUsername
+
     user.name = getTextFromCipher(user.name)
     user.email = getTextFromCipher(user.email)
     user.phone = getTextFromCipher(user.phone)
@@ -70,10 +96,13 @@ export const getUserByUsername = async (username) => {
 
 export const verifyUser = async ({ password, username }) => {
   try {
-    if (!password || !username) throw {}
+    if (!password || !username) throw missingCredentials
+
     const user = await getUserByUsername(username)
     const isCorrectPass = await verifyPass(password, user.password)
-    if (!isCorrectPass) throw {}
+
+    if (!isCorrectPass) throw wrongCredentials
+
     return user.id
   } catch (err) {
     throw err

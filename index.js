@@ -24,7 +24,7 @@ const welcomeMessage = `
   <li>/item</li>
   <li>/pattern</li>
   <li>/user</li>
-  <li>/userCred</li>
+  <li>/auth</li>
 </ul>
 `
 

@@ -1,46 +1,16 @@
 import express from 'express'
+import { loginRegisterUser, getUserSelfAdmin } from '../controllers/user.js'
 const authRouter = express.Router()
-import { getTokenFromId } from '../jwt.js'
-import { createUser, getUserById, verifyUser } from '../db/user.js'
 
-authRouter.post('/', async (req, res, next) => {
-  const { type } = req.query
-  if ((type !== 'register' && type !== 'login') || type === undefined)
-    next({ name: 'unknownType', message: 'Unknown Type Given for Check', status: 400 })
-  try {
-    const isRegister = type === 'register'
+// login or register user
+authRouter.post('/', loginRegisterUser)
 
-    const id = isRegister ? await createUser(req.body) : await verifyUser(req.body)
+// get user details (no creds) for self or admin use
+// authRouter.get('/', getUserSelfAdmin)
+authRouter.get('/:userId', getUserSelfAdmin)
 
-    const token = getTokenFromId(id)
-    const user = await getUserById(id)
-
-    let status, message
-    if (token && user) {
-      status = isRegister ? 201 : 200
-      isRegister ? 'Thank you for registering!' : 'Successfully logged in!'
-      res.status(status).send({ token, message, user })
-    }
-
-    res.status(400).send({
-      name: 'failedLoginRegister',
-      message: 'Unsuccessful login or register, please try again!'
-    })
-  } catch ({ name, message, status }) {
-    next({ name, message, status })
-  }
-})
-authRouter.get('/', async (req, res, next) => {
-  // admin or self gets user
-  try {
-    if (req.user) res.status(200).send(await getUserById(req.user.id))
-  } catch ({ name, message, status }) {
-    next({ name, message, status })
-  }
-})
-
+// admin or user updates a user auth (username/password)
 authRouter.put('/credentials/:userId', async (req, res, next) => {
-  // admin or user updates a user auth
   //   admin or user does auth check
   //   returned user from username / password must be admin or self
   // get request params
@@ -52,21 +22,23 @@ authRouter.put('/credentials/:userId', async (req, res, next) => {
   // send user
 })
 
+// admin or user updates a user admin status (admin = true/false)
 authRouter.put('/admin/:userId', async (req, res, next) => {
-  // admin or user updates a user auth
   //   admin does auth check
   //   returned user from username / password must be admin
   // get request params
   // get request body (password, username)
   // validate req.user is admin
-  // only for updating user auth details
+  // only for updating user admin status
   // updateUserAdmin(id, admin)
   // retrieve revalidated user by id
   // send user
 })
 
+// admin or user updates a user subs
 authRouter.put('/subs/:userId', async (req, res, next) => {
-  // admin or user updates a user auth
+  //   admin does auth check
+  //   returned user from username / password must be admin
   // get request params
   // validate req.user is admin
   // createUserSub(id)
@@ -74,8 +46,8 @@ authRouter.put('/subs/:userId', async (req, res, next) => {
   // send user
 })
 
+// admin or self deletes account
 authRouter.delete('/:userId', async (req, res, next) => {
-  // admin or self deletes self account.
   //   admin or user does auth check
   //   returned user from username / password must be admin or self
   // get request params

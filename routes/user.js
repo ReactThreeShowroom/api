@@ -1,4 +1,5 @@
 import express from 'express'
+import { noUser, notAdmin } from '../errorCodes.js'
 const userRouter = express.Router()
 
 /**
@@ -18,14 +19,14 @@ const userRouter = express.Router()
  */
 
 userRouter.get('/', async (req, res, next) => {
-  if (!req.user) throw { name: 'noUser', message: 'No User Given', status: 400 }
   try {
-    if (!req.user.admin) throw { name: 'notAdmin', message: 'User Not Admin', status: 401 }
+    if (!req.user) throw noUser
+    if (!req.user.admin) throw notAdmin
     // get all users if user is admin
     // skip and take queries for pagination - 10 per page default?
     // user (id, name, email, phone, admin, active, subs)
-  } catch ({ name, message, status }) {
-    next({ name, message, status })
+  } catch (err) {
+    next(err)
   }
 })
 userRouter.get('/:userId', async (req, res, next) => {
@@ -49,6 +50,11 @@ userRouter.put('/:userId', async (req, res, next) => {
   // updateUser(id, {name, email, phone})
   // retrieve revalidated user by id
   // send user same as GET
+})
+
+userRouter.delete('/:userId', async (req, res, next) => {
+  // delete user - make inactive
+  // use Auth route instead?
 })
 
 export default userRouter
