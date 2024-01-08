@@ -12,35 +12,45 @@ datasource db {
 
 // encrypt user's personal data: email, phone, name, password
 model User {
-  id        String  @id @default(uuid())
+  id        String  @id @unique @default(uuid())
   name      String
   email     String
   phone     String?
   subs      Sub[]
-  username  String
+  username  String  @unique
   password  String
   googleSub String?
   active    Boolean @default(true)
   admin     Boolean @default(false)
+  Error     Error[]
+}
+
+model Error {
+  id      String  @id @unique @default(uuid())
+  name    String
+  message String
+  status  Int?
+  user    User?   @relation(fields: [userId], references: [id])
+  userId  String?
 }
 
 model Item {
-  id            String         @id @default(uuid())
-  name          String
-  url           String
-  type          String
-  subType       String
-  clientChoices ClientChoice[]
+  id           String         @id @unique @default(uuid())
+  name         String
+  url          String
+  type         String
+  subType      String
+  ClientChoice ClientChoice[]
 }
 
 model Pattern {
-  id            String         @id @default(uuid())
+  id            String         @id @unique @default(uuid())
   name          String         @unique
   clientChoices ClientChoice[]
 }
 
 model Color {
-  id            String         @id @default(uuid())
+  id            String         @id @unique @default(uuid())
   name          String         @unique
   code          String
   rgb           Int[]
@@ -48,7 +58,7 @@ model Color {
 }
 
 model Sub {
-  id        String   @id @default(uuid())
+  id        String   @id @unique @default(uuid())
   startDate DateTime
   endDate   DateTime
   user      User     @relation(fields: [userId], references: [id])
@@ -57,21 +67,28 @@ model Sub {
 
 // encrypt sensitive info, name, email, phone, pass
 model Client {
-  id           String         @id @default(uuid())
-  name         String
-  email        String
-  phone        String
-  savedConfigs ClientChoice[]
+  id        String       @id @unique @default(uuid())
+  name      String
+  email     String
+  phone     String
+  choice1   ClientChoice @relation("choice1", fields: [client1Id], references: [id])
+  choice2   ClientChoice @relation("choice2", fields: [client2Id], references: [id])
+  choice3   ClientChoice @relation("choice3", fields: [client3Id], references: [id])
+  client1Id String       @unique
+  client2Id String       @unique
+  client3Id String       @unique
 }
 
 model ClientChoice {
-  id        String   @id @default(uuid())
-  client    Client   @relation(fields: [clientId], references: [id])
-  item      Item     @relation(fields: [itemId], references: [id])
-  color     Color    @relation(fields: [colorId], references: [id])
-  pattern   Pattern? @relation(fields: [patternId], references: [id])
-  clientId  String
-  itemId    String
-  colorId   String
-  patternId String?
+  id           String   @id @unique @default(uuid())
+  firstChoice  Client?  @relation("choice1")
+  secondChoice Client?  @relation("choice2")
+  thirdChoice  Client?  @relation("choice3")
+  item         Item?    @relation(fields: [itemId], references: [id])
+  color        Color?   @relation(fields: [colorId], references: [id])
+  pattern      Pattern? @relation(fields: [patternId], references: [id])
+  clientId     String
+  itemId       String?
+  colorId      String?
+  patternId    String?
 }

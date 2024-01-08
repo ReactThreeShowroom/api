@@ -1,16 +1,16 @@
 import express from 'express'
-import { loginRegisterUser, getUserSelfAdmin } from '../controllers/user.js'
+import { loginRegisterUser, getUserSelfAdmin, checkType, getAction } from '../controllers/user.js'
 const authRouter = express.Router()
 
 // login or register user
-authRouter.post('/', loginRegisterUser)
+authRouter.post('/', checkType, loginRegisterUser)
 
 // get user details (no creds) for self or admin use
 // authRouter.get('/', getUserSelfAdmin)
-authRouter.get('/:userId', getUserSelfAdmin)
+authRouter.get('/:userId', getAction, getUserSelfAdmin)
 
 // admin or user updates a user auth (username/password)
-authRouter.put('/credentials/:userId', async (req, res, next) => {
+authRouter.patch('/credentials/:userId', async (req, res, next) => {
   //   admin or user does auth check
   //   returned user from username / password must be admin or self
   // get request params
@@ -23,7 +23,7 @@ authRouter.put('/credentials/:userId', async (req, res, next) => {
 })
 
 // admin or user updates a user admin status (admin = true/false)
-authRouter.put('/admin/:userId', async (req, res, next) => {
+authRouter.patch('/admin/:userId', async (req, res, next) => {
   //   admin does auth check
   //   returned user from username / password must be admin
   // get request params
@@ -36,7 +36,7 @@ authRouter.put('/admin/:userId', async (req, res, next) => {
 })
 
 // admin or user updates a user subs
-authRouter.put('/subs/:userId', async (req, res, next) => {
+authRouter.post('/subs/:userId', async (req, res, next) => {
   //   admin does auth check
   //   returned user from username / password must be admin
   // get request params
