@@ -15,33 +15,40 @@ export const userCheck = async (req, res, next) => {
     if (!user) {
       throw cannotFindUser
     }
-    req.user = user
+    req.local.user = user
     next()
   } catch (err) {
     next(err)
   }
 }
 
-export const checkType = (req, res, next) => {
+export const checkLoginRegister = (req, res, next) => {
   ;(req.query.type !== 'register' && req.query.type !== 'login') || req.query.type === undefined
     ? next(unknownType)
     : next()
 }
 
-export const getAction = (req, res, next) => {
-  req.action = !req.user
+export const getAuthType = (req, res, next) => {
+  const isAdmin = req.local.user.admin === true
+  const isSelf = req.params.userId === req.local.user.id
+
+  req.local.authType = !req.local.user
     ? 'noAuth'
-    : req.params.userId === req.user.id || (!req.params.userId && req.user)
-    ? 'authOnlyOrSameUser'
-    : req.user.id !== req.params.userId && req.user.admin === true
-    ? 'adminAndNotSameUser'
+    : isSelf
+    ? 'Self'
+    : isSelf || (!req.params.userId && isAdmin)
+    ? 'adminOrSelf'
+    : !isSelf && isAdmin
+    ? 'adminAndNotSelf'
+    : isSelf && isAdmin
+    ? 'adminAndSelf'
     : 'default'
   next()
 }
 
 export const loginRegisterUser = async (req, res, next) => {
   try {
-    console.log(req?.user)
+    console.log(req?.local.user)
     const isRegister = req.query.type === 'register'
     const id = isRegister ? await createUser(req.body) : await verifyUser(req.body)
 
@@ -67,19 +74,24 @@ export const loginRegisterUser = async (req, res, next) => {
 export const getUserSelfAdmin = async (req, res, next) => {
   try {
     const { userId } = req.params
-    const { action } = req
+    const { authType } = req
 
-    switch (action) {
+    switch (authType) {
       case 'noAuth': {
         res.status(401).send(notAuthorized)
         break
       }
-      case 'authOnlyOrSameUser': {
-        const user = await getUserById(req.user.id)
+      case 'adminOrSelf': {
+        const user = await getUserById(req.local.user.id)
         res.status(200).send(user)
         break
       }
-      case 'adminAndNotSameUser': {
+      case 'adminAndNotSelf': {
+        const user = await getUserById(userId)
+        res.status(200).send(user)
+        break
+      }
+      case 'adminAndSelf': {
         const user = await getUserById(userId)
         res.status(200).send(user)
         break
