@@ -1,5 +1,5 @@
-const users = [{
-    "id": 1,
+export const users = [{
+    "id": '1',
     "name": "Duffy Gumary",
     "email": "dgumary0@booking.com",
     "phone": "515-757-4755",
@@ -9,7 +9,7 @@ const users = [{
     "active": false,
     "admin": false
 }, {
-    "id": 2,
+    "id": '2',
     "name": "Ameline Darch",
     "email": "adarch1@arizona.edu",
     "phone": "248-579-8068",
@@ -19,7 +19,7 @@ const users = [{
     "active": false,
     "admin": false
 }, {
-    "id": 3,
+    "id": '3',
     "name": "Tore Ballin",
     "email": "tballin2@miitbeian.gov.cn",
     "phone": "734-584-8086",
@@ -29,7 +29,7 @@ const users = [{
     "active": true,
     "admin": false
 }, {
-    "id": 4,
+    "id": '4',
     "name": "Christian Power",
     "email": "cpower3@jimdo.com",
     "phone": "642-494-8916",
@@ -39,7 +39,7 @@ const users = [{
     "active": true,
     "admin": false
 }, {
-    "id": 5,
+    "id": '5',
     "name": "Hazel Pachmann",
     "email": "hpachmann4@comcast.net",
     "phone": "671-445-8571",
@@ -49,7 +49,7 @@ const users = [{
     "active": false,
     "admin": false
 }, {
-    "id": 6,
+    "id": '6',
     "name": "Bevon Jepp",
     "email": "bjepp5@mtv.com",
     "phone": "906-139-4968",
@@ -59,7 +59,7 @@ const users = [{
     "active": false,
     "admin": false
 }, {
-    "id": 7,
+    "id": '7',
     "name": "Taddeo Folkes",
     "email": "tfolkes6@simplemachines.org",
     "phone": "792-169-1349",
@@ -69,7 +69,7 @@ const users = [{
     "active": false,
     "admin": true
 }, {
-    "id": 8,
+    "id": '8',
     "name": "Suzie Pagden",
     "email": "spagden7@godaddy.com",
     "phone": "107-266-3461",
@@ -79,7 +79,7 @@ const users = [{
     "active": false,
     "admin": false
 }, {
-    "id": 9,
+    "id": '9',
     "name": "Stanfield Rozea",
     "email": "srozea8@google.de",
     "phone": "158-630-1860",
@@ -89,7 +89,7 @@ const users = [{
     "active": true,
     "admin": false
 }, {
-    "id": 10,
+    "id": '10',
     "name": "Amelia Elegood",
     "email": "aelegood9@freewebs.com",
     "phone": "813-313-0271",
@@ -99,7 +99,7 @@ const users = [{
     "active": true,
     "admin": false
 }, {
-    "id": 11,
+    "id": '11',
     "name": "Malissia Glew",
     "email": "mglewa@sogou.com",
     "phone": "672-730-3562",
@@ -109,7 +109,7 @@ const users = [{
     "active": false,
     "admin": true
 }, {
-    "id": 12,
+    "id": '12',
     "name": "Shara Falloon",
     "email": "sfalloonb@cornell.edu",
     "phone": "440-892-6000",
@@ -119,7 +119,7 @@ const users = [{
     "active": false,
     "admin": true
 }, {
-    "id": 13,
+    "id": '13',
     "name": "Sascha Paolini",
     "email": "spaolinic@usa.gov",
     "phone": "601-909-9199",
@@ -129,7 +129,7 @@ const users = [{
     "active": false,
     "admin": true
 }, {
-    "id": 14,
+    "id": '14',
     "name": "Nyssa Aitchinson",
     "email": "naitchinsond@usnews.com",
     "phone": "269-554-9707",
@@ -139,7 +139,7 @@ const users = [{
     "active": true,
     "admin": false
 }, {
-    "id": 15,
+    "id": '15',
     "name": "Sergeant Brandenberg",
     "email": "sbrandenberge@infoseek.co.jp",
     "phone": "537-787-7017",
@@ -149,7 +149,7 @@ const users = [{
     "active": true,
     "admin": true
 }, {
-    "id": 16,
+    "id": '16',
     "name": "Branden Inchboard",
     "email": "binchboardf@skype.com",
     "phone": "327-145-9862",
@@ -159,7 +159,7 @@ const users = [{
     "active": true,
     "admin": false
 }, {
-    "id": 17,
+    "id": '17',
     "name": "Adina Formie",
     "email": "aformieg@mac.com",
     "phone": "477-841-3408",
@@ -169,7 +169,7 @@ const users = [{
     "active": false,
     "admin": false
 }, {
-    "id": 18,
+    "id": '18',
     "name": "Leslie Orringe",
     "email": "lorringeh@phpbb.com",
     "phone": "333-942-5320",
@@ -179,7 +179,7 @@ const users = [{
     "active": false,
     "admin": true
 }, {
-    "id": 19,
+    "id": '19',
     "name": "Boniface McCurdy",
     "email": "bmccurdyi@dedecms.com",
     "phone": "532-275-2016",
@@ -189,7 +189,7 @@ const users = [{
     "active": false,
     "admin": false
 }, {
-    "id": 20,
+    "id": '20',
     "name": "Gratia Sparrowe",
     "email": "gsparrowej@wordpress.org",
     "phone": "451-893-1461",
@@ -199,7 +199,7 @@ const users = [{
     "active": false,
     "admin": true
 }, {
-    "id": 21,
+    "id": '21',
     "name": "Salmon Maides",
     "email": "smaidesk@blogs.com",
     "phone": "127-856-3790",
@@ -209,7 +209,7 @@ const users = [{
     "active": true,
     "admin": false
 }, {
-    "id": 22,
+    "id": '22',
     "name": "Torrey Skittles",
     "email": "tskittlesl@typepad.com",
     "phone": "306-272-6054",
@@ -219,7 +219,7 @@ const users = [{
     "active": false,
     "admin": false
 }, {
-    "id": 23,
+    "id": '23',
     "name": "Devin Beaty",
     "email": "dbeatym@unc.edu",
     "phone": "300-403-8633",
@@ -229,7 +229,7 @@ const users = [{
     "active": false,
     "admin": false
 }, {
-    "id": 24,
+    "id": '24',
     "name": "Arielle Jerams",
     "email": "ajeramsn@creativecommons.org",
     "phone": "364-167-5939",
@@ -239,7 +239,7 @@ const users = [{
     "active": false,
     "admin": true
 }, {
-    "id": 25,
+    "id": '25',
     "name": "Roxy Ghidoli",
     "email": "rghidolio@furl.net",
     "phone": "844-661-2610",

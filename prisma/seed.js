@@ -1,7 +1,5 @@
-import { users } from '../data'
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient();
+import { users } from '../data.js'
+import prisma from '../prismaClient.js'
 
 async function main() {
     for (let user of users) {
