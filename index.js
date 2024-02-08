@@ -13,6 +13,7 @@ import {
   authRouter
 } from './routes/index.js'
 import { userCheck } from './controllers/user.js'
+import { addError } from './db/error.js'
 
 const welcomeMessage = `
 <h1>Welcome to the ReactShowroomAPI</h1>
@@ -50,9 +51,10 @@ app.use('/', (req, res) => {
 app.use('*', (req, res) => {
   res.redirect('/')
 })
-app.use((err, req, res, next) => {
-  const { status } = err
+app.use(async (err, req, res, next) => {
+  const { status = 500 } = err
   console.error(err)
+  await addError(err)
   res.status(status).send(err)
 })
 

@@ -80,6 +80,7 @@ export const getUserByIdAuth = async (id) => {
 export const getUserByUsername = async (username) => {
   try {
     if (!username) throw noUsername
+    console.log(username)
 
     const user = await prisma.user.findUnique({ where: { username } })
 

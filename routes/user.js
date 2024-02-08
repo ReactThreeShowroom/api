@@ -20,8 +20,8 @@ const userRouter = express.Router()
 
 userRouter.get('/', async (req, res, next) => {
   try {
-    if (!req.user) throw noUser
-    if (!req.user.admin) throw notAdmin
+    if (!req.local.user) throw noUser
+    if (!req.local.user.admin) throw notAdmin
     // get all users if user is admin
     // skip and take queries for pagination - 10 per page default?
     // user (id, name, email, phone, admin, active, subs)
@@ -32,7 +32,7 @@ userRouter.get('/', async (req, res, next) => {
 userRouter.get('/:userId', async (req, res, next) => {
   // get specific user (self or admin)
   // get request params
-  // validate req.user is same user
+  // validate req.local.user is same user
   // only for updating user auth details
   // updateUser(id, {username, password})
   // retrieve revalidated user by id
@@ -45,7 +45,7 @@ userRouter.put('/:userId', async (req, res, next) => {
   //   returned user from username / password must be admin or self
   //   used for buying subs, deletion, or updates
   // get request body (name, email, phone)
-  // validate req.user is same user or admin
+  // validate req.local.user is same user or admin
   // only for updating user auth details
   // updateUser(id, {name, email, phone})
   // retrieve revalidated user by id

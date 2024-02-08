@@ -1,35 +1,55 @@
 import { getIdFromToken, getTokenFromId } from '../jwt.js'
 import { createUser, getUserById, getUserByIdAuth, verifyUser } from '../db/user.js'
-import { notAuthorized, unknownError, cannotFindUser } from '../errorCodes.js'
+import { notAuthorized, unknownError, cannotFindUser, unknownType } from '../errorCodes.js'
 import prisma from '../prismaClient.js'
 
 export const userCheck = async (req, res, next) => {
-  const auth = req.header('Authorization')
+  const auth = req.get('Authorization')
   if (!auth) {
     next()
     return
   }
   try {
-    console.log(auth)
     const id = getIdFromToken(auth)
     const user = await getUserByIdAuth(id)
     if (!user) {
       throw cannotFindUser
     }
-    req.user = user
+    req.local.user = user
     next()
   } catch (err) {
     next(err)
   }
 }
 
-export const loginRegisterUser = async (req, res, next) => {
-  const { type } = req.query
-  if ((type !== 'register' && type !== 'login') || type === undefined)
-    next({ name: 'unknownType', message: 'Unknown Type Given for Check', status: 400 })
-  try {
-    const isRegister = type === 'register'
+export const checkLoginRegister = (req, res, next) => {
+  ;(req.query.type !== 'register' && req.query.type !== 'login') || req.query.type === undefined
+    ? next(unknownType)
+    : next()
+}
 
+export const getAuthType = (req, res, next) => {
+  const isAdmin = req.local.user.admin === true
+  const isSelf = req.params.userId === req.local.user.id
+
+  req.local.authType = !req.local.user
+    ? 'noAuth'
+    : isSelf
+    ? 'Self'
+    : isSelf || (!req.params.userId && isAdmin)
+    ? 'adminOrSelf'
+    : !isSelf && isAdmin
+    ? 'adminAndNotSelf'
+    : isSelf && isAdmin
+    ? 'adminAndSelf'
+    : 'default'
+  next()
+}
+
+export const loginRegisterUser = async (req, res, next) => {
+  try {
+    console.log(req?.local.user)
+    const isRegister = req.query.type === 'register'
     const id = isRegister ? await createUser(req.body) : await verifyUser(req.body)
 
     const token = getTokenFromId(id)
@@ -54,26 +74,24 @@ export const loginRegisterUser = async (req, res, next) => {
 export const getUserSelfAdmin = async (req, res, next) => {
   try {
     const { userId } = req.params
+    const { authType } = req
 
-    const exp = !req.user
-      ? 'noAuth'
-      : userId === req.user || (!userId && req.user)
-      ? 'authOnlyOrSameUser'
-      : req.user !== userId && req?.user.admin === true
-      ? 'adminAndNotSameUser'
-      : 'default'
-
-    switch (exp) {
+    switch (authType) {
       case 'noAuth': {
         res.status(401).send(notAuthorized)
         break
       }
-      case 'authOnlyOrSameUser': {
-        const user = await getUserById(req.user.id)
+      case 'adminOrSelf': {
+        const user = await getUserById(req.local.user.id)
         res.status(200).send(user)
         break
       }
-      case 'adminAndNotSameUser': {
+      case 'adminAndNotSelf': {
+        const user = await getUserById(userId)
+        res.status(200).send(user)
+        break
+      }
+      case 'adminAndSelf': {
         const user = await getUserById(userId)
         res.status(200).send(user)
         break

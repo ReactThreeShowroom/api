@@ -61,6 +61,11 @@ export const cannotFindUser = {
   message: 'Cannot validate User Token or Id',
   status: 400
 }
+export const unknownType = {
+  name: 'unknownType',
+  message: 'Unknown Type Given for Check',
+  status: 400
+}
 
 export default {
   noUserId,
