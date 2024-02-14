@@ -5,6 +5,7 @@ import itemRouter from './item.js'
 import patternRouter from './pattern.js'
 import userRouter from './user.js'
 import authRouter from './auth.js'
+import seedRouter from './seed.js'
 
 export {
   clientRouter,
@@ -13,5 +14,6 @@ export {
   itemRouter,
   patternRouter,
   userRouter,
-  authRouter
+  authRouter,
+  seedRouter
 }
