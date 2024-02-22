@@ -1,15 +1,12 @@
 import { exec } from 'child_process'
 import { promisify } from 'util'
+import users from '../data.json' assert { type: 'json' }
+import prisma from '../prismaClient.js'
 const execPromise = promisify(exec)
 
 export async function triggerMigrateAndReset() {
   try {
     console.log('Starting to drop tables and rebuild...')
-    // // have to make sure to drop in correct order
-    // const tables = ['post_tags', 'tags', 'posts', 'users']
-    // for (const table of tables) {
-    //   await prisma.$queryRawUnsafe(`DROP TABLE IF EXISTS ${table};`)
-    // }
     const { stdout } = await execPromise(`prisma migrate reset --force --skip-seed --skip-generate`)
     console.log('\n' + stdout)
 
@@ -23,6 +20,11 @@ export async function triggerMigrateAndReset() {
 export async function createInitialUsers() {
   try {
     // code for making our first users here
+    for (let user of users) {
+      await prisma.user.create({
+        data: user
+      })
+    }
     return console.log('Users Finished being Made')
   } catch (error) {
     console.log('Error making users')
