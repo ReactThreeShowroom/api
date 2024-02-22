@@ -15,7 +15,8 @@ export const userCheck = async (req, res, next) => {
     if (!user) {
       throw cannotFindUser
     }
-    req.local.user = user
+    req.local = { user }
+    // req.local.user = user
     next()
   } catch (err) {
     next(err)
@@ -23,23 +24,27 @@ export const userCheck = async (req, res, next) => {
 }
 
 export const checkLoginRegister = (req, res, next) => {
-  ;(req.query.type !== 'register' && req.query.type !== 'login') || req.query.type === undefined
-    ? next(unknownType)
-    : next()
+  const { type } = req.query
+  const isReg = type === 'register'
+  const isLog = type === 'login'
+  const isUnknown = type === undefined
+  ;(!isReg && !isLog) || isUnknown ? next(unknownType) : next()
 }
 
 export const getAuthType = (req, res, next) => {
-  const isAdmin = req.local.user.admin === true
-  const isSelf = req.params.userId === req.local.user.id
+  const { user } = req.local
+  const { userId } = req.params
+  const isAdmin = user.admin === true
+  const isSelf = userId === user.id
 
-  req.local.authType = !req.local.user
+  req.local.authType = !user
     ? 'noAuth'
-    : isSelf
-    ? 'Self'
-    : isSelf || (!req.params.userId && isAdmin)
+    : isSelf || (!userId && isAdmin)
     ? 'adminOrSelf'
     : !isSelf && isAdmin
     ? 'adminAndNotSelf'
+    : !isSelf && !isAdmin
+    ? 'notAdminAndNotSelf'
     : isSelf && isAdmin
     ? 'adminAndSelf'
     : 'default'
@@ -48,9 +53,8 @@ export const getAuthType = (req, res, next) => {
 
 export const loginRegisterUser = async (req, res, next) => {
   try {
-    console.log(req?.local.user)
-    const isRegister = req.query.type === 'register'
-    const id = isRegister ? await createUser(req.body) : await verifyUser(req.body)
+    const { query: type, body } = req
+    const id = type === 'register' ? await createUser(body) : await verifyUser(body)
 
     const token = getTokenFromId(id)
     const user = await getUserById(id)
@@ -73,8 +77,13 @@ export const loginRegisterUser = async (req, res, next) => {
 
 export const getUserSelfAdmin = async (req, res, next) => {
   try {
-    const { userId } = req.params
-    const { authType } = req
+    const {
+      params: userId,
+      local: {
+        authType,
+        user: { id }
+      }
+    } = req
 
     switch (authType) {
       case 'noAuth': {
@@ -82,13 +91,18 @@ export const getUserSelfAdmin = async (req, res, next) => {
         break
       }
       case 'adminOrSelf': {
-        const user = await getUserById(req.local.user.id)
+        const user = await getUserById(id)
         res.status(200).send(user)
         break
       }
       case 'adminAndNotSelf': {
         const user = await getUserById(userId)
         res.status(200).send(user)
+        break
+      }
+      case 'notAdminAndNotSelf': {
+        // make and send error later
+        res.sendStatus(401)
         break
       }
       case 'adminAndSelf': {
