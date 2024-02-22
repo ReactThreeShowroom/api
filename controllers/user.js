@@ -15,7 +15,8 @@ export const userCheck = async (req, res, next) => {
     if (!user) {
       throw cannotFindUser
     }
-    req.local.user = user
+    req.local = { user }
+    // req.local.user = user
     next()
   } catch (err) {
     next(err)
@@ -32,14 +33,18 @@ export const getAuthType = (req, res, next) => {
   const isAdmin = req.local.user.admin === true
   const isSelf = req.params.userId === req.local.user.id
 
+  console.log('getType', req.local.user, isAdmin, isSelf)
+
   req.local.authType = !req.local.user
     ? 'noAuth'
-    : isSelf
-    ? 'Self'
-    : isSelf || (!req.params.userId && isAdmin)
+    : // : isSelf
+    // ? 'Self'
+    isSelf || (!req.params.userId && isAdmin)
     ? 'adminOrSelf'
     : !isSelf && isAdmin
     ? 'adminAndNotSelf'
+    : !isSelf && !isAdmin
+    ? 'notAdminAndNotSelf'
     : isSelf && isAdmin
     ? 'adminAndSelf'
     : 'default'
@@ -48,7 +53,7 @@ export const getAuthType = (req, res, next) => {
 
 export const loginRegisterUser = async (req, res, next) => {
   try {
-    console.log(req?.local.user)
+    // console.log(req?.local.user)
     const isRegister = req.query.type === 'register'
     const id = isRegister ? await createUser(req.body) : await verifyUser(req.body)
 
@@ -74,7 +79,9 @@ export const loginRegisterUser = async (req, res, next) => {
 export const getUserSelfAdmin = async (req, res, next) => {
   try {
     const { userId } = req.params
-    const { authType } = req
+    const { authType, user: _user } = req.local
+
+    console.log(userId, authType)
 
     switch (authType) {
       case 'noAuth': {
@@ -82,13 +89,17 @@ export const getUserSelfAdmin = async (req, res, next) => {
         break
       }
       case 'adminOrSelf': {
-        const user = await getUserById(req.local.user.id)
+        const user = await getUserById(_user.id)
         res.status(200).send(user)
         break
       }
       case 'adminAndNotSelf': {
         const user = await getUserById(userId)
         res.status(200).send(user)
+        break
+      }
+      case 'notAdminAndNotSelf': {
+        res.sendStatus(401)
         break
       }
       case 'adminAndSelf': {
