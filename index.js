@@ -10,7 +10,8 @@ import {
   itemRouter,
   patternRouter,
   userRouter,
-  authRouter
+  authRouter,
+  seedRouter
 } from './routes/index.js'
 import { userCheck } from './controllers/user.js'
 import { addError } from './db/error.js'
@@ -38,6 +39,7 @@ app.use(morgan('dev'))
 
 app.use(userCheck)
 
+app.use('/seed', seedRouter)
 app.use('/client', clientRouter)
 app.use('/clientChoice', clientChoiceRouter)
 app.use('/color', colorRouter)
