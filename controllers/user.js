@@ -54,7 +54,10 @@ export const getAuthType = (req, res, next) => {
 
 export const loginRegisterUser = async (req, res, next) => {
   try {
-    const { query: type, body } = req
+    const {
+      query: { type },
+      body
+    } = req
     const isRegister = type === 'register'
     const id = isRegister ? await createUser(body) : await verifyUser(body)
 
