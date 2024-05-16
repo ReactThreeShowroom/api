@@ -25,6 +25,7 @@ export const userCheck = async (req, res, next) => {
 
 export const checkLoginRegister = (req, res, next) => {
   const { type } = req.query
+  console.log(type)
   const isReg = type === 'register'
   const isLog = type === 'login'
   const isUnknown = type === undefined
