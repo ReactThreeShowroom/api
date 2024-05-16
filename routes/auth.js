@@ -14,7 +14,7 @@ authRouter.post('/', checkLoginRegister, loginRegisterUser)
 
 // get user details (no creds) for self or admin use
 // authRouter.get('/', getUserSelfAdmin)
-authRouter.get('/:userId', getAuthType, getUserSelfAdmin)
+authRouter.get('/admin/:userId', getAuthType, getUserSelfAdmin)
 
 // User updates a user auth (username/password)
 authRouter.patch('/credentials/:userId', getAuthType, async (req, res, next) => {
@@ -84,8 +84,9 @@ authRouter.post('/subs/:userId', getAuthType, async (req, res, next) => {
 })
 
 // admin or self deletes account
-authRouter.delete('/:userId', getAuthType, async (req, res, next) => {
-  //   admin or user does auth check
+authRouter.delete('/admin/:userId', getAuthType, async (req, res, next) => {
+  //   admin initiated delete
+  //   admin does auth check
   //   returned user from username / password must be admin or self
   // get request params
   // validate req.local.user is same user or admin
@@ -95,7 +96,7 @@ authRouter.delete('/:userId', getAuthType, async (req, res, next) => {
   try {
     const { userId } = req.params
     const { authType } = req
-    const isAuth = new Set(['adminOrSelf', 'adminAndNotSelf', 'adminAndSelf']).has(authType)
+    const isAuth = new Set(['adminAndNotSelf']).has(authType)
 
     if (!isAuth) throw notAuthorized
   } catch (error) {
