@@ -61,6 +61,11 @@ export const cannotFindUser = {
   message: 'Cannot validate User Token or Id',
   status: 400
 }
+export const usernameAlreadyExists = {
+  name: 'usernameAlreadyExists',
+  status: 400,
+  message: 'Username Already Exists'
+}
 export const unknownType = {
   name: 'unknownType',
   message: 'Unknown Type Given for Check',
