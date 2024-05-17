@@ -29,7 +29,13 @@ export const createUser = async (userObj) => {
     })
     return id
   } catch (err) {
-    throw err
+    if (err.code === 'P2002')
+      throw {
+        name: 'usernameAlreadyExists',
+        status: 400,
+        message: 'Username Already Exists'
+      }
+    else throw err
   }
 }
 
