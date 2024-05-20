@@ -17,6 +17,18 @@ export async function triggerMigrateAndReset() {
   }
 }
 
+export async function triggerInitMigrate() {
+  try {
+    console.log('Creating initial migration')
+    const { stdout } = await execPromise(`npx prisma migrate dev --name init`)
+    console.log('\n' + stdout)
+    console.log('Finished creating initial migration')
+  } catch (err) {
+    console.error(err)
+    throw err
+  }
+}
+
 export async function createInitialUsers() {
   try {
     // code for making our first users here
@@ -25,17 +37,19 @@ export async function createInitialUsers() {
         data: user
       })
     }
-    return console.log('Users Finished being Made')
+    return console.log('Users Finished being Made'), 'Users Finished being Made'
   } catch (error) {
     console.log('Error making users')
     console.error(error)
+    return 'Error making users'
   }
 }
 
 export async function rebuildDB() {
   try {
     await triggerMigrateAndReset()
-    await createInitialUsers()
+    const result = await createInitialUsers()
+    if (result === 'Error making users') return 'failed'
     return 'success'
   } catch (error) {
     console.log('Error during rebuildDB')
