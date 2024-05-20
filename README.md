@@ -49,3 +49,9 @@ next run the migrate command from prisma:
 - /pattern
 - /user
 - /userCred
+
+## Dev Server
+
+The Development Server has an extra route `/seed`
+
+Create a post to the `/seed` route to perform a `migrate reset --force --skip-seed --skip-generate` command, followed by an attempt to create users. If there is no migration file, a backup function runs `migrate dev --name init` and then attemptes to perform the `rebuildDB` function again for seeding.
