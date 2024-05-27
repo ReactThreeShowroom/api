@@ -36,7 +36,7 @@ model Error {
 model Item {
   id           String         @id @unique @default(uuid())
   name         String
-  url          String
+  path         String
   type         String
   subType      String
   ClientChoice ClientChoice[]
@@ -52,7 +52,8 @@ model Color {
   id            String         @id @unique @default(uuid())
   name          String         @unique
   code          String
-  rgb           Int[]
+  rgb           String
+  hex           String
   clientChoices ClientChoice[]
 }
 
@@ -77,7 +78,7 @@ model Client {
 
 model ClientChoice {
   id        String   @id @unique @default(uuid())
-  Client    Client   @relation(fields: [clientId], references: [id])
+  client    Client   @relation(fields: [clientId], references: [id])
   item      Item     @relation(fields: [itemId], references: [id])
   color     Color    @relation(fields: [colorId], references: [id])
   pattern   Pattern? @relation(fields: [patternId], references: [id])
