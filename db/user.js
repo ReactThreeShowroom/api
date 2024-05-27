@@ -127,3 +127,9 @@ export const getAllUsers = async () => {
 export const updateUser = async () => {}
 
 export const deleteUser = async () => {}
+
+export const createSub = async () => {}
+
+export const updateSub = async () => {}
+
+export const cancelSub = async () => {}
