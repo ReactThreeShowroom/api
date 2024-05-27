@@ -130,6 +130,10 @@ export const deleteUser = async () => {}
 
 export const createSub = async () => {}
 
+export const getSubByUserId = async () => {}
+
+export const getSubsByStatus = async () => {}
+
 export const updateSub = async () => {}
 
 export const cancelSub = async () => {}
