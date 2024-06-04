@@ -147,9 +147,13 @@ export const updateUser = async (userId, userObj) => {
     if (userObj.name) userObj.name = getCipherFromText(userObj.name)
     if (userObj.email) userObj.email = getCipherFromText(userObj.email)
     if (userObj.phone) userObj.phone = getCipherFromText(userObj.phone)
+
     const user = await prisma.user.update({ where: { id: userId }, data: { ...userObj } })
-    user.name = getTextFromCipher(user.name)
-    user.email = getTextFromCipher(user.email)
+
+    if (user.name) user.name = getTextFromCipher(user.name)
+    if (user.email) user.email = getTextFromCipher(user.email)
+    if (user.phone) user.phone = getTextFromCipher(user.phone)
+
     return user
   } catch (err) {
     throw err
