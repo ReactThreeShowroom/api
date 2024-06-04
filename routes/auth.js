@@ -8,6 +8,7 @@ import {
 const authRouter = express.Router()
 
 import { notAuthorized } from '../errorCodes.js'
+import { getSubsByStatus, getSubsByUserId, getUserById, updateSub, updateUser } from '../db/user.js'
 
 // login or register user
 authRouter.post('/', checkLoginRegister, loginRegisterUser)
@@ -17,23 +18,20 @@ authRouter.post('/', checkLoginRegister, loginRegisterUser)
 authRouter.get('/admin/:userId', getAuthType, getUserSelfAdmin)
 
 // admin updates a user admin status (admin = true/false)
+// or other details as needed
 authRouter.patch('/admin/:userId', getAuthType, async (req, res, next) => {
-  //   admin does auth check
-  //   returned user from username / password must be admin
-  // get request params
-  // get request body (password, username)
-  // validate req.local.user is admin
-  // only for updating user admin status
-  // updateUserAdmin(id, admin)
-  // retrieve revalidated user by id
-  // send user
-
   try {
     const { userId } = req.params
+    const { updates } = req.body
     const { authType } = req
-    const isAuth = new Set(['adminAndNotSelf', 'adminAndSelf']).has(authType)
 
+    const isAuth = new Set(['adminAndNotSelf']).has(authType)
     if (!isAuth) throw notAuthorized
+
+    await updateUser(userId, updates)
+    const user = await getUserById(userId)
+
+    res.status(204).send(user)
   } catch (error) {
     next(error)
   }
@@ -41,20 +39,17 @@ authRouter.patch('/admin/:userId', getAuthType, async (req, res, next) => {
 
 // admin deletes account
 authRouter.delete('/admin/:userId', getAuthType, async (req, res, next) => {
-  //   admin initiated delete
-  //   admin does auth check
-  //   returned user from username / password must be admin or self
-  // get request params
-  // validate req.local.user is same user or admin
-  // deleteUser(id) - deactivate user, don't delete info
-  // if deactiveated, cannot use showroom
-
   try {
     const { userId } = req.params
     const { authType } = req
-    const isAuth = new Set(['adminAndNotSelf']).has(authType)
 
+    const isAuth = new Set(['adminAndNotSelf']).has(authType)
     if (!isAuth) throw notAuthorized
+
+    await deleteUser(userId)
+    const user = await getUserById(userId)
+
+    res.status(204).send(user)
   } catch (error) {
     next(error)
   }
@@ -62,43 +57,54 @@ authRouter.delete('/admin/:userId', getAuthType, async (req, res, next) => {
 
 // User updates a user auth (username/password)
 authRouter.patch('/credentials/:userId', getAuthType, async (req, res, next) => {
-  //   admin does auth check
-  //   returned user from username / password must be admin or self
-  // get request params
-  // get request body (password, username)
-  // validate req.local.user is admin
-  // only for updating user auth details
-  // updateUserAuth(id, {username, password})
-  // retrieve revalidated user by id
-  // send user
+  try {
+    const { userId } = req.params
+    const { updates } = req.body
+    const { authType } = req
 
+    const isAuth = new Set(['adminAndNotSelf', 'adminAndSelf', 'adminOrSelf']).has(authType)
+    if (!isAuth) throw notAuthorized
+
+    if (updates.admin) delete updates.admin
+
+    await updateUser(userId, updates)
+    const user = await getUserById(userId)
+
+    res.status(204).send(user)
+  } catch (error) {
+    next(error)
+  }
+})
+
+// admin gets all subs by user
+
+authRouter.get('/subs/user/:userId', getAuthType, async (req, res, next) => {
   try {
     const { userId } = req.params
     const { authType } = req
-    const isAuth = new Set(['adminAndNotSelf', 'adminAndSelf']).has(authType)
 
+    const isAuth = new Set(['adminAndNotSelf', 'adminAndSelf']).has(authType)
     if (!isAuth) throw notAuthorized
+
+    const subs = await getSubsByUserId(userId)
+    res.status(200).send(subs)
   } catch (error) {
     next(error)
   }
 })
 
 // admin updates a user subs
-authRouter.post('/subs/:userId', getAuthType, async (req, res, next) => {
-  //   admin does auth check
-  //   returned user from username / password must be admin
-  // get request params
-  // validate req.local.user is admin
-  // createUserSub(id)
-  // retrieve revalidated user by id
-  // send user
-
+authRouter.patch('/subs/:subId', getAuthType, async (req, res, next) => {
   try {
-    const { userId } = req.params
+    const { subId } = req.params
+    const { status, type } = req.query
     const { authType } = req
-    const isAuth = new Set(['adminAndNotSelf', 'adminAndSelf']).has(authType)
 
+    const isAuth = new Set(['adminAndNotSelf']).has(authType)
     if (!isAuth) throw notAuthorized
+
+    const sub = await updateSub(subId, status, type)
+    res.status(204).send(sub)
   } catch (error) {
     next(error)
   }
@@ -108,22 +114,11 @@ authRouter.post('/subs/:userId', getAuthType, async (req, res, next) => {
 authRouter.get('/pending-subs', getAuthType, async (req, res, next) => {
   try {
     const { authType } = req
-    const isAuth = new Set(['adminAndNotSelf', 'adminAndSelf']).has(authType)
-
+    const isAuth = new Set(['adminAndNotSelf']).has(authType)
     if (!isAuth) throw notAuthorized
-  } catch (error) {
-    next(error)
-  }
-})
 
-// admin updates pending subscription
-authRouter.patch('/pending-subs/:subId', getAuthType, async (req, res, next) => {
-  try {
-    const { subsId } = req.params
-    const { authType } = req
-    const isAuth = new Set(['adminAndNotSelf', 'adminAndSelf']).has(authType)
-
-    if (!isAuth) throw notAuthorized
+    const sub = await getSubsByStatus()
+    res.status(200).send(sub)
   } catch (error) {
     next(error)
   }

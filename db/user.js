@@ -117,23 +117,155 @@ export const verifyUser = async ({ password, username }) => {
   }
 }
 
-export const getAllUsers = async () => {
-  // get all users with findMany()
-  // paginate with skip # take #
-  // decipher values after users come in
-  // send deciphered users
+export const getAllUsers = async (skip = 0, take = 25) => {
+  try {
+    return (
+      await prisma.user.findMany({
+        skip,
+        take,
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          subs: true,
+          active: true,
+          admin: true
+        }
+      })
+    ).map((user) => {
+      user.name = getTextFromCipher(user.name)
+      user.email = getTextFromCipher(user.email)
+      return user
+    })
+  } catch (err) {
+    throw err
+  }
 }
 
-export const updateUser = async () => {}
+export const updateUser = async (userId, userObj) => {
+  try {
+    if (userObj.name) userObj.name = getCipherFromText(userObj.name)
+    if (userObj.email) userObj.email = getCipherFromText(userObj.email)
+    if (userObj.phone) userObj.phone = getCipherFromText(userObj.phone)
 
-export const deleteUser = async () => {}
+    const user = await prisma.user.update({ where: { id: userId }, data: { ...userObj } })
 
-export const createSub = async () => {}
+    if (user.name) user.name = getTextFromCipher(user.name)
+    if (user.email) user.email = getTextFromCipher(user.email)
+    if (user.phone) user.phone = getTextFromCipher(user.phone)
 
-export const getSubByUserId = async () => {}
+    return user
+  } catch (err) {
+    throw err
+  }
+}
 
-export const getSubsByStatus = async () => {}
+export const deleteUser = async (userId) => {
+  try {
+    const user = await prisma.user.update({
+      where: { id: userId },
+      data: { active: false }
+    })
+    user.name = getTextFromCipher(user.name)
+    user.email = getTextFromCipher(user.email)
+    return user
+  } catch (err) {
+    throw err
+  }
+}
+export const reactivateUser = async (userId) => {
+  try {
+    const user = await prisma.user.update({
+      where: { id: userId },
+      data: { active: true }
+    })
+    user.name = getTextFromCipher(user.name)
+    user.email = getTextFromCipher(user.email)
+    return user
+  } catch (err) {
+    throw err
+  }
+}
 
-export const updateSub = async () => {}
+export const createSub = async (userId) => {
+  try {
+    return await prisma.sub.create({ data: { userId, status: 'pending' } })
+  } catch (err) {
+    throw err
+  }
+}
 
-export const cancelSub = async () => {}
+export const getSubsByUserId = async (userId) => {
+  try {
+    return await prisma.sub.findMany({ where: { userId } })
+  } catch (err) {
+    throw err
+  }
+}
+
+export const getSubsByStatus = async (status = 'pending') => {
+  try {
+    return prisma.sub.findMany({ where: { status } })
+  } catch (err) {
+    throw err
+  }
+}
+
+export const updateSub = async (subId, status, type) => {
+  try {
+    if (!subId)
+      throw { name: 'No Sub Id', message: 'Subscription ID Invalid or Missing', status: 400 }
+    let sub = null
+    switch (status) {
+      case status === 'active': {
+        const now = Date()
+        let length = 0
+        switch (type) {
+          case type === 'one':
+            length = 2629800000
+            break
+          case type === 'six':
+            length = 15778800000
+            break
+          case type === 'year':
+            length = 31557600000
+            break
+          default:
+            length = 15778800000
+        }
+        sub = await prisma.sub.update({
+          where: { id: subId },
+          data: {
+            status,
+            startDate: new Date(now).toISOString(),
+            endDate: new Date(now + length).toISOString()
+          }
+        })
+        break
+      }
+      case status === 'cancelled': {
+        sub = await prisma.sub.update({
+          where: { id: subId },
+          data: { status }
+        })
+        break
+      }
+      case status === 'reactivate': {
+        sub = await prisma.sub.update({
+          where: { id: subId },
+          data: { status: 'active' }
+        })
+        break
+      }
+      default:
+        throw {
+          name: 'wrongStatusType',
+          message: 'Invalid status for Subscription Update',
+          status: 500
+        }
+    }
+    return sub
+  } catch (err) {
+    throw err
+  }
+}
