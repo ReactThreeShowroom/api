@@ -1,19 +1,18 @@
 import prisma from '../prismaClient.js'
 
-// model Color {
-//   id            String         @id @unique @default(uuid())
-//   name          String         @unique
-//   code          String
-//   rgb           String
-//   hex           String
-//   clientChoices ClientChoice[]
-// }
-
 export const createColor = async (colorData) => {
   try {
     return await prisma.color.create({ data: { ...colorData } })
   } catch (err) {
     throw { name: 'badCreateColor', message: 'Could not create Color. Try again', status: 400 }
+  }
+}
+
+export const getColors = async () => {
+  try {
+    return await prisma.color.findMany()
+  } catch (err) {
+    throw { name: 'badGetColors', message: 'Could not get Colors. Try again', status: 400 }
   }
 }
 
@@ -57,20 +56,19 @@ export const deleteColor = async (colorId) => {
   }
 }
 
-// model Item {
-//   id           String         @id @unique @default(uuid())
-//   name         String
-//   path         String
-//   type         String
-//   subtype      String
-//   ClientChoice ClientChoice[]
-// }
-
 export const createItem = async (itemData) => {
   try {
     return await prisma.item.create({ data: { ...itemData } })
   } catch (err) {
     throw { name: 'badCreateItem', message: 'Could not create Item. Try again', status: 400 }
+  }
+}
+
+export const getItems = async (itemId) => {
+  try {
+    return await prisma.item.findMany()
+  } catch (err) {
+    throw { name: 'badGetItems', message: 'Could not get Item. Try again', status: 400 }
   }
 }
 
@@ -121,13 +119,6 @@ export const deleteItem = async (itemId) => {
     throw { name: 'badDeleteItem', message: 'Could not delete Item. Try again', status: 400 }
   }
 }
-
-// model Pattern {
-//   id            String         @id @unique @default(uuid())
-//   name          String         @unique
-//   url           String
-//   clientChoices ClientChoice[]
-// }
 
 export const createPattern = async (patternData) => {
   try {

@@ -131,11 +131,10 @@ export const reactivateClient = async (clientId) => {
 
 // Choices
 
-export const createChoice = async (Ids) => {
+export const createChoice = async (choiceData) => {
   try {
-    const { clientId, itemId, colorId, patternId } = Ids
-    const newChoice = await prisma.clientChoice.create({ data: { ...Ids } })
-    return newChoice
+    const { clientId, itemId, colorId, patternId } = choiceData
+    return await prisma.clientChoice.create({ data: { ...choiceData } })
   } catch (err) {
     throw {
       name: 'badCreateChoice',
@@ -147,8 +146,7 @@ export const createChoice = async (Ids) => {
 
 export const getChoices = async (clientId) => {
   try {
-    const choices = await prisma.clientChoice.findMany({ where: { clientId } })
-    return choices
+    return await prisma.clientChoice.findMany({ where: { clientId } })
   } catch (err) {
     throw {
       name: 'badGetChoices',
@@ -159,8 +157,7 @@ export const getChoices = async (clientId) => {
 }
 export const getChoice = async (choiceId) => {
   try {
-    const choice = await prisma.clientChoice.findFirst({ where: { id: choiceId } })
-    return choice
+    return await prisma.clientChoice.findFirst({ where: { id: choiceId } })
   } catch (err) {
     throw {
       name: 'badGetChoice',
@@ -172,7 +169,7 @@ export const getChoice = async (choiceId) => {
 
 export const updateChoice = async (choiceId, choiceData) => {
   try {
-    const updatedChoice = await prisma.clientChoice.update({
+    return await prisma.clientChoice.update({
       where: { id: choiceId },
       data: { ...choiceData }
     })
@@ -187,8 +184,7 @@ export const updateChoice = async (choiceId, choiceData) => {
 
 export const deleteChoice = async (choiceId) => {
   try {
-    const deletedChoice = await prisma.clientChoice.delete({ where: { id: choiceId } })
-    return deletedChoice
+    return await prisma.clientChoice.delete({ where: { id: choiceId } })
   } catch (err) {
     throw {
       name: 'badCreateChoice',
