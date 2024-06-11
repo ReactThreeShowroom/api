@@ -38,13 +38,14 @@ model Item {
   name         String
   path         String
   type         String
-  subType      String
+  subtype      String
   ClientChoice ClientChoice[]
 }
 
 model Pattern {
   id            String         @id @unique @default(uuid())
   name          String         @unique
+  url           String
   clientChoices ClientChoice[]
 }
 
@@ -72,6 +73,7 @@ model Client {
   name    String
   email   String
   phone   String
+  status  String         @default("active")
   choices ClientChoice[]
   userId  String
   User    User           @relation(fields: [userId], references: [id])

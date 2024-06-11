@@ -9,6 +9,13 @@ import {
   wrongCredentials
 } from '../errorCodes.js'
 
+const userUncipher = (user) => {
+  if (user.name) user.name = getTextFromCipher(user.name)
+  if (user.email) user.email = getTextFromCipher(user.email)
+  if (user.phone) user.phone = getTextFromCipher(user.phone)
+  return user
+}
+
 export const createUser = async (userObj) => {
   try {
     const { password, email, username } = userObj
@@ -17,17 +24,17 @@ export const createUser = async (userObj) => {
 
     const name = getCipherFromText(userObj.name ? userObj.name : email.slice(0, email.indexOf('@')))
     const phone = getCipherFromText(userObj.phone ? userObj.phone : 'nothing')
-
-    const { id } = await prisma.user.create({
-      data: {
-        name,
-        email: getCipherFromText(email),
-        username,
-        password: await hashPass(password),
-        phone
-      }
-    })
-    return id
+    return userUncipher(
+      await prisma.user.create({
+        data: {
+          name,
+          email: getCipherFromText(email),
+          username,
+          password: await hashPass(password),
+          phone
+        }
+      })
+    )
   } catch (err) {
     if (err.code === 'P2002')
       throw {
@@ -58,10 +65,7 @@ export const getUserById = async (id) => {
 
     if (!user) throw noUserFoundId
 
-    user.name = getTextFromCipher(user.name)
-    user.email = getTextFromCipher(user.email)
-    user.phone = getTextFromCipher(user.phone)
-    return user
+    return userUncipher(user)
   } catch (err) {
     throw err
   }
@@ -75,10 +79,7 @@ export const getUserByIdAuth = async (id) => {
 
     if (!user) throw noUserFoundId
 
-    user.name = getTextFromCipher(user.name)
-    user.email = getTextFromCipher(user.email)
-    user.phone = getTextFromCipher(user.phone)
-    return user
+    return userUncipher(user)
   } catch (err) {
     throw err
   }
@@ -93,10 +94,7 @@ export const getUserByUsername = async (username) => {
 
     if (!user) throw noUserFoundUsername
 
-    user.name = getTextFromCipher(user.name)
-    user.email = getTextFromCipher(user.email)
-    user.phone = getTextFromCipher(user.phone)
-    return user
+    return userUncipher(user)
   } catch (err) {
     throw err
   }
@@ -127,16 +125,13 @@ export const getAllUsers = async (skip = 0, take = 25) => {
           id: true,
           name: true,
           email: true,
+          phone: true,
           subs: true,
           active: true,
           admin: true
         }
       })
-    ).map((user) => {
-      user.name = getTextFromCipher(user.name)
-      user.email = getTextFromCipher(user.email)
-      return user
-    })
+    ).map((user) => userUncipher(user))
   } catch (err) {
     throw err
   }
@@ -150,11 +145,7 @@ export const updateUser = async (userId, userObj) => {
 
     const user = await prisma.user.update({ where: { id: userId }, data: { ...userObj } })
 
-    if (user.name) user.name = getTextFromCipher(user.name)
-    if (user.email) user.email = getTextFromCipher(user.email)
-    if (user.phone) user.phone = getTextFromCipher(user.phone)
-
-    return user
+    return userUncipher(user)
   } catch (err) {
     throw err
   }
@@ -166,9 +157,7 @@ export const deleteUser = async (userId) => {
       where: { id: userId },
       data: { active: false }
     })
-    user.name = getTextFromCipher(user.name)
-    user.email = getTextFromCipher(user.email)
-    return user
+    return userUncipher(user)
   } catch (err) {
     throw err
   }
@@ -179,9 +168,7 @@ export const reactivateUser = async (userId) => {
       where: { id: userId },
       data: { active: true }
     })
-    user.name = getTextFromCipher(user.name)
-    user.email = getTextFromCipher(user.email)
-    return user
+    return userUncipher(user)
   } catch (err) {
     throw err
   }

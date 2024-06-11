@@ -3,16 +3,7 @@ dotenv.config()
 import express from 'express'
 import cors from 'cors'
 import morgan from 'morgan'
-import {
-  clientRouter,
-  clientChoiceRouter,
-  colorRouter,
-  itemRouter,
-  patternRouter,
-  userRouter,
-  authRouter,
-  seedRouter
-} from './routes/index.js'
+import { clientRouter, ccRouter, userRouter, authRouter, seedRouter } from './routes/index.js'
 import { userCheck } from './controllers/user.js'
 import { addError } from './db/error.js'
 
@@ -41,10 +32,7 @@ app.use(userCheck)
 
 app.use('/seed', seedRouter)
 app.use('/client', clientRouter)
-app.use('/clientChoice', clientChoiceRouter)
-app.use('/color', colorRouter)
-app.use('/item', itemRouter)
-app.use('/pattern', patternRouter)
+app.use('/clientChoice', ccRouter)
 app.use('/user', userRouter)
 app.use('/auth', authRouter)
 app.use('/', (req, res) => {
