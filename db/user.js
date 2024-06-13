@@ -75,7 +75,19 @@ export const getUserByIdAuth = async (id) => {
   try {
     if (!id) throw noUserId
 
-    const user = await prisma.user.findUnique({ where: { id }, include: { subs: true } })
+    const user = await prisma.user.findUnique({
+      where: { id },
+      include: {
+        id: true,
+        username: true,
+        name: true,
+        email: true,
+        phone: true,
+        admin: true,
+        active: true,
+        subs: true
+      }
+    })
 
     if (!user) throw noUserFoundId
 
@@ -121,7 +133,7 @@ export const getAllUsers = async (skip = 0, take = 25) => {
       await prisma.user.findMany({
         skip,
         take,
-        select: {
+        include: {
           id: true,
           name: true,
           email: true,
@@ -190,6 +202,14 @@ export const getSubsByUserId = async (userId) => {
   }
 }
 
+export const getSubById = async (subId) => {
+  try {
+    return await prisma.sub.findUnique({ where: { id: subId } })
+  } catch (err) {
+    throw err
+  }
+}
+
 export const getSubsByStatus = async (status = 'pending') => {
   try {
     return prisma.sub.findMany({ where: { status } })
@@ -198,50 +218,65 @@ export const getSubsByStatus = async (status = 'pending') => {
   }
 }
 
+const cancelSub = async (subId) => {
+  try {
+    return await prisma.sub.update({
+      where: { id: subId },
+      data: { status: 'cancelled' }
+    })
+  } catch (err) {
+    throw {
+      name: 'couldNotUpdateStatus',
+      message: 'Could not update Subscription status. Please try again.',
+      status: 500
+    }
+  }
+}
+
+const activateSub = async (subId) => {
+  return await prisma.sub.update({
+    where: { id: subId },
+    data: { status: 'active' }
+  })
+}
+
+const createSubDate = async (subId, type) => {
+  const now = Date()
+  let length = 15778800000
+  if (type === 'one') length = 2629800000
+  if (type === 'six') length = 15778800000
+
+  return await prisma.sub.update({
+    where: { id: subId },
+    data: {
+      startDate: new Date(now).toISOString(),
+      endDate: new Date(now + length).toISOString()
+    }
+  })
+}
+
 export const updateSub = async (subId, status, type) => {
   try {
     if (!subId)
-      throw { name: 'No Sub Id', message: 'Subscription ID Invalid or Missing', status: 400 }
-    let sub = null
+      throw { name: 'noSubId', message: 'Subscription ID Invalid or Missing', status: 400 }
+    if (!status)
+      throw {
+        name: 'wrongStatusType',
+        message: 'Invalid status for Subscription Update',
+        status: 500
+      }
     switch (status) {
-      case status === 'active': {
-        const now = Date()
-        let length = 0
-        switch (type) {
-          case type === 'one':
-            length = 2629800000
-            break
-          case type === 'six':
-            length = 15778800000
-            break
-          case type === 'year':
-            length = 31557600000
-            break
-          default:
-            length = 15778800000
-        }
-        sub = await prisma.sub.update({
-          where: { id: subId },
-          data: {
-            status,
-            startDate: new Date(now).toISOString(),
-            endDate: new Date(now + length).toISOString()
-          }
-        })
+      case status === 'activate': {
+        await activateSub(subId)
+        await createSubDate(subId, type)
         break
       }
-      case status === 'cancelled': {
-        sub = await prisma.sub.update({
-          where: { id: subId },
-          data: { status }
-        })
+      case status === 'cancel': {
+        await cancelSub(subId)
         break
       }
       case status === 'reactivate': {
-        sub = await prisma.sub.update({
-          where: { id: subId },
-          data: { status: 'active' }
-        })
+        await activateSub(subId)
         break
       }
       default:
@@ -251,7 +286,7 @@ export const updateSub = async (subId, status, type) => {
           status: 500
         }
     }
-    return sub
+    return await getSubById(subId)
   } catch (err) {
     throw err
   }
