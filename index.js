@@ -3,15 +3,7 @@ dotenv.config()
 import express from 'express'
 import cors from 'cors'
 import morgan from 'morgan'
-import {
-  clientRouter,
-  clientChoiceRouter,
-  colorRouter,
-  itemRouter,
-  patternRouter,
-  userRouter,
-  authRouter
-} from './routes/index.js'
+import { clientRouter, ccRouter, userRouter, authRouter } from './routes/index.js'
 import { userCheck } from './controllers/user.js'
 import { addError } from './db/error.js'
 
@@ -32,17 +24,17 @@ const welcomeMessage = `
 const PORT = process.env.PORT || 3000
 const app = express()
 
+// imported middleware
 app.use(cors())
 app.use(express.json())
 app.use(morgan('dev'))
 
+// custom middleware
 app.use(userCheck)
 
+// routes
 app.use('/client', clientRouter)
-app.use('/clientChoice', clientChoiceRouter)
-app.use('/color', colorRouter)
-app.use('/item', itemRouter)
-app.use('/pattern', patternRouter)
+app.use('/clientChoice', ccRouter)
 app.use('/user', userRouter)
 app.use('/auth', authRouter)
 app.use('/', (req, res) => {
@@ -51,6 +43,8 @@ app.use('/', (req, res) => {
 app.use('*', (req, res) => {
   res.redirect('/')
 })
+
+// error handling
 app.use(async (err, req, res, next) => {
   const { status = 500 } = err
   console.error(err)

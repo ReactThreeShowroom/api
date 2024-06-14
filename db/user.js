@@ -9,6 +9,13 @@ import {
   wrongCredentials
 } from '../errorCodes.js'
 
+const userUncipher = (user) => {
+  if (user.name) user.name = getTextFromCipher(user.name)
+  if (user.email) user.email = getTextFromCipher(user.email)
+  if (user.phone) user.phone = getTextFromCipher(user.phone)
+  return user
+}
+
 export const createUser = async (userObj) => {
   try {
     const { password, email, username } = userObj
@@ -17,17 +24,17 @@ export const createUser = async (userObj) => {
 
     const name = getCipherFromText(userObj.name ? userObj.name : email.slice(0, email.indexOf('@')))
     const phone = getCipherFromText(userObj.phone ? userObj.phone : 'nothing')
-
-    const { id } = await prisma.user.create({
-      data: {
-        name,
-        email: getCipherFromText(email),
-        username,
-        password: await hashPass(password),
-        phone
-      }
-    })
-    return id
+    return userUncipher(
+      await prisma.user.create({
+        data: {
+          name,
+          email: getCipherFromText(email),
+          username,
+          password: await hashPass(password),
+          phone
+        }
+      })
+    )
   } catch (err) {
     if (err.code === 'P2002')
       throw {
@@ -58,10 +65,7 @@ export const getUserById = async (id) => {
 
     if (!user) throw noUserFoundId
 
-    user.name = getTextFromCipher(user.name)
-    user.email = getTextFromCipher(user.email)
-    user.phone = getTextFromCipher(user.phone)
-    return user
+    return userUncipher(user)
   } catch (err) {
     throw err
   }
@@ -71,14 +75,23 @@ export const getUserByIdAuth = async (id) => {
   try {
     if (!id) throw noUserId
 
-    const user = await prisma.user.findUnique({ where: { id }, include: { subs: true } })
+    const user = await prisma.user.findUnique({
+      where: { id },
+      include: {
+        id: true,
+        username: true,
+        name: true,
+        email: true,
+        phone: true,
+        admin: true,
+        active: true,
+        subs: true
+      }
+    })
 
     if (!user) throw noUserFoundId
 
-    user.name = getTextFromCipher(user.name)
-    user.email = getTextFromCipher(user.email)
-    user.phone = getTextFromCipher(user.phone)
-    return user
+    return userUncipher(user)
   } catch (err) {
     throw err
   }
@@ -93,10 +106,7 @@ export const getUserByUsername = async (username) => {
 
     if (!user) throw noUserFoundUsername
 
-    user.name = getTextFromCipher(user.name)
-    user.email = getTextFromCipher(user.email)
-    user.phone = getTextFromCipher(user.phone)
-    return user
+    return userUncipher(user)
   } catch (err) {
     throw err
   }
@@ -123,20 +133,17 @@ export const getAllUsers = async (skip = 0, take = 25) => {
       await prisma.user.findMany({
         skip,
         take,
-        select: {
+        include: {
           id: true,
           name: true,
           email: true,
+          phone: true,
           subs: true,
           active: true,
           admin: true
         }
       })
-    ).map((user) => {
-      user.name = getTextFromCipher(user.name)
-      user.email = getTextFromCipher(user.email)
-      return user
-    })
+    ).map((user) => userUncipher(user))
   } catch (err) {
     throw err
   }
@@ -150,11 +157,7 @@ export const updateUser = async (userId, userObj) => {
 
     const user = await prisma.user.update({ where: { id: userId }, data: { ...userObj } })
 
-    if (user.name) user.name = getTextFromCipher(user.name)
-    if (user.email) user.email = getTextFromCipher(user.email)
-    if (user.phone) user.phone = getTextFromCipher(user.phone)
-
-    return user
+    return userUncipher(user)
   } catch (err) {
     throw err
   }
@@ -166,9 +169,7 @@ export const deleteUser = async (userId) => {
       where: { id: userId },
       data: { active: false }
     })
-    user.name = getTextFromCipher(user.name)
-    user.email = getTextFromCipher(user.email)
-    return user
+    return userUncipher(user)
   } catch (err) {
     throw err
   }
@@ -179,9 +180,7 @@ export const reactivateUser = async (userId) => {
       where: { id: userId },
       data: { active: true }
     })
-    user.name = getTextFromCipher(user.name)
-    user.email = getTextFromCipher(user.email)
-    return user
+    return userUncipher(user)
   } catch (err) {
     throw err
   }
@@ -203,6 +202,14 @@ export const getSubsByUserId = async (userId) => {
   }
 }
 
+export const getSubById = async (subId) => {
+  try {
+    return await prisma.sub.findUnique({ where: { id: subId } })
+  } catch (err) {
+    throw err
+  }
+}
+
 export const getSubsByStatus = async (status = 'pending') => {
   try {
     return prisma.sub.findMany({ where: { status } })
@@ -211,50 +218,65 @@ export const getSubsByStatus = async (status = 'pending') => {
   }
 }
 
+const cancelSub = async (subId) => {
+  try {
+    return await prisma.sub.update({
+      where: { id: subId },
+      data: { status: 'cancelled' }
+    })
+  } catch (err) {
+    throw {
+      name: 'couldNotUpdateStatus',
+      message: 'Could not update Subscription status. Please try again.',
+      status: 500
+    }
+  }
+}
+
+const activateSub = async (subId) => {
+  return await prisma.sub.update({
+    where: { id: subId },
+    data: { status: 'active' }
+  })
+}
+
+const createSubDate = async (subId, type) => {
+  const now = Date()
+  let length = 15778800000
+  if (type === 'one') length = 2629800000
+  if (type === 'six') length = 15778800000
+
+  return await prisma.sub.update({
+    where: { id: subId },
+    data: {
+      startDate: new Date(now).toISOString(),
+      endDate: new Date(now + length).toISOString()
+    }
+  })
+}
+
 export const updateSub = async (subId, status, type) => {
   try {
     if (!subId)
-      throw { name: 'No Sub Id', message: 'Subscription ID Invalid or Missing', status: 400 }
-    let sub = null
+      throw { name: 'noSubId', message: 'Subscription ID Invalid or Missing', status: 400 }
+    if (!status)
+      throw {
+        name: 'wrongStatusType',
+        message: 'Invalid status for Subscription Update',
+        status: 500
+      }
     switch (status) {
-      case status === 'active': {
-        const now = Date()
-        let length = 0
-        switch (type) {
-          case type === 'one':
-            length = 2629800000
-            break
-          case type === 'six':
-            length = 15778800000
-            break
-          case type === 'year':
-            length = 31557600000
-            break
-          default:
-            length = 15778800000
-        }
-        sub = await prisma.sub.update({
-          where: { id: subId },
-          data: {
-            status,
-            startDate: new Date(now).toISOString(),
-            endDate: new Date(now + length).toISOString()
-          }
-        })
+      case status === 'activate': {
+        await activateSub(subId)
+        await createSubDate(subId, type)
         break
       }
-      case status === 'cancelled': {
-        sub = await prisma.sub.update({
-          where: { id: subId },
-          data: { status }
-        })
+      case status === 'cancel': {
+        await cancelSub(subId)
         break
       }
       case status === 'reactivate': {
-        sub = await prisma.sub.update({
-          where: { id: subId },
-          data: { status: 'active' }
-        })
+        await activateSub(subId)
         break
       }
       default:
@@ -264,7 +286,7 @@ export const updateSub = async (subId, status, type) => {
           status: 500
         }
     }
-    return sub
+    return await getSubById(subId)
   } catch (err) {
     throw err
   }
