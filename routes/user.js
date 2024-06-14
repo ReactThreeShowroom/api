@@ -38,16 +38,22 @@ userRouter.get('/me', async (req, res, next) => {
     next(err)
   }
 })
-userRouter.get('/admin/:userId', async (req, res, next) => {
-  // get specific user (admin)
-  // get request params
-  // validate req.local.user is same user
-  // only for updating user auth details
-  // updateUser(id, {username, password})
-  // retrieve revalidated user by id
-  // send user (id, name, email, phone, admin, active, subs)
-})
+// userRouter.get('/admin/:userId', async (req, res, next) => {
+//   if (!req.local?.user) throw noUser
+//   if (!req.local?.user?.admin) throw notAdmin
+//   // why is this necessary?
+//   // get specific user (admin)
+//   // get request params
+//   // validate req.local.user is same user
+//   // only for updating user auth details
+//   // updateUser(id, {username, password})
+//   // retrieve revalidated user by id
+//   // send user (id, name, email, phone, admin, active, subs)
+// })
 userRouter.put('/admin/:userId', async (req, res, next) => {
+  if (!req.local?.user) throw noUser
+  if (!req.local?.user?.admin) throw notAdmin
+
   // update user details (self or admin)
   // get request params
   //   admin or user does auth check
@@ -61,6 +67,16 @@ userRouter.put('/admin/:userId', async (req, res, next) => {
   // send user same as GET
 })
 userRouter.put('/update/:userId', async (req, res, next) => {
+  try {
+    if (req.local.user.id !== req.params.userId)
+      throw {
+        name: 'notSameUser',
+        message: 'You are not authorized to perform this action.',
+        status: 401
+      }
+  } catch (err) {
+    next(err)
+  }
   // update user details (self or admin)
   // get request params
   //   admin or user does auth check
