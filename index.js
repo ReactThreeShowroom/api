@@ -3,7 +3,7 @@ dotenv.config()
 import express from 'express'
 import cors from 'cors'
 import morgan from 'morgan'
-import { clientRouter, ccRouter, userRouter, authRouter } from './routes/index.js'
+import { clientRouter, ccRouter, userRouter, authRouter, seedRouter } from './routes/index.js'
 import { userCheck } from './controllers/user.js'
 import { addError } from './db/error.js'
 
@@ -33,6 +33,7 @@ app.use(morgan('dev'))
 app.use(userCheck)
 
 // routes
+app.use('/seed', seedRouter)
 app.use('/client', clientRouter)
 app.use('/clientChoice', ccRouter)
 app.use('/user', userRouter)
