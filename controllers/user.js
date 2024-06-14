@@ -6,7 +6,6 @@ import {
   verifyUser,
   getSubsByStatus,
   getSubsByUserId,
-  getUserById,
   updateSub,
   updateUser
 } from '../db/user.js'
