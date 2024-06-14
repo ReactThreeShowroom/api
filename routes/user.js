@@ -1,6 +1,6 @@
 import express from 'express'
 import { noUser, notAdmin } from '../errorCodes.js'
-import { getAllUsers, getUserByIdAuth, userCheck } from '../db/user.js'
+import { getAllUsers, getUserByIdAuth } from '../db/user.js'
 import {} from '../controllers/user.js'
 const userRouter = express.Router()
 
