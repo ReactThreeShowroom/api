@@ -43,12 +43,10 @@ next run the migrate command from prisma:
 ## Routes
 
 - /client
-- /clientFavorite
-- /color
-- /item
-- /pattern
+- /favorite
 - /user
-- /userCred
+- /auth
+- /
 
 ## Dev Server
 
