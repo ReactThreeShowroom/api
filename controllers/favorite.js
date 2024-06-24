@@ -41,8 +41,10 @@ export const contGetFavorites = async (req, res, next) => {
 
 export const contUpdateFavorite = async (req, res, next) => {
   try {
-    const { ccId: favoriteId } = req.params
-    const { favoriteData } = req.body
+    const {
+      params: { favoriteId },
+      body: { favoriteData }
+    } = req
     res.status(204).send(await updateFavorite(favoriteId, favoriteData))
   } catch (err) {
     next(err)
@@ -51,7 +53,7 @@ export const contUpdateFavorite = async (req, res, next) => {
 
 export const contDeleteFavorite = async (req, res, next) => {
   try {
-    const { ccId: favoriteId } = req.params
+    const { favoriteId } = req.params
     res.status(204).send(await deleteFavorite(favoriteId))
   } catch (err) {
     next(err)

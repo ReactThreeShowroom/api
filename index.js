@@ -4,9 +4,8 @@ import express from 'express'
 import cors from 'cors'
 import morgan from 'morgan'
 import { clientRouter, favoriteRouter, userRouter, authRouter } from './routes/index.js'
-import { userCheck } from './controllers/user.js'
+import { noUserCheck, userCheck } from './controllers/user.js'
 import { addError } from './db/error.js'
-
 const welcomeMessage = `
 <h1>Welcome to the ReactShowroomAPI</h1>
 <p>Please choose one of these paths:</p>
@@ -35,7 +34,7 @@ app.use(userCheck)
 // routes
 app.use('/client', clientRouter)
 app.use('/favorite', favoriteRouter)
-app.use('/user', userRouter)
+app.use('/user', noUserCheck, userRouter)
 app.use('/auth', authRouter)
 app.use('/', (req, res) => {
   res.send(welcomeMessage)
