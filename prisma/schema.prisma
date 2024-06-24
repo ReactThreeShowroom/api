@@ -34,28 +34,29 @@ model Error {
 }
 
 model Item {
-  id           String         @id @unique @default(uuid())
-  name         String
-  path         String
-  type         String
-  subtype      String
-  ClientChoice ClientChoice[]
+  id      String   @id @unique @default(uuid())
+  name    String
+  path    String
+  type    String
+  subtype String
+  options Option[]
 }
 
 model Pattern {
-  id            String         @id @unique @default(uuid())
-  name          String         @unique
-  url           String
-  clientChoices ClientChoice[]
+  id      String   @id @unique @default(uuid())
+  name    String   @unique
+  url     String
+  options Option[]
 }
 
 model Color {
-  id            String         @id @unique @default(uuid())
-  name          String         @unique
-  code          String
-  rgb           String
-  hex           String
-  clientChoices ClientChoice[]
+  id        String   @id @unique @default(uuid())
+  name      String   @unique
+  code      String
+  rgb       String
+  hex       String
+  iColorIds Option[] @relation("iColor")
+  pColorIds Option[] @relation("pColor")
 }
 
 model Sub {
@@ -69,24 +70,26 @@ model Sub {
 
 // encrypt sensitive info, name, email, phone, pass
 model Client {
-  id      String         @id @unique @default(uuid())
+  id      String   @id @unique @default(uuid())
   name    String
   email   String
   phone   String
-  status  String         @default("active")
-  choices ClientChoice[]
+  status  String   @default("active")
+  options Option[]
   userId  String
-  User    User           @relation(fields: [userId], references: [id])
+  User    User     @relation(fields: [userId], references: [id])
 }
 
-model ClientChoice {
-  id        String   @id @unique @default(uuid())
-  client    Client   @relation(fields: [clientId], references: [id])
-  item      Item     @relation(fields: [itemId], references: [id])
-  color     Color    @relation(fields: [colorId], references: [id])
-  pattern   Pattern? @relation(fields: [patternId], references: [id])
-  clientId  String
-  itemId    String
-  colorId   String
-  patternId String?
+model Option {
+  id       String   @id @unique @default(uuid())
+  client   Client   @relation(fields: [clientId], references: [id])
+  item     Item     @relation(fields: [iId], references: [id])
+  pattern  Pattern? @relation(fields: [pId], references: [id])
+  iColor   Color    @relation("iColor", fields: [iColorId], references: [id])
+  pColor   Color?   @relation("pColor", fields: [pColorId], references: [id])
+  clientId String
+  iId      String
+  pId      String?
+  iColorId String
+  pColorId String?
 }
