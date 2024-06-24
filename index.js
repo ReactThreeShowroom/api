@@ -12,7 +12,7 @@ const welcomeMessage = `
 <p>Please choose one of these paths:</p>
 <ul>
   <li>/client</li>
-  <li>/clientChoice</li>
+  <li>/clientFavorite</li>
   <li>/color</li>
   <li>/item</li>
   <li>/pattern</li>
@@ -34,7 +34,7 @@ app.use(userCheck)
 
 // routes
 app.use('/client', clientRouter)
-app.use('/clientChoice', ccRouter)
+app.use('/clientFavorite', ccRouter)
 app.use('/user', userRouter)
 app.use('/auth', authRouter)
 app.use('/', (req, res) => {

@@ -12,17 +12,17 @@ datasource db {
 
 // encrypt user's personal data: email, phone, name, password
 model User {
-  id         String   @id @unique @default(uuid())
-  name       String
-  email      String
-  phone      String?
-  subs       Sub[]
-  username   String   @unique
-  password   String
-  googleSub  String?
-  active     Boolean  @default(true)
-  admin      Boolean  @default(false)
-  clientList Client[]
+  id        String   @id @unique @default(uuid())
+  name      String
+  email     String
+  phone     String?
+  subs      Sub[]
+  username  String   @unique
+  password  String
+  googleSub String?
+  active    Boolean  @default(true)
+  admin     Boolean  @default(false)
+  client    Client[]
 }
 
 model Error {
@@ -34,29 +34,29 @@ model Error {
 }
 
 model Item {
-  id      String   @id @unique @default(uuid())
-  name    String
-  path    String
-  type    String
-  subtype String
-  options Option[]
+  id        String     @id @unique @default(uuid())
+  name      String
+  path      String
+  type      String
+  subtype   String
+  favorites Favorite[]
 }
 
 model Pattern {
-  id      String   @id @unique @default(uuid())
-  name    String   @unique
-  url     String
-  options Option[]
+  id        String     @id @unique @default(uuid())
+  name      String     @unique
+  url       String
+  favorites Favorite[]
 }
 
 model Color {
-  id        String   @id @unique @default(uuid())
-  name      String   @unique
+  id        String     @id @unique @default(uuid())
+  name      String     @unique
   code      String
   rgb       String
   hex       String
-  iColorIds Option[] @relation("iColor")
-  pColorIds Option[] @relation("pColor")
+  iColorIds Favorite[] @relation("iColor")
+  pColorIds Favorite[] @relation("pColor")
 }
 
 model Sub {
@@ -70,23 +70,23 @@ model Sub {
 
 // encrypt sensitive info, name, email, phone, pass
 model Client {
-  id      String   @id @unique @default(uuid())
-  name    String
-  email   String
-  phone   String
-  status  String   @default("active")
-  options Option[]
-  userId  String
-  User    User     @relation(fields: [userId], references: [id])
+  id        String     @id @unique @default(uuid())
+  name      String
+  email     String
+  phone     String
+  status    String     @default("active")
+  favorites Favorite[]
+  userId    String
+  User      User       @relation(fields: [userId], references: [id])
 }
 
-model Option {
+model Favorite {
   id       String   @id @unique @default(uuid())
-  client   Client   @relation(fields: [clientId], references: [id])
-  item     Item     @relation(fields: [iId], references: [id])
-  pattern  Pattern? @relation(fields: [pId], references: [id])
-  iColor   Color    @relation("iColor", fields: [iColorId], references: [id])
-  pColor   Color?   @relation("pColor", fields: [pColorId], references: [id])
+  client   Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  item     Item     @relation(fields: [iId], references: [id], onDelete: Cascade)
+  pattern  Pattern? @relation(fields: [pId], references: [id], onDelete: Cascade)
+  iColor   Color    @relation("iColor", fields: [iColorId], references: [id], onDelete: Cascade)
+  pColor   Color?   @relation("pColor", fields: [pColorId], references: [id], onDelete: Cascade)
   clientId String
   iId      String
   pId      String?

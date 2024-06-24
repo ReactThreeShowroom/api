@@ -129,66 +129,66 @@ export const reactivateClient = async (clientId) => {
   }
 }
 
-// Choices
+// Favorites
 
-export const createChoice = async (choiceData) => {
+export const createFavorite = async (favorite) => {
   try {
-    const { clientId, itemId, colorId, patternId } = choiceData
-    return await prisma.clientChoice.create({ data: { ...choiceData } })
+    const { clientId, itemId, colorId, patternId } = favoriteData
+    return await prisma.favorite.create({ data: { ...favoriteData } })
   } catch (err) {
     throw {
-      name: 'badCreateChoice',
-      message: 'Something went wrong creating Client Choice. Please try again.',
+      name: 'badCreateFavorite',
+      message: 'Something went wrong creating Client Favorite. Please try again.',
       status: 400
     }
   }
 }
 
-export const getChoices = async (clientId) => {
+export const getFavorites = async (clientId) => {
   try {
-    return await prisma.clientChoice.findMany({ where: { clientId } })
+    return await prisma.favorite.findMany({ where: { clientId } })
   } catch (err) {
     throw {
-      name: 'badGetChoices',
-      message: 'Something went wrong getting Client Choices. Please try again.',
+      name: 'badGetFavorites',
+      message: 'Something went wrong getting Client Favorites. Please try again.',
       status: 400
     }
   }
 }
-export const getChoice = async (choiceId) => {
+export const getFavorite = async (favoriteId) => {
   try {
-    return await prisma.clientChoice.findFirst({ where: { id: choiceId } })
+    return await prisma.favorite.findFirst({ where: { id: favoriteId } })
   } catch (err) {
     throw {
-      name: 'badGetChoice',
-      message: 'Something went wrong getting Client Choice. Please try again.',
+      name: 'badGetFavorite',
+      message: 'Something went wrong getting Client Favorite. Please try again.',
       status: 400
     }
   }
 }
 
-export const updateChoice = async (choiceId, choiceData) => {
+export const updateFavorite = async (favoriteId, favoriteData) => {
   try {
-    return await prisma.clientChoice.update({
-      where: { id: choiceId },
-      data: { ...choiceData }
+    return await prisma.favorite.update({
+      where: { id: favoriteId },
+      data: { ...favoriteData }
     })
   } catch (err) {
     throw {
-      name: 'badUpdateChoice',
-      message: 'Something went wrong updating Client Choice. Please try again.',
+      name: 'badUpdateFavorite',
+      message: 'Something went wrong updating Client Favorite. Please try again.',
       status: 400
     }
   }
 }
 
-export const deleteChoice = async (choiceId) => {
+export const deleteFavorite = async (favoriteId) => {
   try {
-    return await prisma.clientChoice.delete({ where: { id: choiceId } })
+    return await prisma.favorite.delete({ where: { id: favoriteId } })
   } catch (err) {
     throw {
-      name: 'badCreateChoice',
-      message: 'Something went wrong creating Client Choice. Please try again.',
+      name: 'badCreateFavorite',
+      message: 'Something went wrong creating Client Favorite. Please try again.',
       status: 400
     }
   }

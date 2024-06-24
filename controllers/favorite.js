@@ -11,42 +11,48 @@ import {
   getPatterns,
   getColors,
   getItems
-} from '../db/choiceDetails.js'
-import { createChoice, deleteChoice, getChoice, getChoices, updateChoice } from '../db/client.js'
+} from '../db/favorites.js'
+import {
+  createFavorite,
+  deleteFavorite,
+  getFavorite,
+  getFavorites,
+  updateFavorite
+} from '../db/client.js'
 
-export const contCreateCC = async (req, res, next) => {
+export const contCreateFavorite = async (req, res, next) => {
   try {
-    const { choiceData } = req.body
-    res.status(201).send(await createChoice(choiceData))
+    const { favoriteData } = req.body
+    res.status(201).send(await createFavorite(favoriteData))
   } catch (err) {
     next(err)
   }
 }
 
-export const contGetCC = async (req, res, next) => {
+export const contGetFavorites = async (req, res, next) => {
   try {
     const { type, id } = req.query
-    if (type === 'single') res.send(await getChoice(id))
-    else res.send(await getChoices(id))
+    if (type === 'single') res.send(await getFavorite(id))
+    else res.send(await getFavorites(id))
   } catch (err) {
     next(err)
   }
 }
 
-export const contUpdateCC = async (req, res, next) => {
+export const contUpdateFavorite = async (req, res, next) => {
   try {
-    const { ccId: choiceId } = req.params
-    const { choiceData } = req.body
-    res.status(204).send(await updateChoice(choiceId, choiceData))
+    const { ccId: favoriteId } = req.params
+    const { favoriteData } = req.body
+    res.status(204).send(await updateFavorite(favoriteId, favoriteData))
   } catch (err) {
     next(err)
   }
 }
 
-export const contDeleteCC = async (req, res, next) => {
+export const contDeleteFavorite = async (req, res, next) => {
   try {
-    const { ccId: choiceId } = req.params
-    res.status(204).send(await deleteChoice(choiceId))
+    const { ccId: favoriteId } = req.params
+    res.status(204).send(await deleteFavorite(favoriteId))
   } catch (err) {
     next(err)
   }
