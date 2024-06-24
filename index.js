@@ -3,16 +3,15 @@ dotenv.config()
 import express from 'express'
 import cors from 'cors'
 import morgan from 'morgan'
-import { clientRouter, ccRouter, userRouter, authRouter, seedRouter } from './routes/index.js'
-import { userCheck } from './controllers/user.js'
+import { clientRouter, favoriteRouter, userRouter, authRouter, seedRouter } from './routes/index.js'
+import { noUserCheck, userCheck } from './controllers/user.js'
 import { addError } from './db/error.js'
-
 const welcomeMessage = `
 <h1>Welcome to the ReactShowroomAPI</h1>
 <p>Please choose one of these paths:</p>
 <ul>
   <li>/client</li>
-  <li>/clientChoice</li>
+  <li>/clientFavorite</li>
   <li>/color</li>
   <li>/item</li>
   <li>/pattern</li>
@@ -35,8 +34,8 @@ app.use(userCheck)
 // routes
 app.use('/seed', seedRouter)
 app.use('/client', clientRouter)
-app.use('/clientChoice', ccRouter)
-app.use('/user', userRouter)
+app.use('/favorite', favoriteRouter)
+app.use('/user', noUserCheck, userRouter)
 app.use('/auth', authRouter)
 app.use('/', (req, res) => {
   res.send(welcomeMessage)

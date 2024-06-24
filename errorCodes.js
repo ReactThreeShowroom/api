@@ -15,10 +15,20 @@ export const missingCredentials = {
   message: 'Missing required credentials, please try again.',
   status: 400
 }
+export const notSameUser = {
+  name: 'notSameUser',
+  message: 'You are not authorized to perform this action.',
+  status: 401
+}
 export const wrongCredentials = {
   name: 'wrongCredentials',
   message: 'Username and/or Password Incorrect',
   status: 401
+}
+export const failedLoginRegister = {
+  name: 'failedLoginRegister',
+  message: 'Unsuccessful login or register, please try again!',
+  status: 400
 }
 export const tokenMalformed = (prefix) => ({
   name: 'TokenMalformed',
@@ -130,12 +140,69 @@ export const badDeletePattern = {
   message: 'Could not delete Pattern. Try again',
   status: 400
 }
+export const badCreateClient = {
+  name: 'badCreateClient',
+  message: 'Something went wrong creating Client. Please try again.',
+  status: 400
+}
+export const badGetClients = {
+  name: 'badGetClients',
+  message: 'Something went wrong getting Clients. Please try again.',
+  status: 400
+}
+export const badGetClient = {
+  name: 'badGetClient',
+  message: 'Something went wrong getting Client. Please try again.',
+  status: 400
+}
+export const badUpdateClient = {
+  name: 'badUpdateClient',
+  message: 'Something went wrong updating Client. Please try again.',
+  status: 400
+}
+export const badDeactivateClient = {
+  name: 'badDeactivateClient',
+  message: 'Something went wrong deactivating Client. Please try again.',
+  status: 400
+}
+export const badReactivateClient = {
+  name: 'badReactivateClient',
+  message: 'Something went wrong reactivating Client. Please try again.',
+  status: 400
+}
+
+export const badCreateFavorite = {
+  name: 'badCreateFavorite',
+  message: 'Something went wrong creating Client Favorite. Please try again.',
+  status: 400
+}
+export const badGetFavorite = {
+  name: 'badGetFavorite',
+  message: 'Something went wrong getting Client Favorite. Please try again.',
+  status: 400
+}
+export const badGetFavorites = {
+  name: 'badGetFavorites',
+  message: 'Something went wrong getting Client Favorites. Please try again.',
+  status: 400
+}
+export const badUpdateFavorite = {
+  name: 'badUpdateFavorite',
+  message: 'Something went wrong updating Client Favorite. Please try again.',
+  status: 400
+}
+export const badDeleteFavorite = {
+  name: 'badDeleteFavorite',
+  message: 'Something went wrong deleting Client Favorite. Please try again.',
+  status: 400
+}
 
 export default {
   noUserId,
   noUserFoundId,
   noUserFoundUsername,
   noUsername,
+  notSameUser,
   missingCredentials,
   wrongCredentials,
   tokenMalformed,
@@ -159,5 +226,11 @@ export default {
   badGetPattern,
   badGetPatterns,
   badUpdatePattern,
-  badDeletePattern
+  badDeletePattern,
+  badCreateClient,
+  badGetClients,
+  badGetClient,
+  badUpdateClient,
+  badDeactivateClient,
+  badReactivateClient
 }
