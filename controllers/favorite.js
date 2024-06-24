@@ -11,7 +11,7 @@ import {
   getPatterns,
   getColors,
   getItems
-} from '../db/favorites.js'
+} from '../db/favorite.js'
 import {
   createFavorite,
   deleteFavorite,

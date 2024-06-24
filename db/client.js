@@ -131,9 +131,18 @@ export const reactivateClient = async (clientId) => {
 
 // Favorites
 
-export const createFavorite = async (favorite) => {
+// model Favorite {
+//   id       String   @id @unique @default(uuid())
+//   clientId String
+//   iId      String
+//   pId      String?
+//   iColorId String
+//   pColorId String?
+// }
+
+export const createFavorite = async (favoriteData) => {
   try {
-    const { clientId, itemId, colorId, patternId } = favoriteData
+    const { clientId, iId, iColorId, pId, pColorId } = favoriteData
     return await prisma.favorite.create({ data: { ...favoriteData } })
   } catch (err) {
     throw {
