@@ -9,7 +9,13 @@ import {
   updateSub,
   updateUser
 } from '../db/user.js'
-import { notAuthorized, unknownError, cannotFindUser, unknownType } from '../errorCodes.js'
+import {
+  notAuthorized,
+  unknownError,
+  cannotFindUser,
+  unknownType,
+  failedLoginRegister
+} from '../errorCodes.js'
 
 export const userCheck = async (req, res, next) => {
   try {
@@ -24,6 +30,33 @@ export const userCheck = async (req, res, next) => {
       throw cannotFindUser
     }
     req.local = { user }
+    next()
+  } catch (err) {
+    next(err)
+  }
+}
+
+export const noUserCheck = async (req, res, next) => {
+  try {
+    if (!req.local.user) throw noUser
+    next()
+  } catch (err) {
+    next(err)
+  }
+}
+export const selfCheck = async (req, res, next) => {
+  try {
+    const { userId } = req.params
+    const { user } = req.local
+    if (user.id !== userId) throw notSameUser
+    next()
+  } catch (err) {
+    next(err)
+  }
+}
+export const adminCheck = async (req, res, next) => {
+  try {
+    if (!req.local.user.admin) throw notAdmin
     next()
   } catch (err) {
     next(err)
@@ -78,10 +111,7 @@ export const loginRegisterUser = async (req, res, next) => {
       return
     }
 
-    res.status(400).send({
-      name: 'failedLoginRegister',
-      message: 'Unsuccessful login or register, please try again!'
-    })
+    res.status(400).send(failedLoginRegister)
   } catch (err) {
     next(err)
   }
@@ -132,9 +162,11 @@ export const getUserSelfAdmin = async (req, res, next) => {
 
 export const updateUserById = async (req, res, next) => {
   try {
-    const { userId } = req.params
-    const { updates } = req.body
-    const { authType } = req
+    const {
+      authType,
+      params: { userId },
+      body: { updates }
+    } = req
 
     const isAuth = new Set(['adminAndNotSelf']).has(authType)
     if (!isAuth) throw notAuthorized
@@ -150,8 +182,10 @@ export const updateUserById = async (req, res, next) => {
 
 export const adminDeleteUser = async (req, res, next) => {
   try {
-    const { userId } = req.params
-    const { authType } = req
+    const {
+      authType,
+      params: { userId }
+    } = req
 
     const isAuth = new Set(['adminAndNotSelf']).has(authType)
     if (!isAuth) throw notAuthorized
@@ -167,9 +201,11 @@ export const adminDeleteUser = async (req, res, next) => {
 
 export const userUpdatesCredentials = async (req, res, next) => {
   try {
-    const { userId } = req.params
-    const { updates } = req.body
-    const { authType } = req
+    const {
+      authType,
+      params: { userId },
+      body: { updates }
+    } = req
 
     const isAuth = new Set(['adminAndNotSelf', 'adminAndSelf', 'adminOrSelf']).has(authType)
     if (!isAuth) throw notAuthorized
@@ -187,8 +223,10 @@ export const userUpdatesCredentials = async (req, res, next) => {
 
 export const adminGetsAllSubs = async (req, res, next) => {
   try {
-    const { userId } = req.params
-    const { authType } = req
+    const {
+      authType,
+      params: { userId }
+    } = req
 
     const isAuth = new Set(['adminAndNotSelf', 'adminAndSelf']).has(authType)
     if (!isAuth) throw notAuthorized
@@ -202,9 +240,11 @@ export const adminGetsAllSubs = async (req, res, next) => {
 
 export const adminUpdatesSub = async (req, res, next) => {
   try {
-    const { subId } = req.params
-    const { status, type } = req.query
-    const { authType } = req
+    const {
+      authType,
+      query: { status, type },
+      params: { subId }
+    } = req
 
     const isAuth = new Set(['adminAndNotSelf']).has(authType)
     if (!isAuth) throw notAuthorized
@@ -226,5 +266,66 @@ export const adminPendingSubs = async (req, res, next) => {
     res.status(200).send(sub)
   } catch (error) {
     next(error)
+  }
+}
+
+export const contUserAdminGet = async (req, res, next) => {
+  // /user/admin?s=xx&t=yy
+  // s & t are strings from url
+  try {
+    const { s, t } = req.query
+    const [skip, take] = [Number(s), Number(t)]
+    const users = await getAllUsers(skip, take)
+    res.status(200).send(users)
+  } catch (err) {
+    next(err)
+  }
+}
+
+export const contUserAdminGetOne = async (req, res, next) => {
+  try {
+    const {
+      params: { userId },
+      body: { updates }
+    } = req
+    await updateUser(userId, updates)
+    const user = await getUserByIdAuth(userId)
+    res.status(204).send(user)
+  } catch (err) {
+    next(err)
+  }
+}
+
+export const contUserMe = async (req, res, next) => {
+  try {
+    // send user received by token
+    const { user } = req.local
+    res.status(200).send(user)
+  } catch (err) {
+    next(err)
+  }
+}
+
+export const contUserUpdate = async (req, res, next) => {
+  try {
+    const {
+      params: { userId },
+      body: { updates }
+    } = req
+    await updateUser(userId, updates)
+    const user = await getUserByIdAuth(userId)
+    res.status(204).send(user)
+  } catch (err) {
+    next(err)
+  }
+}
+
+export const contUserDelete = async (req, res, next) => {
+  try {
+    const { userId } = req.params
+    const user = await deleteUser(userId)
+    res.status(204).send(user)
+  } catch (err) {
+    next(err)
   }
 }

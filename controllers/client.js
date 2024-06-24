@@ -27,8 +27,10 @@ export const contGetClients = async (req, res, next) => {
 
 export const contGetClient = async (req, res, next) => {
   try {
-    const { u } = req.query
-    const { clientId } = req.params
+    const {
+      params: { u },
+      query: { clientId }
+    } = req
     const query = u ? getInactiveClients : getClient
     res.status(200).send(await query(clientId))
   } catch (err) {
@@ -38,9 +40,11 @@ export const contGetClient = async (req, res, next) => {
 
 export const contReactivateOrUpdateClient = async (req, res, next) => {
   try {
-    const { r } = req.query
-    const { clientId } = req.params
-    const { clientData } = req.body
+    const {
+      params: { clientId },
+      query: { r },
+      body: { clientData }
+    } = req
     const query = r ? reactivateClient : updateClient
     res.status(204).send(await query(clientId, clientData))
   } catch (err) {
