@@ -20,6 +20,7 @@ import {
 export const userCheck = async (req, res, next) => {
   try {
     const auth = req.get('Authorization')
+    console.log(auth)
     if (!auth) {
       next()
       return
@@ -65,10 +66,10 @@ export const adminCheck = async (req, res, next) => {
 
 export const checkLoginRegister = (req, res, next) => {
   const { type } = req.query
-  console.log(type)
   const isReg = type === 'register'
   const isLog = type === 'login'
   const isUnknown = type === undefined
+  console.log(type)
   ;(!isReg && !isLog) || isUnknown ? next(unknownType) : next()
 }
 
@@ -99,8 +100,8 @@ export const loginRegisterUser = async (req, res, next) => {
       body
     } = req
     const isRegister = type === 'register'
-    const id = isRegister ? await createUser(body) : await verifyUser(body)
-
+    const { id } = isRegister ? await createUser(body) : await verifyUser(body)
+    console.log(isRegister, id)
     const token = getTokenFromId(id)
     const user = await getUserById(id)
 

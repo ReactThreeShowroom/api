@@ -77,7 +77,7 @@ export const getUserByIdAuth = async (id) => {
 
     const user = await prisma.user.findUnique({
       where: { id },
-      include: {
+      select: {
         id: true,
         username: true,
         name: true,
@@ -121,7 +121,7 @@ export const verifyUser = async ({ password, username }) => {
 
     if (!isCorrectPass) throw wrongCredentials
 
-    return user.id
+    return user
   } catch (err) {
     throw err
   }
@@ -133,7 +133,7 @@ export const getAllUsers = async (skip = 0, take = 25) => {
       await prisma.user.findMany({
         skip,
         take,
-        include: {
+        select: {
           id: true,
           name: true,
           email: true,
