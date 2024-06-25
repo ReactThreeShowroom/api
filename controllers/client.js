@@ -19,7 +19,10 @@ export const contCreateClient = async (req, res, next) => {
 
 export const contGetClients = async (req, res, next) => {
   try {
-    res.status(200).send(await getClients())
+    // typeof i === boolean ("inactive")
+    const { u, i } = req.query
+    const query = i ? getInactiveClients : getClients
+    res.status(200).send(await query(u))
   } catch (err) {
     next(err)
   }
@@ -28,11 +31,9 @@ export const contGetClients = async (req, res, next) => {
 export const contGetClient = async (req, res, next) => {
   try {
     const {
-      params: { u },
-      query: { clientId }
+      params: { clientId }
     } = req
-    const query = u ? getInactiveClients : getClient
-    res.status(200).send(await query(clientId))
+    res.status(200).send(await getClient(clientId))
   } catch (err) {
     next(err)
   }
