@@ -2,6 +2,8 @@ import { exec } from 'child_process'
 import { promisify } from 'util'
 import users from '../data.json' assert { type: 'json' }
 import prisma from '../prismaClient.js'
+import { getCipherFromText, hashPass } from '../jwt.js'
+import { userUncipher } from '../db/user.js'
 const execPromise = promisify(exec)
 
 export async function triggerMigrateAndReset() {
@@ -39,7 +41,7 @@ export async function createInitialUsers() {
 
       const name = getCipherFromText(user.name ? user.name : email.slice(0, email.indexOf('@')))
       const phone = getCipherFromText(user.phone ? user.phone : 'nothing')
-      return userUncipher(
+      userUncipher(
         await prisma.user.create({
           data: {
             name,

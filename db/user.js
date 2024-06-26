@@ -9,8 +9,7 @@ import {
   wrongCredentials
 } from '../errorCodes.js'
 
-const userUncipher = (user) => {
-  console.log(user)
+export const userUncipher = (user) => {
   if (user.name) user.name = getTextFromCipher(user.name)
   if (user.email) user.email = getTextFromCipher(user.email)
   if (user.phone) user.phone = getTextFromCipher(user.phone)
