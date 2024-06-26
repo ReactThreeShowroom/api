@@ -33,9 +33,25 @@ export async function createInitialUsers() {
   try {
     // code for making our first users here
     for (let user of users) {
-      await prisma.user.create({
-        data: user
-      })
+      const { password, email, username } = user
+
+      if (!password || !username || !email) throw missingCredentials
+
+      const name = getCipherFromText(user.name ? user.name : email.slice(0, email.indexOf('@')))
+      const phone = getCipherFromText(user.phone ? user.phone : 'nothing')
+      return userUncipher(
+        await prisma.user.create({
+          data: {
+            name,
+            email: getCipherFromText(email),
+            username,
+            password: await hashPass(password),
+            phone,
+            admin: user.admin,
+            active: user.active
+          }
+        })
+      )
     }
     return console.log('Users Finished being Made'), 'Users Finished being Made'
   } catch (error) {
