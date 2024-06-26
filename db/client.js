@@ -28,14 +28,19 @@ export const createClient = async (clientData) => {
       where: { userId, email: getCipherFromText(clientData.email) },
       include: { favorites: true }
     })
-    if (existingClient.id) return existingClient
+    console.log(existingClient)
+    if (existingClient) return existingClient
 
     const name = getCipherFromText(clientData.name)
     const email = getCipherFromText(clientData.email)
     const phone = getCipherFromText(clientData.phone)
-    const newClient = await prisma.client.create({ data: { name, email, phone, userId } })
+    const newClient = await prisma.client.create({
+      data: { name, email, phone, userId, status: 'active' }
+    })
+    console.log(newClient)
     return clientUncipher(newClient)
   } catch (err) {
+    console.error(err)
     throw badCreateClient
   }
 }
@@ -87,7 +92,8 @@ export const updateClient = async (clientId, clientData) => {
         data: {
           name: getCipherFromText(clientData.name),
           email: getCipherFromText(clientData.email),
-          phone: getCipherFromText(clientData.phone)
+          phone: getCipherFromText(clientData.phone),
+          status: clientData.status
         },
         include: { favorites: true }
       })
