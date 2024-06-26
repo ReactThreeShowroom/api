@@ -11,8 +11,10 @@ import {
 export const contCreateClient = async (req, res, next) => {
   try {
     const { clientData } = req.body
+    console.log('creating client', clientData)
     res.status(201).send(await createClient(clientData))
   } catch (err) {
+    console.log(err)
     next(err)
   }
 }
@@ -20,6 +22,7 @@ export const contCreateClient = async (req, res, next) => {
 export const contGetClients = async (req, res, next) => {
   try {
     // typeof i === boolean ("inactive")
+    console.log('getting clients')
     const { u, i } = req.query
     const query = i ? getInactiveClients : getClients
     res.status(200).send(await query(u))
