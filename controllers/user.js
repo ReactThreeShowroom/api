@@ -7,7 +7,8 @@ import {
   getSubsByStatus,
   getSubsByUserId,
   updateSub,
-  updateUser
+  updateUser,
+  createSub
 } from '../db/user.js'
 import {
   notAuthorized,
@@ -322,9 +323,10 @@ export const contUserDelete = async (req, res, next) => {
 export const contUserCreateSub = async (req, res, next) => {
   try {
     const {
-      params: { userId }
+      params: { userId },
+      body: { type }
     } = req
-    const newSub = await createSub(userId)
+    const newSub = await createSub(userId, type)
     if (!newSub)
       throw {
         name: 'badCreateSub',

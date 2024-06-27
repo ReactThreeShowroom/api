@@ -32,7 +32,7 @@ authRouter.delete('/admin/:userId', getAuthType, adminDeleteUser)
 authRouter.patch('/credentials/:userId', getAuthType, userUpdatesCredentials)
 
 // User creates sub request
-authRouter.post('subs/user/:userId', getAuthType, contUserCreateSub)
+authRouter.post('/subs/user/:userId', getAuthType, contUserCreateSub)
 
 // admin gets all subs by user
 authRouter.get('/subs/user/:userId', getAuthType, adminGetsAllSubs)
