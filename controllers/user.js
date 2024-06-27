@@ -129,25 +129,13 @@ export const getUserSelfAdmin = async (req, res, next) => {
     } = req
 
     switch (authType) {
-      case 'noAuth': {
+      case 'noAuth':
+      case 'notAdminAndNotSelf': {
         res.status(401).send(notAuthorized)
         break
       }
-      case 'adminOrSelf': {
-        const user = await getUserById(id)
-        res.status(200).send(user)
-        break
-      }
-      case 'adminAndNotSelf': {
-        const user = await getUserById(userId)
-        res.status(200).send(user)
-        break
-      }
-      case 'notAdminAndNotSelf': {
-        // make and send error later
-        res.sendStatus(401)
-        break
-      }
+      case 'adminOrSelf':
+      case 'adminAndNotSelf':
       case 'adminAndSelf': {
         const user = await getUserById(userId)
         res.status(200).send(user)
@@ -326,6 +314,25 @@ export const contUserDelete = async (req, res, next) => {
     const { userId } = req.params
     const user = await deleteUser(userId)
     res.status(204).send(user)
+  } catch (err) {
+    next(err)
+  }
+}
+
+export const contUserCreateSub = async (req, res, next) => {
+  try {
+    const {
+      params: { userId }
+    } = req
+    const newSub = await createSub(userId)
+    if (!newSub)
+      throw {
+        name: 'badCreateSub',
+        message: 'Could not create Subscription. Please try again.',
+        status: 400
+      }
+    const newUser = await getUserByIdAuth(userId)
+    res.status(201).send(newUser)
   } catch (err) {
     next(err)
   }
