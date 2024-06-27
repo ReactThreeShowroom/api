@@ -104,14 +104,7 @@ export const getUserByUsername = async (username) => {
 
     const user = await prisma.user.findUnique({
       where: { username },
-      select: {
-        id: true,
-        username: true,
-        name: true,
-        email: true,
-        phone: true,
-        admin: true,
-        active: true,
+      include: {
         subs: true
       }
     })
@@ -198,9 +191,9 @@ export const reactivateUser = async (userId) => {
   }
 }
 
-export const createSub = async (userId) => {
+export const createSub = async (userId, type = 'year') => {
   try {
-    return await prisma.sub.create({ data: { userId, status: 'pending' } })
+    return await prisma.sub.create({ data: { userId, status: 'pending', type } })
   } catch (err) {
     throw err
   }
@@ -252,11 +245,12 @@ const activateSub = async (subId) => {
   })
 }
 
-const createSubDate = async (subId, type) => {
+const createSubDate = async (subId) => {
+  const currentSub = await getSubById(subId)
   const now = Date()
   let length = 15778800000
-  if (type === 'one') length = 2629800000
-  if (type === 'six') length = 15778800000
+  if (currentSub.type === 'one') length = 2629800000
+  if (currentSub.type === 'six') length = 15778800000
 
   return await prisma.sub.update({
     where: { id: subId },
