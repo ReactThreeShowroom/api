@@ -64,6 +64,7 @@ model Sub {
   startDate DateTime?
   endDate   DateTime?
   status    String
+  type      String
   user      User      @relation(fields: [userId], references: [id])
   userId    String
 }
