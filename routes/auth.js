@@ -9,7 +9,8 @@ import {
   userUpdatesCredentials,
   adminUpdatesSub,
   adminPendingSubs,
-  getAuthType
+  getAuthType,
+  contUserCreateSub
 } from '../controllers/user.js'
 const authRouter = express.Router()
 
@@ -30,10 +31,13 @@ authRouter.delete('/admin/:userId', getAuthType, adminDeleteUser)
 // User updates a user auth (username/password)
 authRouter.patch('/credentials/:userId', getAuthType, userUpdatesCredentials)
 
+// User creates sub request
+authRouter.post('subs/user/:userId', getAuthType, contUserCreateSub)
+
 // admin gets all subs by user
 authRouter.get('/subs/user/:userId', getAuthType, adminGetsAllSubs)
 
-// admin updates a user subs
+// admin updates a user sub
 authRouter.patch('/subs/:subId', getAuthType, adminUpdatesSub)
 
 // admin gets list of pending subscriptions

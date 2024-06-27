@@ -102,7 +102,19 @@ export const getUserByUsername = async (username) => {
     if (!username) throw noUsername
     console.log(username)
 
-    const user = await prisma.user.findUnique({ where: { username } })
+    const user = await prisma.user.findUnique({
+      where: { username },
+      select: {
+        id: true,
+        username: true,
+        name: true,
+        email: true,
+        phone: true,
+        admin: true,
+        active: true,
+        subs: true
+      }
+    })
 
     if (!user) throw noUserFoundUsername
 
@@ -157,8 +169,7 @@ export const updateUser = async (userId, userObj) => {
     if (userObj.username) userObj.username = userObj.username
 
     const user = await prisma.user.update({ where: { id: userId }, data: { ...userObj } })
-
-    return userUncipher(user)
+    return userUncipher(await getUserByIdAuth(userId))
   } catch (err) {
     throw err
   }
