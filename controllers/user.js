@@ -21,7 +21,6 @@ import {
 export const userCheck = async (req, res, next) => {
   try {
     const auth = req.get('Authorization')
-    console.log(auth)
     if (!auth) {
       next()
       return
@@ -70,7 +69,6 @@ export const checkLoginRegister = (req, res, next) => {
   const isReg = type === 'register'
   const isLog = type === 'login'
   const isUnknown = type === undefined
-  console.log(type)
   ;(!isReg && !isLog) || isUnknown ? next(unknownType) : next()
 }
 
@@ -102,7 +100,6 @@ export const loginRegisterUser = async (req, res, next) => {
     } = req
     const isRegister = type === 'register'
     const { id } = isRegister ? await createUser(body) : await verifyUser(body)
-    console.log(isRegister, id)
     const token = getTokenFromId(id)
     const user = await getUserById(id)
 
@@ -122,13 +119,12 @@ export const loginRegisterUser = async (req, res, next) => {
 export const getUserSelfAdmin = async (req, res, next) => {
   try {
     const {
-      params: userId,
+      params: { userId },
       local: {
         authType,
         user: { id }
       }
     } = req
-
     switch (authType) {
       case 'noAuth':
       case 'notAdminAndNotSelf': {
@@ -153,7 +149,7 @@ export const getUserSelfAdmin = async (req, res, next) => {
 export const updateUserById = async (req, res, next) => {
   try {
     const {
-      authType,
+      local: { authType },
       params: { userId },
       body: { updates }
     } = req
@@ -173,7 +169,7 @@ export const updateUserById = async (req, res, next) => {
 export const adminDeleteUser = async (req, res, next) => {
   try {
     const {
-      authType,
+      local: { authType },
       params: { userId }
     } = req
 
@@ -192,7 +188,7 @@ export const adminDeleteUser = async (req, res, next) => {
 export const userUpdatesCredentials = async (req, res, next) => {
   try {
     const {
-      authType,
+      local: { authType },
       params: { userId },
       body: { updates }
     } = req
@@ -214,7 +210,7 @@ export const userUpdatesCredentials = async (req, res, next) => {
 export const adminGetsAllSubs = async (req, res, next) => {
   try {
     const {
-      authType,
+      local: { authType },
       params: { userId }
     } = req
 
@@ -231,16 +227,16 @@ export const adminGetsAllSubs = async (req, res, next) => {
 export const adminUpdatesSub = async (req, res, next) => {
   try {
     const {
-      authType,
+      local: { authType },
       query: { status, type },
       params: { subId }
     } = req
-
-    const isAuth = new Set(['adminAndNotSelf']).has(authType)
+    const isAuth = new Set(['adminAndNotSelf', 'adminOrSelf', 'adminAndSelf']).has(authType)
     if (!isAuth) throw notAuthorized
 
     const sub = await updateSub(subId, status, type)
-    res.status(204).send(sub)
+    console.log(sub)
+    res.status(200).send(sub)
   } catch (error) {
     next(error)
   }
@@ -248,8 +244,10 @@ export const adminUpdatesSub = async (req, res, next) => {
 
 export const adminPendingSubs = async (req, res, next) => {
   try {
-    const { authType } = req
-    const isAuth = new Set(['adminAndNotSelf']).has(authType)
+    const {
+      local: { authType }
+    } = req
+    const isAuth = new Set(['adminAndNotSelf', 'adminOrSelf']).has(authType)
     if (!isAuth) throw notAuthorized
 
     const sub = await getSubsByStatus()
