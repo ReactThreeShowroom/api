@@ -51,8 +51,8 @@ model Pattern {
 
 model Color {
   id        String     @id @unique @default(uuid())
-  name      String     @unique
-  code      String
+  name      String
+  code      String     @unique
   rgb       String
   hex       String
   iColorIds Favorite[] @relation("iColor")
