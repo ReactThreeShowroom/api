@@ -43,7 +43,7 @@ export const getColorById = async (colorId) => {
 
 export const getColorByName = async (name) => {
   try {
-    return await prisma.color.findUnique({ where: { name } })
+    return await prisma.color.findMany({ where: { name } })
   } catch (err) {
     throw badGetColor
   }
@@ -81,7 +81,7 @@ export const createItem = async (itemData) => {
   }
 }
 
-export const getItems = async (itemId) => {
+export const getItems = async () => {
   try {
     return await prisma.item.findMany()
   } catch (err) {
