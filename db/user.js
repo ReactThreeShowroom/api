@@ -46,7 +46,7 @@ export const createUser = async (userObj) => {
   }
 }
 
-export const getUserById = async (id) => {
+export const getUserById = async (id, isSubs = true) => {
   try {
     if (!id) throw noUserId
 
@@ -59,7 +59,7 @@ export const getUserById = async (id) => {
         phone: true,
         admin: true,
         active: true,
-        subs: true
+        subs: isSubs
       }
     })
 
@@ -215,9 +215,18 @@ export const getSubById = async (subId) => {
   }
 }
 
+const addUser = async (sub) => {
+  sub.user = await getUserById(sub.userId, false)
+  return sub
+}
+
 export const getSubsByStatus = async (status = 'pending') => {
   try {
-    return prisma.sub.findMany({ where: { status } })
+    const _subs = await prisma.sub.findMany({ where: { status } })
+    const subPromises = _subs.map((sub) => {
+      return addUser(sub)
+    })
+    return await Promise.all(subPromises)
   } catch (err) {
     throw err
   }
@@ -263,34 +272,37 @@ const createSubDate = async (subId) => {
 
 export const updateSub = async (subId, status, type) => {
   try {
-    if (!subId)
+    if (!subId) {
       throw { name: 'noSubId', message: 'Subscription ID Invalid or Missing', status: 400 }
-    if (!status)
+    }
+    if (!status) {
       throw {
         name: 'wrongStatusType',
         message: 'Invalid status for Subscription Update',
         status: 500
       }
+    }
     switch (status) {
-      case status === 'activate': {
+      case 'activate': {
         await activateSub(subId)
         await createSubDate(subId, type)
         break
       }
-      case status === 'cancel': {
+      case 'cancel': {
         await cancelSub(subId)
         break
       }
-      case status === 'reactivate': {
+      case 'reactivate': {
         await activateSub(subId)
         break
       }
-      default:
+      default: {
         throw {
           name: 'wrongStatusType',
           message: 'Invalid status for Subscription Update',
           status: 500
         }
+      }
     }
     return await getSubById(subId)
   } catch (err) {
