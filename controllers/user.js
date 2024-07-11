@@ -8,7 +8,8 @@ import {
   getSubsByUserId,
   updateSub,
   updateUser,
-  createSub
+  createSub,
+  getAllUsers
 } from '../db/user.js'
 import {
   notAuthorized,
@@ -273,12 +274,10 @@ export const contUserAdminGet = async (req, res, next) => {
 export const contUserAdminGetOne = async (req, res, next) => {
   try {
     const {
-      params: { userId },
-      body: { updates }
+      params: { userId }
     } = req
-    await updateUser(userId, updates)
     const user = await getUserByIdAuth(userId)
-    res.status(204).send(user)
+    res.status(200).send(user)
   } catch (err) {
     next(err)
   }
