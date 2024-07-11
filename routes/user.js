@@ -11,7 +11,7 @@ import {
 const userRouter = express.Router()
 
 userRouter.get('/admin', adminCheck, contUserAdminGet)
-userRouter.put('/admin/:userId', adminCheck, contUserAdminGetOne)
+userRouter.get('/admin/:userId', adminCheck, contUserAdminGetOne)
 userRouter.get('/me', contUserMe)
 userRouter.put('/update/:userId', selfCheck, contUserUpdate)
 userRouter.delete('/delete/:userId', selfCheck, contUserDelete)

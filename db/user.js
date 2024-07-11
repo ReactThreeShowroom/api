@@ -134,21 +134,17 @@ export const verifyUser = async ({ password, username }) => {
 
 export const getAllUsers = async (skip = 0, take = 25) => {
   try {
-    return (
-      await prisma.user.findMany({
-        skip,
-        take,
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          phone: true,
-          subs: true,
-          active: true,
-          admin: true
-        }
-      })
-    ).map((user) => userUncipher(user))
+    const select = {
+      id: true,
+      name: true,
+      email: true,
+      phone: true,
+      subs: true,
+      active: true,
+      admin: true
+    }
+    const query = !!take ? { skip, take, select } : { select }
+    return (await prisma.user.findMany(query)).map((user) => userUncipher(user))
   } catch (err) {
     throw err
   }
@@ -159,9 +155,8 @@ export const updateUser = async (userId, userObj) => {
     if (userObj.name) userObj.name = getCipherFromText(userObj.name)
     if (userObj.email) userObj.email = getCipherFromText(userObj.email)
     if (userObj.phone) userObj.phone = getCipherFromText(userObj.phone)
-    if (userObj.username) userObj.username = userObj.username
 
-    const user = await prisma.user.update({ where: { id: userId }, data: { ...userObj } })
+    await prisma.user.update({ where: { id: userId }, data: { ...userObj } })
     return userUncipher(await getUserByIdAuth(userId))
   } catch (err) {
     throw err
@@ -256,15 +251,17 @@ const activateSub = async (subId) => {
 
 const createSubDate = async (subId) => {
   const currentSub = await getSubById(subId)
-  const now = Date()
-  let length = 15778800000
-  if (currentSub.type === 'one') length = 2629800000
-  if (currentSub.type === 'six') length = 15778800000
+  const now = Date.now()
+  let length = 31556952000
+  if (currentSub.type === 'one') length = 2629746000
+  if (currentSub.type === 'six') length = 15778476000
 
+  const endDate = now + length
+  console.log({ endDate })
   return await prisma.sub.update({
     where: { id: subId },
     data: {
-      startDate: new Date(now).toISOString(),
+      startDate: new Date().toISOString(),
       endDate: new Date(now + length).toISOString()
     }
   })
