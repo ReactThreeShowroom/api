@@ -71,6 +71,8 @@ export async function seedAdmin() {
   try {
     let dev = await createUser(JSON.parse(process.env.DEV_DETAILS))
     dev = await prisma.user.update({ where: { id: dev.id }, data: { admin: true } })
+    let owner = await createUser(JSON.parse(process.env.OWNER_DETAILS))
+    owner = await prisma.user.update({ where: { id: owner.id }, data: { admin: true } })
     return console.log('Finished Seeding Admin Users'), 'Finished Seeding Admin Users'
   } catch (err) {
     console.log('Error Seeding Admin Users')
