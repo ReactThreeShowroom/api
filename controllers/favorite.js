@@ -2,15 +2,15 @@ import {
   getColorById,
   getColorByName,
   getColorByCode,
-  getItemById,
-  getItemByName,
-  getItemBySubtype,
-  getItemByType,
+  getModelById,
+  getModelByName,
+  getModelBySubtype,
+  getModelByType,
   getPattern,
   getPatternByName,
   getPatterns,
   getColors,
-  getItems
+  getModels
 } from '../db/favorite.js'
 import {
   createFavorite,
@@ -95,45 +95,45 @@ export const contGetColorByCode = async (req, res, next) => {
   }
 }
 
-export const contGetItems = async (req, res, next) => {
+export const contGetModels = async (req, res, next) => {
   try {
-    res.send(getItems())
+    res.send(getModels())
   } catch (err) {
     next(err)
   }
 }
 
-export const contGetItemById = async (req, res, next) => {
+export const contGetModelById = async (req, res, next) => {
   try {
     const { itemId } = req.params
-    res.send(getItemById(itemId))
+    res.send(getModelById(itemId))
   } catch (err) {
     next(err)
   }
 }
 
-export const contGetItemByName = async (req, res, next) => {
+export const contGetModelByName = async (req, res, next) => {
   try {
     const { name } = req.params
-    res.send(await getItemByName(name))
+    res.send(await getModelByName(name))
   } catch (err) {
     next(err)
   }
 }
 
-export const contGetItemBySubtype = async (req, res, next) => {
+export const contGetModelBySubtype = async (req, res, next) => {
   try {
     const { subtype } = req.params
-    res.send(await getItemBySubtype(subtype))
+    res.send(await getModelBySubtype(subtype))
   } catch (err) {
     next(err)
   }
 }
 
-export const contGetItemByType = async (req, res, next) => {
+export const contGetModelByType = async (req, res, next) => {
   try {
     const { type } = req.params
-    res.send(await getItemByType(type))
+    res.send(await getModelByType(type))
   } catch (err) {
     next(err)
   }
