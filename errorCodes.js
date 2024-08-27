@@ -90,29 +90,29 @@ export const badDeleteColor = {
   message: 'Could not delete Color. Try again',
   status: 400
 }
-export const badCreateItem = {
-  name: 'badCreateItem',
-  message: 'Could not create Item. Try again',
+export const badCreateModel = {
+  name: 'badCreateModel',
+  message: 'Could not create Model. Try again',
   status: 400
 }
-export const badGetItem = {
-  name: 'badGetItem',
-  message: 'Could not get Item. Try again',
+export const badGetModel = {
+  name: 'badGetModel',
+  message: 'Could not get Model. Try again',
   status: 400
 }
-export const badGetItems = {
-  name: 'badGetItems',
-  message: 'Could not get Item. Try again',
+export const badGetModels = {
+  name: 'badGetModels',
+  message: 'Could not get Model. Try again',
   status: 400
 }
-export const badUpdateItem = {
-  name: 'badUpdateItem',
-  message: 'Could not update Item. Try again',
+export const badUpdateModel = {
+  name: 'badUpdateModel',
+  message: 'Could not update Model. Try again',
   status: 400
 }
-export const badDeleteItem = {
-  name: 'badDeleteItem',
-  message: 'Could not delete Item. Try again',
+export const badDeleteModel = {
+  name: 'badDeleteModel',
+  message: 'Could not delete Model. Try again',
   status: 400
 }
 export const badCreatePattern = {
@@ -217,11 +217,11 @@ export default {
   badGetColor,
   badUpdateColor,
   badDeleteColor,
-  badCreateItem,
-  badGetItem,
-  badGetItems,
-  badUpdateItem,
-  badDeleteItem,
+  badCreateModel,
+  badGetModel,
+  badGetModels,
+  badUpdateModel,
+  badDeleteModel,
   badCreatePattern,
   badGetPattern,
   badGetPatterns,
