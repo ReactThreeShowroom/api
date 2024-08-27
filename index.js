@@ -13,7 +13,7 @@ const welcomeMessage = `
   <li>/client</li>
   <li>/clientFavorite</li>
   <li>/color</li>
-  <li>/item</li>
+  <li>/model</li>
   <li>/pattern</li>
   <li>/user</li>
   <li>/auth</li>

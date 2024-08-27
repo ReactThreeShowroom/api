@@ -74,16 +74,6 @@ export const deleteColor = async (colorId) => {
   }
 }
 
-// model Model {
-//   id        String     @id @unique @default(uuid())
-//   name      String
-//   path      String
-//   type      String
-//   subtype   String
-//   pieces    Piece[]
-//   favorites Favorite[]
-// }
-
 export const createModel = async (modelData) => {
   try {
     return await prisma.model.create({ data: { ...modelData } })
