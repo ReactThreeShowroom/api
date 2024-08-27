@@ -73,9 +73,9 @@ export const deleteColor = async (colorId) => {
   }
 }
 
-export const createModel = async (itemData) => {
+export const createModel = async (modelData) => {
   try {
-    return await prisma.item.create({ data: { ...itemData } })
+    return await prisma.model.create({ data: { ...modelData } })
   } catch (err) {
     throw badCreateModel
   }
@@ -83,15 +83,15 @@ export const createModel = async (itemData) => {
 
 export const getModels = async () => {
   try {
-    return await prisma.item.findMany()
+    return await prisma.model.findMany()
   } catch (err) {
     throw badGetModels
   }
 }
 
-export const getModelById = async (itemId) => {
+export const getModelById = async (modelId) => {
   try {
-    return await prisma.item.findFirst({ where: { id: itemId } })
+    return await prisma.model.findFirst({ where: { id: modelId } })
   } catch (err) {
     throw badGetModel
   }
@@ -99,7 +99,7 @@ export const getModelById = async (itemId) => {
 
 export const getModelByName = async (name) => {
   try {
-    return await prisma.item.findFirst({ where: { name } })
+    return await prisma.model.findFirst({ where: { name } })
   } catch (err) {
     throw badGetModel
   }
@@ -107,7 +107,7 @@ export const getModelByName = async (name) => {
 
 export const getModelByType = async (type) => {
   try {
-    return await prisma.item.findMany({ where: { type } })
+    return await prisma.model.findMany({ where: { type } })
   } catch (err) {
     throw badGetModels
   }
@@ -115,23 +115,23 @@ export const getModelByType = async (type) => {
 
 export const getModelBySubtype = async (subtype) => {
   try {
-    return await prisma.item.findMany({ where: { subtype } })
+    return await prisma.model.findMany({ where: { subtype } })
   } catch (err) {
     throw badGetModels
   }
 }
 
-export const updateModel = async (itemId, itemData) => {
+export const updateModel = async (modelId, modelData) => {
   try {
-    return await prisma.item.update({ where: { id: itemId }, data: { ...itemData } })
+    return await prisma.model.update({ where: { id: modelId }, data: { ...modelData } })
   } catch (err) {
     throw badUpdateModel
   }
 }
 
-export const deleteModel = async (itemId) => {
+export const deleteModel = async (modelId) => {
   try {
-    return await prisma.item.delete({ where: { id: itemId } })
+    return await prisma.model.delete({ where: { id: modelId } })
   } catch (err) {
     throw badDeleteModel
   }
