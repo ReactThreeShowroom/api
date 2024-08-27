@@ -105,8 +105,8 @@ export const contGetModels = async (req, res, next) => {
 
 export const contGetModelById = async (req, res, next) => {
   try {
-    const { itemId } = req.params
-    res.send(getModelById(itemId))
+    const { modelId } = req.params
+    res.send(getModelById(modelId))
   } catch (err) {
     next(err)
   }
