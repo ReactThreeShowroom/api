@@ -9,11 +9,11 @@ import {
   contGetColorByCode,
   contGetColorByName,
   contUpdateFavorite,
-  contGetItems,
-  contGetItemById,
-  contGetItemByName,
-  contGetItemBySubtype,
-  contGetItemByType,
+  contGetModels,
+  contGetModelById,
+  contGetModelByName,
+  contGetModelBySubtype,
+  contGetModelByType,
   contGetPatterns,
   contGetPatternById,
   contGetPatternByName
@@ -29,11 +29,11 @@ favoriteRouter.get('/color', contGetColors)
 favoriteRouter.get('/color/id/:colorId', contGetColorsById)
 favoriteRouter.get('/color/n/:name', contGetColorByName)
 favoriteRouter.get('/color/c/:code', contGetColorByCode)
-favoriteRouter.get('/item', contGetItems)
-favoriteRouter.get('/item/id/:itemId', contGetItemById)
-favoriteRouter.get('/item/n/:name', contGetItemByName)
-favoriteRouter.get('/item/t/:type', contGetItemByType)
-favoriteRouter.get('/item/s/:subtype', contGetItemBySubtype)
+favoriteRouter.get('/model', contGetModels)
+favoriteRouter.get('/model/id/:modelId', contGetModelById)
+favoriteRouter.get('/model/n/:name', contGetModelByName)
+favoriteRouter.get('/model/t/:type', contGetModelByType)
+favoriteRouter.get('/model/s/:subtype', contGetModelBySubtype)
 favoriteRouter.get('/pattern', contGetPatterns)
 favoriteRouter.get('/pattern/id/:patternId', contGetPatternById)
 favoriteRouter.get('/pattern/n/:name', contGetPatternByName)

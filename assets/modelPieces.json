@@ -1,0 +1,19 @@
+[
+  { "name": "Ejection Port Cover", "belongsTo": "AR-15" },
+  { "name": "Barrel Handguard", "belongsTo": "AR-15" },
+  { "name": "Selector Switch", "belongsTo": "AR-15" },
+  { "name": "Forward Assist Plunger", "belongsTo": "AR-15" },
+  { "name": "Lower Receiver", "belongsTo": "AR-15" },
+  { "name": "Forward Assist", "belongsTo": "AR-15" },
+  { "name": "Barrel Muzzle", "belongsTo": "AR-15" },
+  { "name": "Trigger", "belongsTo": "AR-15" },
+  { "name": "Upper Rail", "belongsTo": "AR-15" },
+  { "name": "Buttstock", "belongsTo": "AR-15" },
+  { "name": "Magazine", "belongsTo": "AR-15" },
+  { "name": "Accessory Grip", "belongsTo": "AR-15" },
+  { "name": "Pistol Grip", "belongsTo": "AR-15" },
+  { "name": "Accessory Sights", "belongsTo": "AR-15" },
+  { "name": "Charging Handle", "belongsTo": "AR-15" },
+  { "name": "", "belongsTo": "Remington 870" },
+  { "name": "", "belongsTo": "Glock 19" }
+]

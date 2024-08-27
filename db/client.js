@@ -15,12 +15,25 @@ import {
 } from '../errorCodes.js'
 
 // Clients
+
+// model Client {
+//   id        String     @id @unique @default(uuid())
+//   name      String
+//   email     String
+//   phone     String
+//   status    String     @default("active")
+//   favorites Favorite[]
+//   userId    String
+//   User      User       @relation(fields: [userId], references: [id])
+// }
+
 const clientUncipher = (client) => {
   client.name = getTextFromCipher(client.name)
   client.email = getTextFromCipher(client.email)
   client.phone = getTextFromCipher(client.phone)
   return client
 }
+
 export const createClient = async (clientData) => {
   try {
     const { userId } = clientData
@@ -28,7 +41,7 @@ export const createClient = async (clientData) => {
       where: { userId, email: getCipherFromText(clientData.email) },
       include: { favorites: true }
     })
-    console.log(existingClient)
+    // console.log(existingClient)
     if (existingClient) return existingClient
 
     const name = getCipherFromText(clientData.name)
@@ -37,7 +50,7 @@ export const createClient = async (clientData) => {
     const newClient = await prisma.client.create({
       data: { name, email, phone, userId, status: 'active' }
     })
-    console.log(newClient)
+    // console.log(newClient)
     return clientUncipher(newClient)
   } catch (err) {
     console.error(err)
@@ -134,12 +147,14 @@ export const reactivateClient = async (clientId) => {
 // Favorites
 
 // model Favorite {
-//   id       String   @id @unique @default(uuid())
-//   clientId String
-//   iId      String
-//   pId      String?
-//   iColorId String
-//   pColorId String?
+//   id              String            @id @unique @default(uuid())
+//   client          Client            @relation(fields: [clientId], references: [id], onDelete: Cascade)
+//   Model           Model             @relation(fields: [modelId], references: [id], onDelete: Cascade)
+//   clientId        String
+//   modelId         String
+//   patternId       String?
+//   PieceFavorite   PieceFavorite[]
+//   PatternFavorite PatternFavorite[]
 // }
 
 export const createFavorite = async (favoriteData) => {
@@ -152,7 +167,13 @@ export const createFavorite = async (favoriteData) => {
 
 export const getFavorites = async (clientId) => {
   try {
-    return await prisma.favorite.findMany({ where: { clientId } })
+    return await prisma.favorite.findMany({
+      where: { clientId },
+      include: {
+        PieceFavorite: true,
+        PatternFavorite: true
+      }
+    })
   } catch (err) {
     throw badGetFavorites
   }
