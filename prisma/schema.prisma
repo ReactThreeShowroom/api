@@ -92,13 +92,14 @@ model Client {
 
 model Favorite {
   id              String            @id @unique @default(uuid())
+  name            String
   client          Client            @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  Model           Model             @relation(fields: [modelId], references: [id], onDelete: Cascade)
+  model           Model             @relation(fields: [modelId], references: [id], onDelete: Cascade)
   clientId        String
   modelId         String
   patternId       String?
-  PieceFavorite   PieceFavorite[]
-  PatternFavorite PatternFavorite[]
+  pieceFavorite   PieceFavorite[]
+  patternFavorite PatternFavorite[]
 }
 
 model PieceFavorite {
