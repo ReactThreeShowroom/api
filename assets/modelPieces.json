@@ -21,20 +21,20 @@
   { "name": "Receiver Barrel", "belongsTo": "Remington 870" },
   { "name": "Strock", "belongsTo": "Remington 870" },
   { "name": "Trigger", "belongsTo": "Remington 870" },
-  { "name": "Barrel", "belongsTo": "Glock 19" }
-  { "name": "Detail Trigger", "belongsTo": "Glock 19" }
-  { "name": "Front Sight", "belongsTo": "Glock 19" }
-  { "name": "Grip", "belongsTo": "Glock 19" }
-  { "name": "Mag Catch", "belongsTo": "Glock 19" }
-  { "name": "Magazine", "belongsTo": "Glock 19" }
-  { "name": "Rear Sight", "belongsTo": "Glock 19" }
-  { "name": "Receiver", "belongsTo": "Glock 19" }
-  { "name": "Receiver Detail", "belongsTo": "Glock 19" }
-  { "name": "Receiver Detail2", "belongsTo": "Glock 19" }
-  { "name": "Recoil Spring", "belongsTo": "Glock 19" }
-  { "name": "Slide", "belongsTo": "Glock 19" }
-  { "name": "Slide Lock", "belongsTo": "Glock 19" }
-  { "name": "Slide Stop Lever", "belongsTo": "Glock 19" }
-  { "name": "Trigger", "belongsTo": "Glock 19" }
+  { "name": "Barrel", "belongsTo": "Glock 19" },
+  { "name": "Detail Trigger", "belongsTo": "Glock 19" },
+  { "name": "Front Sight", "belongsTo": "Glock 19" },
+  { "name": "Grip", "belongsTo": "Glock 19" },
+  { "name": "Mag Catch", "belongsTo": "Glock 19" },
+  { "name": "Magazine", "belongsTo": "Glock 19" },
+  { "name": "Rear Sight", "belongsTo": "Glock 19" },
+  { "name": "Receiver", "belongsTo": "Glock 19" },
+  { "name": "Receiver Detail", "belongsTo": "Glock 19" },
+  { "name": "Receiver Detail2", "belongsTo": "Glock 19" },
+  { "name": "Recoil Spring", "belongsTo": "Glock 19" },
+  { "name": "Slide", "belongsTo": "Glock 19" },
+  { "name": "Slide Lock", "belongsTo": "Glock 19" },
+  { "name": "Slide Stop Lever", "belongsTo": "Glock 19" },
+  { "name": "Trigger", "belongsTo": "Glock 19" },
   { "name": "Trigger Detail", "belongsTo": "Glock 19" }
 ]
