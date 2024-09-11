@@ -51,7 +51,7 @@ export const getClients = async (userId) => {
     return (
       await prisma.client.findMany({
         where: { userId, status: 'active' },
-        include: { favorites: true }
+        include: { favorites: { include: { model: true } } }
       })
     ).map((client) => clientUncipher(client))
   } catch (err) {
@@ -64,7 +64,7 @@ export const getInactiveClients = async (userId) => {
     return (
       await prisma.client.findMany({
         where: { userId, status: 'inactive' },
-        include: { favorites: true }
+        include: { favorites: { include: { model: true } } }
       })
     ).map((client) => clientUncipher(client))
   } catch (err) {
@@ -77,7 +77,7 @@ export const getClient = async (clientId) => {
     return clientUncipher(
       await prisma.client.findUnique({
         where: { id: clientId },
-        include: { favorites: true }
+        include: { favorites: { include: { model: true } } }
       })
     )
   } catch (err) {
@@ -96,7 +96,7 @@ export const updateClient = async (clientId, clientData) => {
           phone: getCipherFromText(clientData.phone),
           status: clientData.status
         },
-        include: { favorites: true }
+        include: { favorites: { include: { model: true } } }
       })
     )
   } catch (err) {
@@ -110,7 +110,7 @@ export const deactivateClient = async (clientId) => {
       await prisma.client.update({
         where: { id: clientId },
         data: { status: 'inactive' },
-        include: { favorites: true }
+        include: { favorites: { include: { model: true } } }
       })
     )
   } catch (err) {
@@ -124,7 +124,7 @@ export const reactivateClient = async (clientId) => {
       await prisma.client.update({
         where: { id: clientId },
         data: { status: 'active' },
-        include: { favorites: true }
+        include: { favorites: { include: { model: true } } }
       })
     )
   } catch (error) {
@@ -147,23 +147,50 @@ export const createFavorite = async (favoriteData) => {
   try {
     const models = await getModels()
     favoriteData.modelId ??= models[0].id
-    return await prisma.favorite.create({ data: { ...favoriteData } })
+    return await prisma.favorite.create({
+      data: { ...favoriteData },
+      include: {
+        model: true,
+        pieceFavorite: true,
+        patternFavorite: true
+      }
+    })
   } catch (err) {
+    console.log(err)
     throw badCreateFavorite
   }
 }
 
 export const getFavorites = async (clientId) => {
   try {
+<<<<<<< Updated upstream
     return await prisma.favorite.findMany({ where: { clientId } })
+=======
+    return await prisma.favorite.findMany({
+      where: { clientId },
+      include: {
+        model: true,
+        pieceFavorite: true,
+        patternFavorite: true
+      }
+    })
+>>>>>>> Stashed changes
   } catch (err) {
     throw badGetFavorites
   }
 }
 export const getFavorite = async (favoriteId) => {
   try {
-    return await prisma.favorite.findFirst({ where: { id: favoriteId } })
+    return await prisma.favorite.findFirst({
+      where: { id: favoriteId },
+      include: {
+        model: true,
+        pieceFavorite: true,
+        patternFavorite: true
+      }
+    })
   } catch (err) {
+    console.log(err)
     throw badGetFavorite
   }
 }
@@ -172,7 +199,12 @@ export const updateFavorite = async (favoriteId, favoriteData) => {
   try {
     return await prisma.favorite.update({
       where: { id: favoriteId },
-      data: { ...favoriteData }
+      data: { ...favoriteData },
+      include: {
+        model: true,
+        patternFavorite: true,
+        pieceFavorite: true
+      }
     })
   } catch (err) {
     throw badUpdateFavorite
@@ -181,7 +213,14 @@ export const updateFavorite = async (favoriteId, favoriteData) => {
 
 export const deleteFavorite = async (favoriteId) => {
   try {
-    return await prisma.favorite.delete({ where: { id: favoriteId } })
+    return await prisma.favorite.delete({
+      where: { id: favoriteId },
+      include: {
+        model: true,
+        pieceFavorite: true,
+        patternFavorite: true
+      }
+    })
   } catch (err) {
     throw badDeleteFavorite
   }
