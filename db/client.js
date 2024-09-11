@@ -13,6 +13,7 @@ import {
   badUpdateClient,
   badUpdateFavorite
 } from '../errorCodes.js'
+import { getModels } from './favorite.js'
 
 // Clients
 const clientUncipher = (client) => {
@@ -144,6 +145,8 @@ export const reactivateClient = async (clientId) => {
 
 export const createFavorite = async (favoriteData) => {
   try {
+    const models = await getModels()
+    favoriteData.modelId ??= models[0].id
     return await prisma.favorite.create({ data: { ...favoriteData } })
   } catch (err) {
     throw badCreateFavorite
