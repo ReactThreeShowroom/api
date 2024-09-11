@@ -23,7 +23,8 @@ import {
 export const contCreateFavorite = async (req, res, next) => {
   try {
     const { favoriteData } = req.body
-    res.status(201).send(await createFavorite(favoriteData))
+    const _fav = await createFavorite(favoriteData)
+    res.status(201).send(_fav)
   } catch (err) {
     next(err)
   }
