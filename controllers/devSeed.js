@@ -3,7 +3,7 @@ import { promisify } from 'util'
 import prisma from '../prismaClient.js'
 import { getCipherFromText, hashPass } from '../jwt.js'
 import { createUser, userUncipher } from '../db/user.js'
-import { createColor, createModel } from '../db/favorite.js'
+import { createColor, createModel, createPiece } from '../db/favorite.js'
 
 const execPromise = promisify(exec)
 
@@ -109,6 +109,21 @@ export async function seedModels() {
   }
 }
 
+// rebuild lost seedPieces()
+
+export async function seedPieces() {
+  try {
+    const { default: modelPieces } = await import('../assets/modelPieces.json', {
+      with: { type: 'json' }
+    })
+    const piecesDB = await Promise.all(modelPieces.map((piece) => createPiece(piece)))
+    return console.log('Finished Creating Pieces'), 'Finished Creating Pieces'
+  } catch (error) {
+    console.log('Error creating Pieces')
+    return 'Error creating Pieces'
+  }
+}
+
 export async function rebuildDB() {
   try {
     await triggerMigrateAndReset()
@@ -120,6 +135,8 @@ export async function rebuildDB() {
     if (result === 'Error loading colors') return 'failed loading colors'
     result = await seedModels()
     if (result === 'Error creating Models') return 'failed creating Models'
+    result = await seedPieces()
+    if (result === 'Error creating Pieces') return 'failed creating Pieces'
     return 'success'
   } catch (error) {
     console.log('Error during rebuildDB')
