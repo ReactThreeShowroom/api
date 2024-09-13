@@ -93,6 +93,7 @@ model Client {
 model Favorite {
   id              String            @id @unique @default(uuid())
   name            String
+  notes           String
   client          Client            @relation(fields: [clientId], references: [id], onDelete: Cascade)
   model           Model             @relation(fields: [modelId], references: [id], onDelete: Cascade)
   clientId        String
@@ -104,6 +105,7 @@ model Favorite {
 
 model PieceFavorite {
   id         String   @id @unique @default(uuid())
+  shininess  String
   piece      Piece    @relation(fields: [pieceId], references: [id], onDelete: Cascade)
   color      Color    @relation(fields: [colorId], references: [id], onDelete: Cascade)
   favorite   Favorite @relation(fields: [favoriteId], references: [id], onDelete: Cascade)
@@ -114,6 +116,7 @@ model PieceFavorite {
 
 model PatternFavorite {
   id         String   @id @unique @default(uuid())
+  shininess  String
   pattern    Pattern  @relation(fields: [patternId], references: [id], onDelete: Cascade)
   favorite   Favorite @relation(fields: [favoriteId], references: [id], onDelete: Cascade)
   color      Color    @relation(fields: [colorId], references: [id], onDelete: Cascade)

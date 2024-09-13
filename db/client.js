@@ -166,8 +166,8 @@ export const createFavorite = async (favoriteData) => {
       data: { ...favoriteData },
       include: {
         model: true,
-        pieceFavorite: true,
-        patternFavorite: true
+        pieceFavorite: { include: { piece: true, color: true } },
+        patternFavorite: { include: { pattern: true, color: true } }
       }
     })
   } catch (err) {
@@ -182,8 +182,8 @@ export const getFavorites = async (clientId) => {
       where: { clientId },
       include: {
         model: true,
-        pieceFavorite: true,
-        patternFavorite: true
+        pieceFavorite: { include: { piece: true, color: true } },
+        patternFavorite: { include: { pattern: true, color: true } }
       }
     })
   } catch (err) {
@@ -196,8 +196,8 @@ export const getFavorite = async (favoriteId) => {
       where: { id: favoriteId },
       include: {
         model: true,
-        pieceFavorite: true,
-        patternFavorite: true
+        pieceFavorite: { include: { piece: true, color: true } },
+        patternFavorite: { include: { pattern: true, color: true } }
       }
     })
   } catch (err) {
@@ -213,8 +213,8 @@ export const updateFavorite = async (favoriteId, favoriteData) => {
       data: { ...favoriteData },
       include: {
         model: true,
-        patternFavorite: true,
-        pieceFavorite: true
+        pieceFavorite: { include: { piece: true, color: true } },
+        patternFavorite: { include: { pattern: true, color: true } }
       }
     })
   } catch (err) {
@@ -228,8 +228,8 @@ export const deleteFavorite = async (favoriteId) => {
       where: { id: favoriteId },
       include: {
         model: true,
-        pieceFavorite: true,
-        patternFavorite: true
+        pieceFavorite: { include: { piece: true, color: true } },
+        patternFavorite: { include: { pattern: true, color: true } }
       }
     })
   } catch (err) {

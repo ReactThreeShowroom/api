@@ -196,6 +196,11 @@ export const badDeleteFavorite = {
   message: 'Something went wrong deleting Client Favorite. Please try again.',
   status: 400
 }
+export const badCreatePiece = {
+  name: 'badCreatePiece',
+  message: 'Something went wrong creating Piece. Please try again.',
+  status: 400
+}
 
 export default {
   noUserId,

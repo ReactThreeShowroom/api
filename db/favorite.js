@@ -14,7 +14,8 @@ import {
   badGetPattern,
   badGetPatterns,
   badUpdatePattern,
-  badDeletePattern
+  badDeletePattern,
+  badCreatePiece
 } from '../errorCodes.js'
 
 export const createColor = async (colorData) => {
@@ -182,5 +183,17 @@ export const deletePattern = async (patternId) => {
     return await prisma.pattern.delete({ where: { id: patternId } })
   } catch (err) {
     throw badDeletePattern
+  }
+}
+
+export const createPiece = async (pieceData) => {
+  try {
+    const model = await getModelByName(pieceData.belongsTo)
+    return await prisma.piece.create({
+      data: { name: pieceData.name, modelId: model.id },
+      include: { model: true }
+    })
+  } catch (err) {
+    throw badCreatePiece
   }
 }
