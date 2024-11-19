@@ -84,7 +84,9 @@ export const createModel = async (modelData) => {
 
 export const getModels = async () => {
   try {
-    return await prisma.model.findMany()
+    const models = await prisma.model.findMany()
+    // console.log(models)
+    return models
   } catch (err) {
     throw badGetModels
   }

@@ -98,13 +98,13 @@ model Favorite {
   model           Model             @relation(fields: [modelId], references: [id], onDelete: Cascade)
   clientId        String
   modelId         String
-  patternId       String?
   pieceFavorite   PieceFavorite[]
   patternFavorite PatternFavorite[]
 }
 
 model PieceFavorite {
   id         String   @id @unique @default(uuid())
+  name       String   @unique
   shininess  String
   piece      Piece    @relation(fields: [pieceId], references: [id], onDelete: Cascade)
   color      Color    @relation(fields: [colorId], references: [id], onDelete: Cascade)
