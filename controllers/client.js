@@ -24,8 +24,8 @@ export const contGetClients = async (req, res, next) => {
     // typeof i === boolean ("inactive")
     console.log('getting clients')
     const { u, i } = req.query
-    console.log(u)
-    console.log(i)
+    // console.log(u)
+    // console.log(i)
     const query = i ? getInactiveClients : getClients
     res.status(200).send(await query(u))
   } catch (err) {
