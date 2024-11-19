@@ -68,6 +68,7 @@ export const getClients = async (userId) => {
       })
     ).map((client) => clientUncipher(client))
   } catch (err) {
+    console.log(err)
     throw badGetClients
   }
 }
