@@ -10,9 +10,7 @@ const execPromise = promisify(exec)
 export async function triggerMigrateAndReset() {
   try {
     console.log('Starting to drop tables and rebuild...')
-    const { stdout } = await execPromise(
-      `rm -rf ./prisma/migrations && prisma migrate reset --force --skip-seed --skip-generate`
-    )
+    const { stdout } = await execPromise(`prisma migrate reset --force --skip-seed`)
     console.log('\n' + stdout)
 
     console.log('Finished dropping tables and rebuilding!')
