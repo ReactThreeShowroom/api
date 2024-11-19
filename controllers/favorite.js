@@ -23,6 +23,7 @@ import {
 export const contCreateFavorite = async (req, res, next) => {
   try {
     const { favoriteData } = req.body
+    if (!favoriteData.notes) favoriteData.notes = ''
     const _fav = await createFavorite(favoriteData)
     res.status(201).send(_fav)
   } catch (err) {
@@ -43,10 +44,13 @@ export const contGetFavorites = async (req, res, next) => {
 export const contUpdateFavorite = async (req, res, next) => {
   try {
     const {
-      params: { favoriteId },
+      params: { favId },
       body: { favoriteData }
     } = req
-    res.status(204).send(await updateFavorite(favoriteId, favoriteData))
+    const { notes, modelId } = favoriteData
+    await updateFavorite(favId, { notes, modelId })
+
+    res.status(204).send()
   } catch (err) {
     next(err)
   }
@@ -98,7 +102,7 @@ export const contGetColorByCode = async (req, res, next) => {
 
 export const contGetModels = async (req, res, next) => {
   try {
-    res.send(getModels())
+    res.send(await getModels())
   } catch (err) {
     next(err)
   }

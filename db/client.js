@@ -193,7 +193,17 @@ export const getFavorite = async (favoriteId) => {
 
 export const updateFavorite = async (favoriteId, favoriteData) => {
   try {
-    return await prisma.favorite.update({
+    const fav = prisma.favorite.findFirst({
+      where: { id: favoriteId },
+      include: { model: true }
+    })
+    // if model changes on favorite, delete old pieces and pattern on favorite.
+    if (favoriteData.modelId === fav.model.id) {
+      let pieces = await getPieceFavoritesByFav(favoriteId)
+    } else {
+      await deletePieceFavoritesByFav(favoriteId)
+    }
+    const updatedFav = await prisma.favorite.update({
       where: { id: favoriteId },
       data: { ...favoriteData },
       include: {
@@ -202,6 +212,7 @@ export const updateFavorite = async (favoriteId, favoriteData) => {
         patternFavorite: { include: { pattern: true, color: true } }
       }
     })
+    return updatedFav
   } catch (err) {
     throw badUpdateFavorite
   }
@@ -209,15 +220,43 @@ export const updateFavorite = async (favoriteId, favoriteData) => {
 
 export const deleteFavorite = async (favoriteId) => {
   try {
+    // await deletePieceFavoritesByFav(favoriteId)
     return await prisma.favorite.delete({
       where: { id: favoriteId },
-      include: {
-        model: true,
-        pieceFavorite: { include: { piece: true, color: true } },
-        patternFavorite: { include: { pattern: true, color: true } }
-      }
+      include: { model: true }
     })
   } catch (err) {
     throw badDeleteFavorite
   }
 }
+
+export const createPieceFavorite = async (pieceData) => {
+  // name, shininess pieceId, colorId, favoriteId
+  await prisma.pieceFavorite.create({ data: { ...pieceData } })
+}
+
+export const createPieceFavorites = async (piecesData) => {
+  return await prisma.pieceFavorite.createMany({
+    data: piecesData,
+    include: { piece: true, color: true },
+    skipDuplicates: true
+  })
+}
+
+export const deletePieceFavoriteById = async (id) => {
+  // delete by id
+  // used on an individual basis when a pieceFavorite no longer exists on a part (default color / no color)
+}
+
+export const deletePieceFavoritesByFav = async (favoriteId) => {
+  return await prisma.pieceFavorite.deleteMany({ where: { favoriteId } })
+}
+
+export const getPieceFavoritesByFav = async (favoriteId) => {
+  return await prisma.pieceFavorite.findMany({
+    where: { favoriteId },
+    include: { piece: true, color: true }
+  })
+}
+
+export const updatePieceFavoriteByFav = async (favoriteId, partsInfo) => {}
