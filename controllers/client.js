@@ -29,7 +29,6 @@ export const contGetClients = async (req, res, next) => {
     const query = i ? getInactiveClients : getClients
     res.status(200).send(await query(u))
   } catch (err) {
-    console.log(err)
     next(err)
   }
 }

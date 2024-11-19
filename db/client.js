@@ -64,7 +64,7 @@ export const getClients = async (userId) => {
     return (
       await prisma.client.findMany({
         where: { userId, status: 'active' },
-        include: { favorites: { include: { model: true } } }
+        include: { favorites: { include: { model: true }, where: { NOT: { models: null } } } }
       })
     ).map((client) => clientUncipher(client))
   } catch (err) {
