@@ -27,7 +27,7 @@ export const createClient = async (clientData) => {
     const { userId } = clientData
     const existingClient = await prisma.client.findFirst({
       where: { userId, email: getCipherFromText(clientData.email) },
-      include: { favorites: true }
+      include: { favorites: { include: { model: true } } }
     })
     console.log(existingClient)
     if (existingClient) return existingClient
@@ -51,7 +51,7 @@ export const getClients = async (userId) => {
     return (
       await prisma.client.findMany({
         where: { userId, status: 'active' },
-        include: { favorites: true }
+        include: { favorites: { include: { model: true } } }
       })
     ).map((client) => clientUncipher(client))
   } catch (err) {
@@ -64,7 +64,7 @@ export const getInactiveClients = async (userId) => {
     return (
       await prisma.client.findMany({
         where: { userId, status: 'inactive' },
-        include: { favorites: true }
+        include: { favorites: { include: { model: true } } }
       })
     ).map((client) => clientUncipher(client))
   } catch (err) {
@@ -77,7 +77,7 @@ export const getClient = async (clientId) => {
     return clientUncipher(
       await prisma.client.findUnique({
         where: { id: clientId },
-        include: { favorites: true }
+        include: { favorites: { include: { model: true } } }
       })
     )
   } catch (err) {
@@ -96,7 +96,7 @@ export const updateClient = async (clientId, clientData) => {
           phone: getCipherFromText(clientData.phone),
           status: clientData.status
         },
-        include: { favorites: true }
+        include: { favorites: { include: { model: true } } }
       })
     )
   } catch (err) {
@@ -110,7 +110,7 @@ export const deactivateClient = async (clientId) => {
       await prisma.client.update({
         where: { id: clientId },
         data: { status: 'inactive' },
-        include: { favorites: true }
+        include: { favorites: { include: { model: true } } }
       })
     )
   } catch (err) {
@@ -124,7 +124,7 @@ export const reactivateClient = async (clientId) => {
       await prisma.client.update({
         where: { id: clientId },
         data: { status: 'active' },
-        include: { favorites: true }
+        include: { favorites: { include: { model: true } } }
       })
     )
   } catch (error) {
