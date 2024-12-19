@@ -193,26 +193,34 @@ export const getFavorite = async (favoriteId) => {
 
 export const updateFavorite = async (favoriteId, favoriteData) => {
   try {
-    const fav = prisma.favorite.findFirst({
+    const fav = await prisma.favorite.findFirst({
       where: { id: favoriteId },
       include: { model: true }
     })
-    // if model changes on favorite, delete old pieces and pattern on favorite.
-    if (favoriteData.modelId === fav.model.id) {
-      let pieces = await getPieceFavoritesByFav(favoriteId)
-    } else {
-      await deletePieceFavoritesByFav(favoriteId)
-    }
-    const updatedFav = await prisma.favorite.update({
-      where: { id: favoriteId },
-      data: { ...favoriteData },
-      include: {
-        model: true,
-        pieceFavorite: { include: { piece: true, color: true } },
-        patternFavorite: { include: { pattern: true, color: true } }
+    if (favoriteId === fav.id) {
+      if (favoriteData.name !== fav.name) {
+        const updatedFav = await prisma.favorite.update({
+          where: { id: favoriteId },
+          data: { name: favoriteData.name },
+          include: {
+            model: true,
+            pieceFavorite: { include: { piece: true, color: true } },
+            patternFavorite: { include: { pattern: true, color: true } }
+          }
+        })
+        return updatedFav
       }
-    })
-    return updatedFav
+      const updatedFav = await prisma.favorite.update({
+        where: { id: favoriteId },
+        data: { ...favoriteData },
+        include: {
+          model: true,
+          pieceFavorite: { include: { piece: true, color: true } },
+          patternFavorite: { include: { pattern: true, color: true } }
+        }
+      })
+      return updatedFav
+    }
   } catch (err) {
     throw badUpdateFavorite
   }
@@ -220,7 +228,6 @@ export const updateFavorite = async (favoriteId, favoriteData) => {
 
 export const deleteFavorite = async (favoriteId) => {
   try {
-    // await deletePieceFavoritesByFav(favoriteId)
     return await prisma.favorite.delete({
       where: { id: favoriteId },
       include: { model: true }

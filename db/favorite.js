@@ -198,3 +198,12 @@ export const createPiece = async (pieceData) => {
     throw badCreatePiece
   }
 }
+
+export const getPieceByName = async (name) => {
+  try {
+    const piece = await prisma.piece.findFirst({ where: { name } })
+    return piece
+  } catch (err) {
+    throw badCreatePiece
+  }
+}

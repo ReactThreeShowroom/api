@@ -10,11 +10,15 @@ import {
   getPatternByName,
   getPatterns,
   getColors,
-  getModels
+  getModels,
+  getPieceByName
 } from '../db/favorite.js'
 import {
   createFavorite,
+  createPieceFavorite,
   deleteFavorite,
+  deletePieceFavoriteById,
+  deletePieceFavoritesByFav,
   getFavorite,
   getFavorites,
   updateFavorite
@@ -45,12 +49,28 @@ export const contUpdateFavorite = async (req, res, next) => {
   try {
     const {
       params: { favId },
-      body: { favoriteData }
+      body: favoriteData
     } = req
-    const { notes, modelId } = favoriteData
-    await updateFavorite(favId, { notes, modelId })
-
-    res.status(204).send()
+    const { notes, modelId, name, pieceFavorite } = favoriteData
+    await updateFavorite(favId, { notes, modelId, name })
+    await deletePieceFavoritesByFav(favId)
+    if (favoriteData.pieceFavorite && favoriteData.pieceFavorite.length) {
+      for (const _pFav of favoriteData.pieceFavorite) {
+        const dbPiece = await getPieceByName(_pFav.name)
+        const _color = await getColorByCode(_pFav.color.name)
+        const favData = {
+          name: `${favId}_${_pFav.name}`,
+          shininess: `${_pFav.shininess}`,
+          pieceId: dbPiece.id,
+          colorId: _color.id,
+          favoriteId: favId
+        }
+        await createPieceFavorite(favData)
+      }
+    }
+    const newFav = await getFavorite(favId)
+    // console.log(newFav)
+    res.status(200).send(newFav)
   } catch (err) {
     next(err)
   }
@@ -59,7 +79,7 @@ export const contUpdateFavorite = async (req, res, next) => {
 export const contDeleteFavorite = async (req, res, next) => {
   try {
     const { favoriteId } = req.params
-    res.status(204).send(await deleteFavorite(favoriteId))
+    res.status(200).send(await deleteFavorite(favoriteId))
   } catch (err) {
     next(err)
   }
