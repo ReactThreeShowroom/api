@@ -1,0 +1,1124 @@
+[
+  {
+    "name": "20150",
+    "code": "C-190",
+    "rgb": "168,118,69",
+    "hex": "a87645"
+  },
+  {
+    "name": "Armor Black",
+    "code": "C-192",
+    "rgb": "47,46,44",
+    "hex": "2f2e2c"
+  },
+  {
+    "name": "Black Velvet",
+    "code": "C-7300",
+    "rgb": "27,27,27",
+    "hex": "1b1b1b"
+  },
+  {
+    "name": "Blue Flame",
+    "code": "C-158",
+    "rgb": "20,63,192",
+    "hex": "143fc0"
+  },
+  {
+    "name": "Blue Titanium",
+    "code": "C-189",
+    "rgb": "61,88,105",
+    "hex": "3d5869"
+  },
+  {
+    "name": "Bright White",
+    "code": "C-140",
+    "rgb": "231,225,217",
+    "hex": "e7e1d9"
+  },
+  {
+    "name": "Brown Sand",
+    "code": "C-30372",
+    "rgb": "213,179,138",
+    "hex": "d5b38a"
+  },
+  {
+    "name": "Burnt Bronze",
+    "code": "C-148",
+    "rgb": "60,47,31",
+    "hex": "3c2f1f"
+  },
+  {
+    "name": "Cobalt",
+    "code": "C-112",
+    "rgb": "69,60,55",
+    "hex": "453c37"
+  },
+  {
+    "name": "Coyote Tan",
+    "code": "C-240",
+    "rgb": "163,125,72",
+    "hex": "a37d48"
+  },
+  {
+    "name": "Desert Sage",
+    "code": "C-212",
+    "rgb": "204,174,135",
+    "hex": "ccae87"
+  },
+  {
+    "name": "Desert Sand",
+    "code": "C-211",
+    "rgb": "220,191,159",
+    "hex": "dcbf9f"
+  },
+  {
+    "name": "Federal Brown",
+    "code": "C-214",
+    "rgb": "156,92,64",
+    "hex": "9c5c40"
+  },
+  {
+    "name": "Federal Standard Field Drab",
+    "code": "C-30118",
+    "rgb": "145,87,31",
+    "hex": "91571f"
+  },
+  {
+    "name": "Flat Dark Earth",
+    "code": "C-246",
+    "rgb": "151,108,74",
+    "hex": "976c4a"
+  },
+  {
+    "name": "Forest Green",
+    "code": "C-248",
+    "rgb": "128,115,82",
+    "hex": "807352"
+  },
+  {
+    "name": "Glacier Black",
+    "code": "C-7600",
+    "rgb": "28,28,28",
+    "hex": "1c1c1c"
+  },
+  {
+    "name": "Glacier Forge",
+    "code": "C-8200",
+    "rgb": "116,117,112",
+    "hex": "747570"
+  },
+  {
+    "name": "Glacier Gold",
+    "code": "C-7800",
+    "rgb": "202,145,65",
+    "hex": "ca9141"
+  },
+  {
+    "name": "Glacier Green",
+    "code": "C-8100",
+    "rgb": "29,149,62",
+    "hex": "1d953e"
+  },
+  {
+    "name": "Glacier Silver",
+    "code": "C-7700",
+    "rgb": "108,104,93",
+    "hex": "6c685d"
+  },
+  {
+    "name": "Glacier Titanium",
+    "code": "C-7900",
+    "rgb": "145,132,118",
+    "hex": "918476"
+  },
+  {
+    "name": "Graphite Black",
+    "code": "C-102",
+    "rgb": "47,48,43",
+    "hex": "2f302b"
+  },
+  {
+    "name": "Gun Metal Grey",
+    "code": "C-219",
+    "rgb": "85,82,77",
+    "hex": "55524d"
+  },
+  {
+    "name": "Hidden White",
+    "code": "C-242",
+    "rgb": "233,229,226",
+    "hex": "e9e5e2"
+  },
+  {
+    "name": "Highland Green",
+    "code": "C-215",
+    "rgb": "66,90,64",
+    "hex": "425a40"
+  },
+  {
+    "name": "Hunter Orage",
+    "code": "C-128",
+    "rgb": "254,114,20",
+    "hex": "fe7214"
+  },
+  {
+    "name": "Jet Black",
+    "code": "C-138",
+    "rgb": "30,30,30",
+    "hex": "1e1e1e"
+  },
+  {
+    "name": "Lollypop Purple",
+    "code": "C-163",
+    "rgb": "117,21,118",
+    "hex": "751576"
+  },
+  {
+    "name": "MagPul FDE",
+    "code": "C-267",
+    "rgb": "161,127,82",
+    "hex": "a17f52"
+  },
+  {
+    "name": "MagPul Foliage Green",
+    "code": "C-231",
+    "rgb": "123,99,61",
+    "hex": "7b633d"
+  },
+  {
+    "name": "MagPul OD Green",
+    "code": "C-232",
+    "rgb": "67,55,32",
+    "hex": "433720"
+  },
+  {
+    "name": "Mil Spec OD Green",
+    "code": "C-244",
+    "rgb": "105,85,48",
+    "hex": "695530"
+  },
+  {
+    "name": "OD Green",
+    "code": "C-241",
+    "rgb": "97,88,49",
+    "hex": "615831"
+  },
+  {
+    "name": "Patriot Brown",
+    "code": "C-226",
+    "rgb": "119,76,44",
+    "hex": "774c2c"
+  },
+  {
+    "name": "Piston Coat",
+    "code": "C-186",
+    "rgb": "105,96,79",
+    "hex": "69604f"
+  },
+  {
+    "name": "Satin Mag",
+    "code": "C-103",
+    "rgb": "150,132,122",
+    "hex": "96847a"
+  },
+  {
+    "name": "Satin Nickel",
+    "code": "C-124",
+    "rgb": "135,128,120",
+    "hex": "878078"
+  },
+  {
+    "name": "Sig Hark Grey",
+    "code": "C-209",
+    "rgb": "67,65,53",
+    "hex": "434135"
+  },
+  {
+    "name": "Sniper Grey",
+    "code": "C-239",
+    "rgb": "74,72,74",
+    "hex": "4a484a"
+  },
+  {
+    "name": "Stainless",
+    "code": "C-129",
+    "rgb": "108,99,89",
+    "hex": "6c6359"
+  },
+  {
+    "name": "Stoplight Red",
+    "code": "C-143",
+    "rgb": "254,42,14",
+    "hex": "fe2a0e"
+  },
+  {
+    "name": "Tactical Grey",
+    "code": "C-228",
+    "rgb": "107,99,93",
+    "hex": "6b635d"
+  },
+  {
+    "name": "Titanium",
+    "code": "C-105",
+    "rgb": "140,124,108",
+    "hex": "8c7c6c"
+  },
+  {
+    "name": "Transter Grey (Air Cure)",
+    "code": "C-187",
+    "rgb": "81,77,73",
+    "hex": "514d49"
+  },
+  {
+    "name": "Tungsten",
+    "code": "C-111",
+    "rgb": "86,77,71",
+    "hex": "564d47"
+  },
+  {
+    "name": "Vortex Bronze",
+    "code": "C-293",
+    "rgb": "69,50,39",
+    "hex": "453227"
+  },
+  {
+    "name": "Elite 20150",
+    "code": "E-190",
+    "rgb": "181,132,76",
+    "hex": "b5844c"
+  },
+  {
+    "name": "Elite Blackout",
+    "code": "E-100",
+    "rgb": "46,46,46",
+    "hex": "2e2e2e"
+  },
+  {
+    "name": "Elite Carbon Grey",
+    "code": "E-240",
+    "rgb": "64,57,49",
+    "hex": "403931"
+  },
+  {
+    "name": "Elite Concrete",
+    "code": "E-160",
+    "rgb": "99,96,87",
+    "hex": "636057"
+  },
+  {
+    "name": "Elite Coyote M17 Tan",
+    "code": "E-170",
+    "rgb": "164,127,86",
+    "hex": "a47f56"
+  },
+  {
+    "name": "Elite Earth",
+    "code": "E-130",
+    "rgb": "124,97,76",
+    "hex": "7c614c"
+  },
+  {
+    "name": "Elite FDE",
+    "code": "E-200",
+    "rgb": "155,120,78",
+    "hex": "9b784e"
+  },
+  {
+    "name": "Elite Fire",
+    "code": "E-310",
+    "rgb": "190,36,36",
+    "hex": "be2424"
+  },
+  {
+    "name": "Elite Jungle",
+    "code": "E-140",
+    "rgb": "119,115,90",
+    "hex": "77735a"
+  },
+  {
+    "name": "Elite Midnight",
+    "code": "E-110",
+    "rgb": "20,23,25",
+    "hex": "141719"
+  },
+  {
+    "name": "Elite Moss",
+    "code": "E-210",
+    "rgb": "100,95,66",
+    "hex": "645f42"
+  },
+  {
+    "name": "Elite Navy",
+    "code": "E-220",
+    "rgb": "24,44,55",
+    "hex": "182c37"
+  },
+  {
+    "name": "Elite Rebel",
+    "code": "E-320",
+    "rgb": "102,76,77",
+    "hex": "664c4d"
+  },
+  {
+    "name": "Elite Sand",
+    "code": "E-150",
+    "rgb": "143,138,109",
+    "hex": "8f8a6d"
+  },
+  {
+    "name": "Elite Smoke",
+    "code": "E-120",
+    "rgb": "58,55,47",
+    "hex": "3a372f"
+  },
+  {
+    "name": "Elite Storm",
+    "code": "E-290",
+    "rgb": "156,157,145",
+    "hex": "9c9d91"
+  },
+  {
+    "name": "Elite Titanium",
+    "code": "E-250",
+    "rgb": "118,111,101",
+    "hex": "766f65"
+  },
+  {
+    "name": "AI Dark Earth",
+    "code": "H-250",
+    "rgb": "164,117,61",
+    "hex": "a4753d"
+  },
+  {
+    "name": "Armor Black",
+    "code": "H-190",
+    "rgb": "62,58,55",
+    "hex": "3e3a37"
+  },
+  {
+    "name": "Aztec Teal",
+    "code": "H-349",
+    "rgb": "28,134,124",
+    "hex": "1c867c"
+  },
+  {
+    "name": "Barrett Bronze",
+    "code": "H-259",
+    "rgb": "97,70,51",
+    "hex": "614633"
+  },
+  {
+    "name": "Barrett Brown",
+    "code": "H-269",
+    "rgb": "180,140,91",
+    "hex": "b48c5b"
+  },
+  {
+    "name": "Battleship Grey",
+    "code": "H-213",
+    "rgb": "216,220,223",
+    "hex": "d8dcdf"
+  },
+  {
+    "name": "Bazooka Pink",
+    "code": "H-244",
+    "rgb": "250,183,196",
+    "hex": "fab7c4"
+  },
+  {
+    "name": "Benelli Sand",
+    "code": "H-143",
+    "rgb": "238,219,179",
+    "hex": "eedbb3"
+  },
+  {
+    "name": "Black Cherry",
+    "code": "H-319",
+    "rgb": "116,35,52",
+    "hex": "742334"
+  },
+  {
+    "name": "Blood Orange",
+    "code": "H-322",
+    "rgb": "221,65,40",
+    "hex": "dd4128"
+  },
+  {
+    "name": "Blue Raspberry",
+    "code": "H-329",
+    "rgb": "119,217,229",
+    "hex": "77d9e5"
+  },
+  {
+    "name": "Blue Titanium",
+    "code": "H-185",
+    "rgb": "90,117,124",
+    "hex": "5a757c"
+  },
+  {
+    "name": "Bright Purple",
+    "code": "H-217",
+    "rgb": "162,110,175",
+    "hex": "a26eaf"
+  },
+  {
+    "name": "Bright White",
+    "code": "H-140",
+    "rgb": "235,235,235",
+    "hex": "ebebeb"
+  },
+  {
+    "name": "Burnt Bronze",
+    "code": "H-148",
+    "rgb": "126,109,89",
+    "hex": "7e6d59"
+  },
+  {
+    "name": "Cadex Tan",
+    "code": "H-308",
+    "rgb": "204,163,119",
+    "hex": "cca377"
+  },
+  {
+    "name": "Charcoal Green",
+    "code": "H-338",
+    "rgb": "111,121,102",
+    "hex": "6f7966"
+  },
+  {
+    "name": "Chocolate Brown",
+    "code": "H-258",
+    "rgb": "125,98,78",
+    "hex": "7d624e"
+  },
+  {
+    "name": "Citron",
+    "code": "H-324",
+    "rgb": "229,240,146",
+    "hex": "e5f092"
+  },
+  {
+    "name": "Cobalt",
+    "code": "H-112",
+    "rgb": "100,96,93",
+    "hex": "64605d"
+  },
+  {
+    "name": "Cobalt Kinetics Green",
+    "code": "H-296",
+    "rgb": "120,109,81",
+    "hex": "786d51"
+  },
+  {
+    "name": "Copper Brown",
+    "code": "H-149",
+    "rgb": "177,134,102",
+    "hex": "b18666"
+  },
+  {
+    "name": "Copper Suede",
+    "code": "H-310",
+    "rgb": "217,122,90",
+    "hex": "d97a5a"
+  },
+  {
+    "name": "Corvette Yellow",
+    "code": "H-144",
+    "rgb": "255,185,37",
+    "hex": "ffb925"
+  },
+  {
+    "name": "Coyote Tan",
+    "code": "H-235",
+    "rgb": "185,160,130",
+    "hex": "b9a082"
+  },
+  {
+    "name": "Crimson",
+    "code": "H-221",
+    "rgb": "198,81,67",
+    "hex": "c65143"
+  },
+  {
+    "name": "Crushed Orchid",
+    "code": "H-314",
+    "rgb": "139,132,176",
+    "hex": "8b84b0"
+  },
+  {
+    "name": "Crushed Silver",
+    "code": "H-255",
+    "rgb": "202,198,199",
+    "hex": "cac6c7"
+  },
+  {
+    "name": "Desert Sage",
+    "code": "H-247",
+    "rgb": "221,201,175",
+    "hex": "ddc9af"
+  },
+  {
+    "name": "Desert Sand",
+    "code": "H-199",
+    "rgb": "225,204,181",
+    "hex": "e1ccb5"
+  },
+  {
+    "name": "Desert Verde",
+    "code": "H-256",
+    "rgb": "220,208,182",
+    "hex": "dcd0b6"
+  },
+  {
+    "name": "Electric Yellow",
+    "code": "H-166",
+    "rgb": "254,205,41",
+    "hex": "fecd29"
+  },
+  {
+    "name": "Electrical Barrier",
+    "code": "H-900",
+    "rgb": "235,231,222",
+    "hex": "ebe7de"
+  },
+  {
+    "name": "Federal Brown",
+    "code": "H-212",
+    "rgb": "169,115,81",
+    "hex": "a97351"
+  },
+  {
+    "name": "Federal Standard Sabre Sand",
+    "code": "H-33446",
+    "rgb": "245,207,158",
+    "hex": "f5cf9e"
+  },
+  {
+    "name": "Flat Dark Earth",
+    "code": "H-265",
+    "rgb": "175,149,123",
+    "hex": "af957b"
+  },
+  {
+    "name": "Forest Green",
+    "code": "H-248",
+    "rgb": "139,133,107",
+    "hex": "8b856b"
+  },
+  {
+    "name": "FS Brown Sand",
+    "code": "H-30372",
+    "rgb": "232,208,164",
+    "hex": "e8d0a4"
+  },
+  {
+    "name": "Glock FDE",
+    "code": "H-261",
+    "rgb": "136,115,86",
+    "hex": "887356"
+  },
+  {
+    "name": "Gloss Black",
+    "code": "H-109",
+    "rgb": "14,14,14",
+    "hex": "0e0e0e"
+  },
+  {
+    "name": "Gold",
+    "code": "H-122",
+    "rgb": "219,168,103",
+    "hex": "dba867"
+  },
+  {
+    "name": "Graphite Black",
+    "code": "H-146",
+    "rgb": "71,68,60",
+    "hex": "47443c"
+  },
+  {
+    "name": "Green Mamba",
+    "code": "H-351",
+    "rgb": "118,172,80",
+    "hex": "76ac50"
+  },
+  {
+    "name": "Gun Metal Grey",
+    "code": "H-219",
+    "rgb": "160,152,141",
+    "hex": "a0988d"
+  },
+  {
+    "name": "Habenero Red",
+    "code": "H-318",
+    "rgb": "203,41,30",
+    "hex": "cb291e"
+  },
+  {
+    "name": "Hazen Green",
+    "code": "H-204",
+    "rgb": "147,131,97",
+    "hex": "938361"
+  },
+  {
+    "name": "Hidden White",
+    "code": "H-242",
+    "rgb": "215,215,215",
+    "hex": "d7d7d7"
+  },
+  {
+    "name": "Highland Green",
+    "code": "H-200",
+    "rgb": "115,125,100",
+    "hex": "737d64"
+  },
+  {
+    "name": "HI-VIS Orange",
+    "code": "H-346",
+    "rgb": "255,134,61",
+    "hex": "ff863d"
+  },
+  {
+    "name": "Hunter Orange",
+    "code": "H-128",
+    "rgb": "255,122,41",
+    "hex": "ff7a29"
+  },
+  {
+    "name": "Island Green",
+    "code": "H-353",
+    "rgb": "127,205,143",
+    "hex": "7fcd8f"
+  },
+  {
+    "name": "It's A Boy",
+    "code": "H-356",
+    "rgb": "187,205,225",
+    "hex": "bbcde1"
+  },
+  {
+    "name": "Jesse James",
+    "code": "H-400",
+    "rgb": "82,93,63",
+    "hex": "525d3f"
+  },
+  {
+    "name": "Kel Tec Navy",
+    "code": "H-127",
+    "rgb": "83,98,113",
+    "hex": "536271"
+  },
+  {
+    "name": "Lemon Zest",
+    "code": "H-354",
+    "rgb": "242,216,33",
+    "hex": "f2d821"
+  },
+  {
+    "name": "Light Sand",
+    "code": "H-142",
+    "rgb": "248,232,207",
+    "hex": "f8e8cf"
+  },
+  {
+    "name": "MagPul Flat Dark Earth",
+    "code": "H-267",
+    "rgb": "178,147,115",
+    "hex": "b29373"
+  },
+  {
+    "name": "MagPul Foliage Green",
+    "code": "H-231",
+    "rgb": "119,108,85",
+    "hex": "776c55"
+  },
+  {
+    "name": "MagPul OD Green",
+    "code": "H-232",
+    "rgb": "99,89,64",
+    "hex": "635940"
+  },
+  {
+    "name": "MagPul Stealth",
+    "code": "H-188",
+    "rgb": "74,78,81",
+    "hex": "4a4e51"
+  },
+  {
+    "name": "Matte Brown",
+    "code": "H-7504",
+    "rgb": "208,160,114",
+    "hex": "d0a072"
+  },
+  {
+    "name": "Midnight Blue",
+    "code": "H-238",
+    "rgb": "26,30,32",
+    "hex": "1a1e20"
+  },
+  {
+    "name": "Midnight Bronze",
+    "code": "H-294",
+    "rgb": "95,81,69",
+    "hex": "5f5145"
+  },
+  {
+    "name": "Mil Spec Green",
+    "code": "H-264",
+    "rgb": "90,87,68",
+    "hex": "5a5744"
+  },
+  {
+    "name": "Mil Spec OD Green",
+    "code": "H-240",
+    "rgb": "108,97,75",
+    "hex": "6c614b"
+  },
+  {
+    "name": "Mojito",
+    "code": "H-313",
+    "rgb": "206,198,93",
+    "hex": "cec65d"
+  },
+  {
+    "name": "Mud Brown",
+    "code": "H-225",
+    "rgb": "175,141,105",
+    "hex": "af8d69"
+  },
+  {
+    "name": "MultiCam Bright Green",
+    "code": "H-343",
+    "rgb": "110,110,46",
+    "hex": "6e6e2e"
+  },
+  {
+    "name": "MultiCam Dark Brown",
+    "code": "H-342",
+    "rgb": "138,97,65",
+    "hex": "8a6141"
+  },
+  {
+    "name": "MultiCam Dark Green",
+    "code": "H-341",
+    "rgb": "127,123,68",
+    "hex": "7f7b44"
+  },
+  {
+    "name": "MultiCam Dark Grey",
+    "code": "H-345",
+    "rgb": "107,112,115",
+    "hex": "6b7073"
+  },
+  {
+    "name": "MultiCam Light Green",
+    "code": "H-340",
+    "rgb": "168,143,53",
+    "hex": "a88f35"
+  },
+  {
+    "name": "MiltiCam Olive",
+    "code": "H-344",
+    "rgb": "181,144,73",
+    "hex": "b59049"
+  },
+  {
+    "name": "MultiCam Pale Green",
+    "code": "H-339",
+    "rgb": "187,154,103",
+    "hex": "bb9a67"
+  },
+  {
+    "name": "Northern Lights",
+    "code": "H-315",
+    "rgb": "98,118,127",
+    "hex": "62767f"
+  },
+  {
+    "name": "Noveske Bazooka Green",
+    "code": "H-189",
+    "rgb": "146,134,87",
+    "hex": "928657"
+  },
+  {
+    "name": "Noveske Tiger Eye Brown",
+    "code": "H-187",
+    "rgb": "200,156,109",
+    "hex": "c89c6d"
+  },
+  {
+    "name": "NRA Blue",
+    "code": "H-171",
+    "rgb": "19,105,173",
+    "hex": "1369ad"
+  },
+  {
+    "name": "OD Green",
+    "code": "H-236",
+    "rgb": "89,82,65",
+    "hex": "595241"
+  },
+  {
+    "name": "Parakeet Green",
+    "code": "H-331",
+    "rgb": "130,243,119",
+    "hex": "82f377"
+  },
+  {
+    "name": "Pastel Purple",
+    "code": "H-138",
+    "rgb": "201,147,179",
+    "hex": "c993b3"
+  },
+  {
+    "name": "Patriot Brown",
+    "code": "H-226",
+    "rgb": "133,107,80",
+    "hex": "856b50"
+  },
+  {
+    "name": "Periwinkle",
+    "code": "H-357",
+    "rgb": "29,75,137",
+    "hex": "1d4b89"
+  },
+  {
+    "name": "Pink Champagne",
+    "code": "H-311",
+    "rgb": "199,156,166",
+    "hex": "c79ca6"
+  },
+  {
+    "name": "Pink Sherbet",
+    "code": "H-328",
+    "rgb": "254,154,162",
+    "hex": "fe9aa2"
+  },
+  {
+    "name": "Plum Brown",
+    "code": "H-298",
+    "rgb": "116,94,70",
+    "hex": "745e46"
+  },
+  {
+    "name": "Polar Blue",
+    "code": "H-326",
+    "rgb": "183,202,217",
+    "hex": "b7cad9"
+  },
+  {
+    "name": "Prison Pink",
+    "code": "H-141",
+    "rgb": "254,111,155",
+    "hex": "fe6f9b"
+  },
+  {
+    "name": "Purplexed",
+    "code": "H-332",
+    "rgb": "245,149,238",
+    "hex": "f595ee"
+  },
+  {
+    "name": "Ridgeway Blue",
+    "code": "H-220",
+    "rgb": "82,145,176",
+    "hex": "5291b0"
+  },
+  {
+    "name": "Robin's Egg Blue",
+    "code": "H-175",
+    "rgb": "175,234,220",
+    "hex": "afeadc"
+  },
+  {
+    "name": "Rose Gold",
+    "code": "H-327",
+    "rgb": "187,131,122",
+    "hex": "bb837a"
+  },
+  {
+    "name": "Ruby Red",
+    "code": "H-306",
+    "rgb": "246,50,43",
+    "hex": "f6322b"
+  },
+  {
+    "name": "Sangria",
+    "code": "H-348",
+    "rgb": "147,0,75",
+    "hex": "93004b"
+  },
+  {
+    "name": "Satin Mag",
+    "code": "H-147",
+    "rgb": "194,194,194",
+    "hex": "c2c2c2"
+  },
+  {
+    "name": "Sea Blue",
+    "code": "H-172",
+    "rgb": "81,153,181",
+    "hex": "5199b5"
+  },
+  {
+    "name": "Sedona",
+    "code": "H-333",
+    "rgb": "189,52,59",
+    "hex": "bd343b"
+  },
+  {
+    "name": "Shimmer",
+    "code": "H-158",
+    "rgb": "200,196,187",
+    "hex": "c8c4bb"
+  },
+  {
+    "name": "Sig Dark Grey",
+    "code": "H-210",
+    "rgb": "136,105,74",
+    "hex": "88694a"
+  },
+  {
+    "name": "Sig Pink",
+    "code": "H-224",
+    "rgb": "254,86,112",
+    "hex": "fe5670"
+  },
+  {
+    "name": "Sky Blue",
+    "code": "H-169",
+    "rgb": "16,132,145",
+    "hex": "108491"
+  },
+  {
+    "name": "Smith & Wesson Red",
+    "code": "H-216",
+    "rgb": "251,83,47",
+    "hex": "fb532f"
+  },
+  {
+    "name": "Smith & Wesson Tan",
+    "code": "H-307",
+    "rgb": "200,156,107",
+    "hex": "c89c6b"
+  },
+  {
+    "name": "Sniper Grey",
+    "code": "H-234",
+    "rgb": "121,117,114",
+    "hex": "797572"
+  },
+  {
+    "name": "Snow White",
+    "code": "H-136",
+    "rgb": "243,238,234",
+    "hex": "f3eeea"
+  },
+  {
+    "name": "Sparkler",
+    "code": "H-609",
+    "rgb": "217,213,210",
+    "hex": "d9d5d2"
+  },
+  {
+    "name": "Springfield FDE",
+    "code": "H-305",
+    "rgb": "143,113,82",
+    "hex": "8f7152"
+  },
+  {
+    "name": "Springfield Grey",
+    "code": "H-304",
+    "rgb": "97,93,90",
+    "hex": "615d5a"
+  },
+  {
+    "name": "Squatch Green",
+    "code": "H-316",
+    "rgb": "78,163,102",
+    "hex": "4ea366"
+  },
+  {
+    "name": "Stainless",
+    "code": "H-152",
+    "rgb": "157,145,134",
+    "hex": "9d9186"
+  },
+  {
+    "name": "Steel Grey",
+    "code": "H-139",
+    "rgb": "199,190,183",
+    "hex": "c7beb7"
+  },
+  {
+    "name": "Stone Grey",
+    "code": "H-262",
+    "rgb": "120,116,117",
+    "hex": "787475"
+  },
+  {
+    "name": "Stormtrooper White",
+    "code": "H-297",
+    "rgb": "245,241,242",
+    "hex": "f5f1f2"
+  },
+  {
+    "name": "Sunflower",
+    "code": "H-317",
+    "rgb": "247,172,33",
+    "hex": "f7ac21"
+  },
+  {
+    "name": "Tactical Grey",
+    "code": "H-227",
+    "rgb": "126,122,119",
+    "hex": "7e7a77"
+  },
+  {
+    "name": "Tequila Sunrise",
+    "code": "H-309",
+    "rgb": "253,143,77",
+    "hex": "fd8f4d"
+  },
+  {
+    "name": "Terra Cotta",
+    "code": "H-325",
+    "rgb": "252,122,58",
+    "hex": "fc7a3a"
+  },
+  {
+    "name": "Titanium",
+    "code": "H-170",
+    "rgb": "175,171,162",
+    "hex": "afaba2"
+  },
+  {
+    "name": "Troy Coyote Tan",
+    "code": "H-268",
+    "rgb": "182,140,98",
+    "hex": "b68c62"
+  },
+  {
+    "name": "Tungsten",
+    "code": "H-237",
+    "rgb": "155,146,139",
+    "hex": "9b928b"
+  },
+  {
+    "name": "USMC Red",
+    "code": "H-167",
+    "rgb": "255,51,37",
+    "hex": "ff3325"
+  },
+  {
+    "name": "Wild Purple",
+    "code": "H-197",
+    "rgb": "206,126,199",
+    "hex": "ce7ec7"
+  },
+  {
+    "name": "Zombie Green",
+    "code": "H-168",
+    "rgb": "157,198,76",
+    "hex": "9dc64c"
+  }
+]
