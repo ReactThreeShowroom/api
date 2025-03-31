@@ -77,7 +77,16 @@ export const getClient = async (clientId) => {
     return clientUncipher(
       await prisma.client.findUnique({
         where: { id: clientId },
-        include: { favorites: { include: { model: true } } }
+        include: { 
+          favorites: { 
+            include: { 
+              model: true, 
+              pieceFavorite: {
+                include: {color: true}
+              } 
+            } 
+          } 
+        }
       })
     )
   } catch (err) {

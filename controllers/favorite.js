@@ -51,6 +51,7 @@ export const contUpdateFavorite = async (req, res, next) => {
       params: { favId },
       body: favoriteData
     } = req
+
     const { notes, modelId, name, pieceFavorite } = favoriteData
     await updateFavorite(favId, { notes, modelId, name })
     await deletePieceFavoritesByFav(favId)
